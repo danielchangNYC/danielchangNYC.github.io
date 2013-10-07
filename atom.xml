@@ -4,7 +4,7 @@
   <title><![CDATA[couchpanda @ Flatiron School]]></title>
   <link href="http://danielchangNYC.github.io/atom.xml" rel="self"/>
   <link href="http://danielchangNYC.github.io/"/>
-  <updated>2013-10-04T10:13:21-04:00</updated>
+  <updated>2013-10-07T12:02:16-04:00</updated>
   <id>http://danielchangNYC.github.io/</id>
   <author>
     <name><![CDATA[Daniel Chang (couchpanda / c0depanda)]]></name>
@@ -12,5 +12,16 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[(Not the) First Post]]></title>
+    <link href="http://danielchangNYC.github.io/blog/2013/10/04/week-3/"/>
+    <updated>2013-10-04T10:59:00-04:00</updated>
+    <id>http://danielchangNYC.github.io/blog/2013/10/04/week-3</id>
+    <content type="html"><![CDATA[<p>Level up! This is my first Octopress post. I&rsquo;m excited to be able to start posting code without taking screen shots of Sublime Text.</p>
+
+<p>Here is a link to my original code blog on <a href="http://c0depanda.wordpress.com/">Wordpress</a>.</p>
+]]></content>
+  </entry>
   
 </feed>
