@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: ruby, | couchpanda @ Flatiron School]]></title>
-  <link href="http://danielchangNYC.github.io/blog/categories/ruby/atom.xml" rel="self"/>
+  <title><![CDATA[Category: programming | couchpanda @ Flatiron School]]></title>
+  <link href="http://danielchangNYC.github.io/blog/categories/programming/atom.xml" rel="self"/>
   <link href="http://danielchangNYC.github.io/"/>
   <updated>2013-10-07T15:29:48-04:00</updated>
   <id>http://danielchangNYC.github.io/</id>
