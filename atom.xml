@@ -4,7 +4,7 @@
   <title><![CDATA[couchpanda @ Flatiron School]]></title>
   <link href="http://danielchangNYC.github.io/atom.xml" rel="self"/>
   <link href="http://danielchangNYC.github.io/"/>
-  <updated>2013-10-07T15:17:19-04:00</updated>
+  <updated>2013-10-07T15:22:44-04:00</updated>
   <id>http://danielchangNYC.github.io/</id>
   <author>
     <name><![CDATA[Daniel Chang (couchpanda / c0depanda)]]></name>
@@ -150,6 +150,8 @@
 
 <h3>A-ha!</h3>
 
+<p>The <code>[...]</code> indicated that new_list is now a <em>recursive array</em>. More on recurive arrays <a href="http://stackoverflow.com/questions/10606734/what-are-recursive-arrays-good-for">here</a>.</p>
+
 <p>As it turns out, my problem was in the 2nd line of my normalize method.</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -157,13 +159,11 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>This line of code sets the <code>new_list</code> variable to point at the exact same object as the <code>list_to_norm</code> method. So later, when I called <code>new_list &lt;&lt; list_to_norm</code>, I ended up pushing an Array object into itself.</p>
+<p>This line of code sets the <code>new_list</code> variable to point at the exact same object as the <code>list_to_norm</code> method. So later, when I called <code>new_list &lt;&lt; list_to_norm</code>, I ended up pushing an Array object into itself. The image below</p>
 
 <p>However, Ruby clearly didn&rsquo;t like this, and I suspect that it has to do with the way <code>Array.flatten</code> works. At the very least, we can conclude that <code>.flatten</code> can only flatten two different Array objects.</p>
 
 <p>So that&rsquo;s what I learned in 40 minutes of head-banging against a figurative brick wall. I hope you learned something as well from this post!</p>
-
-<p>As a special bonus, here is a picture I found on the web that <a href="http://i.stack.imgur.com/cKxyp.png">illustrates</a> what it looks like when an object points to itself, which I pulled from <a href="http://stackoverflow.com/questions/10606734/what-are-recursive-arrays-good-for">stackoverflow</a>.</p>
 
 <p>Also, as promised, here is a link to <a href="https://gist.github.com/danielchangNYC/6787872">my full gist</a>.</p>
 ]]></content>
@@ -171,9 +171,9 @@
   
   <entry>
     <title type="html"><![CDATA[(Not the) First Post]]></title>
-    <link href="http://danielchangNYC.github.io/blog/2013/10/04/week-3/"/>
+    <link href="http://danielchangNYC.github.io/blog/2013/10/04/week-2/"/>
     <updated>2013-10-04T10:59:00-04:00</updated>
-    <id>http://danielchangNYC.github.io/blog/2013/10/04/week-3</id>
+    <id>http://danielchangNYC.github.io/blog/2013/10/04/week-2</id>
     <content type="html"><![CDATA[<h1>Level up!</h1>
 
 <p>This is my first Octopress post. I&rsquo;m excited to be able to start posting code without taking screen shots of Sublime Text.</p>
