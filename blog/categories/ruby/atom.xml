@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ruby, | couchpanda @ Flatiron School]]></title>
   <link href="http://danielchangNYC.github.io/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://danielchangNYC.github.io/"/>
-  <updated>2013-10-07T15:32:47-04:00</updated>
+  <updated>2013-10-07T15:33:42-04:00</updated>
   <id>http://danielchangNYC.github.io/</id>
   <author>
     <name><![CDATA[Daniel Chang (couchpanda / c0depanda)]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Recursive Arrays]]></title>
-    <link href="http://danielchangNYC.github.io/blog/2013/10/08/flatten-arrays/"/>
-    <updated>2013-10-08T11:00:00-04:00</updated>
-    <id>http://danielchangNYC.github.io/blog/2013/10/08/flatten-arrays</id>
+    <link href="http://danielchangNYC.github.io/blog/2013/10/07/flatten-arrays/"/>
+    <updated>2013-10-07T13:00:00-04:00</updated>
+    <id>http://danielchangNYC.github.io/blog/2013/10/07/flatten-arrays</id>
     <content type="html"><![CDATA[<h2>Foreword</h2>
 
 <p>I feel a certain level of confidence declaring that every programmer has been in the situation where he/she has 10+ tabs open trying troubleshooting a problem and finally concludes, &ldquo;There must be an easier way.&rdquo; Or, if you&rsquo;ve been &lsquo;in the zone&rsquo; for long enough, you might start wondering what exactly got you in this troubleshooting hell to begin with.</p>
