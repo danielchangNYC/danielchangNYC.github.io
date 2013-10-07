@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: oriented | couchpanda @ Flatiron School]]></title>
-  <link href="http://danielchangNYC.github.io/blog/categories/oriented/atom.xml" rel="self"/>
+  <title><![CDATA[Category: object_oriented_programming | couchpanda @ Flatiron School]]></title>
+  <link href="http://danielchangNYC.github.io/blog/categories/object-oriented-programming/atom.xml" rel="self"/>
   <link href="http://danielchangNYC.github.io/"/>
-  <updated>2013-10-07T15:33:42-04:00</updated>
+  <updated>2013-10-07T15:34:35-04:00</updated>
   <id>http://danielchangNYC.github.io/</id>
   <author>
     <name><![CDATA[Daniel Chang (couchpanda / c0depanda)]]></name>
