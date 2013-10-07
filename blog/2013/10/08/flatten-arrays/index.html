@@ -116,25 +116,36 @@
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">create_groups</span><span class="p">(</span><span class="n">students</span><span class="p">,</span> <span class="n">group_size</span><span class="p">,</span> <span class="n">number_of_groups</span><span class="p">)</span>
 </span><span class='line'>  <span class="n">groups</span> <span class="o">=</span> <span class="o">[]</span>  <span class="c1">#=&gt; store the groups of students in this array</span>
-</span><span class='line'>
 </span><span class='line'>  <span class="c1"># Implement magic.</span>
-</span><span class='line'>
 </span><span class='line'>  <span class="n">groups</span>  <span class="c1">#=&gt; Return groups</span>
 </span><span class='line'><span class="k">end</span>
-</span><span class='line'>
 </span><span class='line'><span class="n">create_groups</span><span class="p">(</span><span class="n">students</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
-</span><span class='line'>
 </span><span class='line'><span class="n">students</span> <span class="o">=</span> <span class="o">[.</span><span class="n">.</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">.</span><span class="o">.]</span> <span class="c1">#=&gt; This array contains 41 student names. Check my Github Gist linked below for the array I used in the completed program.</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
 <p>After considering several strategies, I decided that it would make the most sense sort the 40 students using what I dubbed the &ldquo;card dealing method&rdquo; &mdash; The first student goes to group 1, the second to group 2, the third to group 3, and so forth.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">create_groups</span><span class="p">(</span><span class="n">students</span><span class="p">,</span> <span class="n">group_size</span><span class="p">,</span> <span class="n">number_of_groups</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">groups</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'>  <span class="n">normalized_list</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">students</span><span class="p">,</span> <span class="n">group_size</span><span class="p">,</span> <span class="n">number_of_groups</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">normalized_list</span><span class="o">.</span><span class="n">each_with_index</span> <span class="k">do</span> <span class="o">|</span><span class="nb">name</span><span class="p">,</span> <span class="n">i</span><span class="o">|</span>
+</span><span class='line'>    <span class="c1"># This part will sort students using the &quot;card-dealing method&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="n">groups</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Since there are 20 groups of 4, I needed 80 students. On an abstract level, the number of students I need in order to sort (the &ldquo;desired length&rdquo;) is &ldquo;# of groups&rdquo; x &ldquo;# of students per group&rdquo;.</p>
 
@@ -156,54 +167,22 @@
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
 <span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">create_groups</span><span class="p">(</span><span class="n">students</span><span class="p">,</span> <span class="n">group_size</span><span class="p">,</span> <span class="n">number_of_groups</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">groups</span> <span class="o">=</span> <span class="o">[]</span>
-</span><span class='line'>  <span class="n">normalized_list</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">students</span><span class="p">,</span> <span class="n">group_size</span><span class="p">,</span> <span class="n">number_of_groups</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">normalized_list</span><span class="o">.</span><span class="n">each_with_index</span> <span class="k">do</span> <span class="o">|</span><span class="nb">name</span><span class="p">,</span> <span class="n">i</span><span class="o">|</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1"># This part will sort students using the &quot;card-dealing method&quot;</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">groups</span>
+</span><span class='line'>  <span class="c1">#...folded this code for now...</span>
 </span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">create_groups</span><span class="p">(</span><span class="n">students</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># ... students array excluded from excerpt ...</span>
 </span><span class='line'>
 </span><span class='line'><span class="k">def</span> <span class="nf">normalize</span><span class="p">(</span><span class="n">list_to_norm</span><span class="p">,</span> <span class="n">group_size</span><span class="p">,</span> <span class="n">number_of_groups</span><span class="p">)</span>
 </span><span class='line'>  <span class="n">desired_length</span> <span class="o">=</span> <span class="n">group_size</span><span class="o">*</span><span class="n">number_of_groups</span>
 </span><span class='line'>  <span class="n">new_list</span> <span class="o">=</span> <span class="n">list_to_norm</span>
-</span><span class='line'>
 </span><span class='line'>  <span class="k">while</span> <span class="n">new_list</span><span class="o">.</span><span class="n">length</span> <span class="o">&lt;</span> <span class="n">desired_length</span>
 </span><span class='line'>    <span class="n">new_list</span> <span class="o">&lt;&lt;</span> <span class="n">list_to_norm</span>
 </span><span class='line'>    <span class="n">new_list</span> <span class="o">=</span> <span class="n">new_list</span><span class="o">.</span><span class="n">flatten</span>
 </span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">truncate</span><span class="p">(</span><span class="n">new_list</span><span class="p">,</span> <span class="n">desired_length</span><span class="p">)</span>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>When I ran this though, I received the following error:</p>
+<p>When I ran this given a student array though, I received the following error:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>rb24:<span class="sb">`</span>flatten<span class="err">&#39;</span>: tried to flatten recursive array <span class="o">(</span>ArgumentError<span class="o">)</span>
@@ -218,14 +197,10 @@
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">normalize</span><span class="p">(</span><span class="n">list_to_norm</span><span class="p">,</span> <span class="n">group_size</span><span class="p">,</span> <span class="n">number_of_groups</span><span class="p">)</span>
 </span><span class='line'>  <span class="n">desired_length</span> <span class="o">=</span> <span class="n">group_size</span><span class="o">*</span><span class="n">number_of_groups</span>
 </span><span class='line'>  <span class="n">new_list</span> <span class="o">=</span> <span class="n">list_to_norm</span>
-</span><span class='line'>
 </span><span class='line'>  <span class="n">new_list</span> <span class="o">&lt;&lt;</span> <span class="n">list_to_norm</span>
-</span><span class='line'>
 </span><span class='line'>  <span class="nb">puts</span> <span class="n">new_list</span>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
@@ -270,8 +245,6 @@
 <p>As a special bonus, here is a picture I found on the web that <a href="http://i.stack.imgur.com/cKxyp.png">illustrates</a> what it looks like when an object points to itself, which I pulled from <a href="http://stackoverflow.com/questions/10606734/what-are-recursive-arrays-good-for">stackoverflow</a>.</p>
 
 <p>Also, as promised, here is a link to <a href="https://gist.github.com/danielchangNYC/6787872">my full gist</a>.</p>
-
-<p><a href="https://gist.github.com/danielchangNYC/6787872">https://gist.github.com/danielchangNYC/6787872</a></p>
 </div>
 
 </article>
