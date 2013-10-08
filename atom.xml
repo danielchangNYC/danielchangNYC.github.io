@@ -4,7 +4,7 @@
   <title><![CDATA[couchpanda @ Flatiron School]]></title>
   <link href="http://danielchangNYC.github.io/atom.xml" rel="self"/>
   <link href="http://danielchangNYC.github.io/"/>
-  <updated>2013-10-08T01:02:19-04:00</updated>
+  <updated>2013-10-08T01:08:32-04:00</updated>
   <id>http://danielchangNYC.github.io/</id>
   <author>
     <name><![CDATA[Daniel Chang (couchpanda / c0depanda)]]></name>
@@ -31,9 +31,7 @@
 
 <p>Assume we have a table called &ldquo;dogs,&rdquo; each with a name, age, weight, and type. Each attribute would be a column, and each row would represent a different dog.</p>
 
-<p>Here&rsquo;s what this might look like in SQLite3.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Table using SQLite3</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -52,7 +50,7 @@
 
 <p>We can also imagine this as a class of Dog objects in Ruby. Here&rsquo;s how one might create the barebones structure in Ruby.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Dogs as objects of class Dog in Ruby</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Dog</span>
@@ -61,9 +59,7 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Now, using Rails&#8217; ActiveRecord Module:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Table initialized using Rails&#8217; ActiveRecord</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Dog</span> <span class="o">&lt;</span> <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span>
 </span><span class='line'><span class="k">end</span>
@@ -72,35 +68,24 @@
 
 <p>See how simple that was? Now we can make queries on the table.</p>
 
-<p>SQLite3:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>SQLite3 query for first dog in table</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">dogs</span> <span class="k">WHERE</span> <span class="n">id</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Rails ActiveRecord</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Rails query for first dog in table</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Dog</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Even reading the Rails code alone is pretty self-explanatory, but for those of you who are unfamiliar with the syntax, both commands select the first dog in the database.</p>
+<p>That&rsquo;s just the beginning! Check this out.</p>
 
-<p>You can append conditions by using find_by_attribute as well, where you&rsquo;d substitute the word attribute with the one you&rsquo;re looking for. Let&rsquo;s say I want to select a dog by type and age.</p>
-
-<p>SQLite3:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>SQLite3 query appending conditions</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">dogs</span> <span class="k">WHERE</span> <span class="n">age</span><span class="o">=</span><span class="mi">8</span> <span class="k">AND</span> <span class="k">type</span><span class="o">=</span><span class="ss">&quot;corgi&quot;</span><span class="p">;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>…is the same as…
-Rails ActiveRecord</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Rails query appending same conditions</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Dog</span><span class="o">.</span><span class="n">find_by_age_and_type</span> <span class="mi">25</span><span class="p">,</span> <span class="s2">&quot;corgi&quot;</span>
 </span></code></pre></td></tr></table></div></figure>
 

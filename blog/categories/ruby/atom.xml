@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ruby | couchpanda @ Flatiron School]]></title>
   <link href="http://danielchangNYC.github.io/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://danielchangNYC.github.io/"/>
-  <updated>2013-10-08T01:02:19-04:00</updated>
+  <updated>2013-10-08T01:08:32-04:00</updated>
   <id>http://danielchangNYC.github.io/</id>
   <author>
     <name><![CDATA[Daniel Chang (couchpanda / c0depanda)]]></name>
@@ -31,8 +31,7 @@
 
 <p>Assume we have a table called &ldquo;dogs,&rdquo; each with a name, age, weight, and type. Each attribute would be a column, and each row would represent a different dog.</p>
 
-<p>Here&rsquo;s what this might look like in SQLite3.
-<code>sql
+<p><code>sql Table using SQLite3
 CREATE TABLE dogs (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   name TEXT;
@@ -42,39 +41,31 @@ CREATE TABLE dogs (
 );
 </code>
 We can also imagine this as a class of Dog objects in Ruby. Here&rsquo;s how one might create the barebones structure in Ruby.
-<code>ruby
+<code>ruby Dogs as objects of class Dog in Ruby
 class Dog
   attr_accessor :id, :name, :age, :weight, :type
 end
 </code>
-Now, using Rails' ActiveRecord Module:
-<code>ruby
+<code>ruby Table initialized using Rails' ActiveRecord
 class Dog &lt; ActiveRecord::Base
 end
 </code></p>
 
 <p>See how simple that was? Now we can make queries on the table.</p>
 
-<p>SQLite3:
-<code>sql
+<p><code>sql SQLite3 query for first dog in table
 SELECT * FROM dogs WHERE id=1;
 </code>
-Rails ActiveRecord
-<code>ruby
+<code>ruby Rails query for first dog in table
 Dog.find(1)
 </code></p>
 
-<p>Even reading the Rails code alone is pretty self-explanatory, but for those of you who are unfamiliar with the syntax, both commands select the first dog in the database.</p>
+<p>That&rsquo;s just the beginning! Check this out.</p>
 
-<p>You can append conditions by using find_by_attribute as well, where you&rsquo;d substitute the word attribute with the one you&rsquo;re looking for. Let&rsquo;s say I want to select a dog by type and age.</p>
-
-<p>SQLite3:
-<code>sql
+<p><code>sql SQLite3 query appending conditions
 SELECT * FROM dogs WHERE age=8 AND type="corgi";
 </code>
-…is the same as…
-Rails ActiveRecord
-<code>ruby
+<code>ruby Rails query appending same conditions
 Dog.find_by_age_and_type 25, "corgi"
 </code></p>
 
