@@ -9,7 +9,7 @@
 	<meta name="author" content="Daniel Chang (couchpanda / c0depanda)">
 
 	
-	<meta name="description" content="Oct 7th, 2013 aha, arrays, object_oriented_programming, ruby Comments Recursive Arrays Foreword I feel a certain level of confidence declaring that &hellip;">
+	<meta name="description" content="Oct 8th, 2013 activerecord, mvc, rails, ruby Comments ActiveRecord I took a bit of a dive today and looked through almost 70 slides about Ruby on &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -97,6 +97,135 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-08T07:00:00-04:00" data-updated="true" itemprop="datePublished">Oct 8<span>th</span>, 2013</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/activerecord/'>activerecord</a>, <a class='category' href='/blog/categories/mvc/'>mvc</a>, <a class='category' href='/blog/categories/rails/'>rails</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/2013/10/08/rails-presentation-post/#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2013/10/08/rails-presentation-post/" itemprop="url">ActiveRecord</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>I took a bit of a dive today and looked through almost 70 slides about Ruby on Rails having had very minimal exposure to Rails in the past.</p>
+
+<p>Here&rsquo;s what I gleaned from looking through all the slides.</p>
+
+<p>*Rails is a web application framework that allows your Ruby to interact with the web seamlessly. By &ldquo;interact with the web&rdquo;, I assume the presentation means &ldquo;interact with databases.&rdquo;</p>
+
+<p>*Rails implements a principle called &ldquo;MVC&rdquo; &mdash; Model View Controller. This represents a separation of tasks and Rails seems to have a Module to handle each separately. I&rsquo;m going to focus on the Model, which uses ActiveRecord.</p>
+
+<p>*Rails uses something called &ldquo;ActiveRecord&rdquo; to model and interact with databases. ActiveRecord is a Module that makes database queries both simple and intuitive.</p>
+
+<p>To make the above statements a bit more concrete without taking examples directly from the slides, I&rsquo;ll try to model a few database query using SQLite3 versus Rails.</p>
+
+<p>Let&rsquo;s say I want to work with a table called &ldquo;dogs&rdquo; and each dog has a name, age, weight, and type.</p>
+
+<p>We can imagine this as a table where the table is called &ldquo;dogs&rdquo; and each attribute (name, age, weight…) is a column. Everytime you add a dog, you update each column. Here&rsquo;s what this might look like in SQLite3.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">dogs</span> <span class="p">(</span>
+</span><span class='line'>  <span class="n">id</span> <span class="nb">INTEGER</span> <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="n">AUTOINCREMENT</span><span class="p">,</span>
+</span><span class='line'>  <span class="n">name</span> <span class="nb">TEXT</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">age</span> <span class="nb">INTEGER</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">weight</span> <span class="nb">INTEGER</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">type</span> <span class="nb">TEXT</span>
+</span><span class='line'><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We can also imagine this as a class of Dog objects in Ruby. Here&rsquo;s how one might create the barebones structure in Ruby.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Dog</span>
+</span><span class='line'>  <span class="kp">attr_accessor</span> <span class="ss">:id</span><span class="p">,</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">:age</span><span class="p">,</span> <span class="ss">:weight</span><span class="p">,</span> <span class="ss">:type</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now, using Rails&#8217; ActiveRecord Module:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Dog</span> <span class="o">&lt;</span> <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>See how simple that was? Now we can make queries on the table.</p>
+
+<p>SQLite3:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">dogs</span> <span class="k">WHERE</span> <span class="n">id</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Rails ActiveRecord</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Dog</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Even reading the Rails code alone is pretty self-explanatory, but for those of you who are unfamiliar with the syntax, both commands select the first dog in the database.</p>
+
+<p>You can append conditions by using find_by_attribute as well, where you&rsquo;d substitute the word attribute with the one you&rsquo;re looking for. Let&rsquo;s say I want to select a dog by type and age.</p>
+
+<p>SQLite3:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">dogs</span> <span class="k">WHERE</span> <span class="n">age</span><span class="o">=</span><span class="mi">8</span> <span class="k">AND</span> <span class="k">type</span><span class="o">=</span><span class="ss">&quot;corgi&quot;</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>…is the same as…
+Rails ActiveRecord</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Dog</span><span class="o">.</span><span class="n">find_by_age_and_type</span> <span class="mi">25</span><span class="p">,</span> <span class="s2">&quot;corgi&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It seems like ActiveRecord must use certain keywords like &lsquo;by&rsquo; and &lsquo;and&rsquo; in order to dynamically use the attribute names that the user inputs.</p>
+
+<p>What is really beautiful though is the idea of &ldquo;configuration of convention&rdquo; that Rails implements in order to shorten the amount of code you need to write. Slides 42-44 of the <a href="http://www.slideshare.net/aizatto/ruby-on-rails-48391">presentation</a>  gave a particularly good example of the idea. No wonder people love Rails!</p>
+
+<p>The slides continue talking about the MVC</p>
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">

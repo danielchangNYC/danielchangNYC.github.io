@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ruby | couchpanda @ Flatiron School]]></title>
   <link href="http://danielchangNYC.github.io/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://danielchangNYC.github.io/"/>
-  <updated>2013-10-07T16:20:46-04:00</updated>
+  <updated>2013-10-08T00:53:57-04:00</updated>
   <id>http://danielchangNYC.github.io/</id>
   <author>
     <name><![CDATA[Daniel Chang (couchpanda / c0depanda)]]></name>
@@ -12,6 +12,80 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[ActiveRecord]]></title>
+    <link href="http://danielchangNYC.github.io/blog/2013/10/08/rails-presentation-post/"/>
+    <updated>2013-10-08T07:00:00-04:00</updated>
+    <id>http://danielchangNYC.github.io/blog/2013/10/08/rails-presentation-post</id>
+    <content type="html"><![CDATA[<p>I took a bit of a dive today and looked through almost 70 slides about Ruby on Rails having had very minimal exposure to Rails in the past.</p>
+
+<p>Here&rsquo;s what I gleaned from looking through all the slides.</p>
+
+<p>*Rails is a web application framework that allows your Ruby to interact with the web seamlessly. By &ldquo;interact with the web&rdquo;, I assume the presentation means &ldquo;interact with databases.&rdquo;</p>
+
+<p>*Rails implements a principle called &ldquo;MVC&rdquo; &mdash; Model View Controller. This represents a separation of tasks and Rails seems to have a Module to handle each separately. I&rsquo;m going to focus on the Model, which uses ActiveRecord.</p>
+
+<p>*Rails uses something called &ldquo;ActiveRecord&rdquo; to model and interact with databases. ActiveRecord is a Module that makes database queries both simple and intuitive.</p>
+
+<p>To make the above statements a bit more concrete without taking examples directly from the slides, I&rsquo;ll try to model a few database query using SQLite3 versus Rails.</p>
+
+<p>Let&rsquo;s say I want to work with a table called &ldquo;dogs&rdquo; and each dog has a name, age, weight, and type.</p>
+
+<p>We can imagine this as a table where the table is called &ldquo;dogs&rdquo; and each attribute (name, age, weight…) is a column. Everytime you add a dog, you update each column. Here&rsquo;s what this might look like in SQLite3.
+<code>sql
+CREATE TABLE dogs (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT;
+  age INTEGER;
+  weight INTEGER;
+  type TEXT
+);
+</code>
+We can also imagine this as a class of Dog objects in Ruby. Here&rsquo;s how one might create the barebones structure in Ruby.
+<code>ruby
+class Dog
+  attr_accessor :id, :name, :age, :weight, :type
+end
+</code>
+Now, using Rails' ActiveRecord Module:
+<code>ruby
+class Dog &lt; ActiveRecord::Base
+end
+</code></p>
+
+<p>See how simple that was? Now we can make queries on the table.</p>
+
+<p>SQLite3:
+<code>sql
+SELECT * FROM dogs WHERE id=1;
+</code>
+Rails ActiveRecord
+<code>ruby
+Dog.find(1)
+</code></p>
+
+<p>Even reading the Rails code alone is pretty self-explanatory, but for those of you who are unfamiliar with the syntax, both commands select the first dog in the database.</p>
+
+<p>You can append conditions by using find_by_attribute as well, where you&rsquo;d substitute the word attribute with the one you&rsquo;re looking for. Let&rsquo;s say I want to select a dog by type and age.</p>
+
+<p>SQLite3:
+<code>sql
+SELECT * FROM dogs WHERE age=8 AND type="corgi";
+</code>
+…is the same as…
+Rails ActiveRecord
+<code>ruby
+Dog.find_by_age_and_type 25, "corgi"
+</code></p>
+
+<p>It seems like ActiveRecord must use certain keywords like &lsquo;by&rsquo; and &lsquo;and&rsquo; in order to dynamically use the attribute names that the user inputs.</p>
+
+<p>What is really beautiful though is the idea of &ldquo;configuration of convention&rdquo; that Rails implements in order to shorten the amount of code you need to write. Slides 42-44 of the <a href="http://www.slideshare.net/aizatto/ruby-on-rails-48391">presentation</a>  gave a particularly good example of the idea. No wonder people love Rails!</p>
+
+<p>The slides continue talking about the MVC</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Recursive Arrays]]></title>
