@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: break | couchpanda @ Flatiron School]]></title>
+  <link href="http://danielchangNYC.github.io/blog/categories/break/atom.xml" rel="self"/>
+  <link href="http://danielchangNYC.github.io/"/>
+  <updated>2013-10-23T03:33:21-04:00</updated>
+  <id>http://danielchangNYC.github.io/</id>
+  <author>
+    <name><![CDATA[Daniel Chang (couchpanda / c0depanda)]]></name>
+    <email><![CDATA[daniel.chang85@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Ruby Exceptions]]></title>
+    <link href="http://danielchangNYC.github.io/blog/2013/10/23/throw-raise/"/>
+    <updated>2013-10-23T08:00:00-04:00</updated>
+    <id>http://danielchangNYC.github.io/blog/2013/10/23/throw-raise</id>
+    <content type="html"><![CDATA[<h2>Fun and Useful Ruby Exceptions</h2>
+
+<h3>Foreward</h3>
+
+<p>Most of us have encountered the methods <code>raise</code>, <code>rescue</code>, <code>catch</code>, <code>throw</code>, and <code>break</code> in Ruby. We can generally understand what&rsquo;s going on when we read code that uses it, but what exactly is the difference between them all? Here&rsquo;s a quick guide plus some fun and useful facts.</p>
+
+<h2>The Skinny</h2>
+
+<h3>Raise and Rescue</h3>
+
+<p><code>raise</code> and <code>rescue</code> are used exclusively for handling errors. By default, raising an error will exit the program.
+``` ruby exception.rb
+def test_rescue
+  puts &ldquo;This is before raise&rdquo;
+  raise &ldquo;Raised an error&rdquo;
+  puts &ldquo;This is after raise. It won&rsquo;t ever run.&rdquo;
+end
+test_rescue</p>
+
+<h1>=> This is before raise</h1>
+
+<h1>=> test.rb:3:in `test_rescue': Raised an error (RuntimeError)</h1>
+
+<p>  from test.rb:9:in <code>&lt;main&gt;'
+```
+This happens unless there is a</code>rescue` statement which will run in case of an exception.</p>
+
+<p>``` ruby exception.rb
+def test_rescue
+  puts &ldquo;This is before raise&rdquo;
+  raise &ldquo;Raised an error&rdquo;
+  puts &ldquo;This is after raise. It won&rsquo;t ever run.&rdquo;
+  rescue
+  puts &ldquo;I&rsquo;m rescued!&rdquo;
+end
+test_rescue</p>
+
+<h1>=> This is before raise</h1>
+
+<h1>=> I&rsquo;m rescued!</h1>
+
+<p><code>
+The above Ruby code can be rewritten like so:
+</code> ruby exception.rb
+def test_rescue
+  puts &ldquo;This is before raise&rdquo;
+  raise &ldquo;Raised an error&rdquo;
+  puts &ldquo;This is after raise. It won&rsquo;t ever run.&rdquo;
+  rescue Exception => e
+  puts e
+end
+test_rescue</p>
+
+<h1>=> This is before raise</h1>
+
+<h1>=> Raised an error</h1>
+
+<p>```
+Ruby has many different types of exceptions (see <a href="http://ruby-doc.org/core-2.0.0/Exception.html">documentation</a>).
+Raise takes up to three parameters:
+ * the exception type
+ * an error message
+ * an array of callback information.</p>
+
+<p>All three are optional and Ruby knows that if you only pass in a string that it&rsquo;s the message. Usually you don&rsquo;t set the last parameter since <code>Kernel#caller</code> automatically creates that array.</p>
+
+<p>Here are a couple of valid <code>raise</code> statements.
+<code>ruby Message parameter given
+raise "This is an error"
+</code>
+<code>ruby Error and Message parameters
+raise StandardError "Most error subclasses extend StandardError"
+</code></p>
+
+<h3>Some <code>Exception</code>al Knowledge</h3>
+
+<p>Exception is the root of Ruby&rsquo;s exception hierarchy. It&rsquo;s the class from which all Exceptions descend. It is king. This has a very interesting consequence.</p>
+
+<p><code>rescue Exception</code> rescues from EVERYTHING, including syntax errors, load errors, and any of the following listed below.</p>
+
+<ul>
+<li><p>Rescuing <code>Interrupt</code> prevents you from being able to CTRL+C out of the program.</p></li>
+<li><p>Rescuing <code>SignalException</code> prevents the program from responding correctly to signals. It will be unkillable, except with kill -9. <a href="http://stackoverflow.com/questions/10048173/why-is-it-bad-style-to-rescue-exception-e-in-ruby">source</a></p></li>
+</ul>
+
+
+<p>``` ruby
+loop do
+  begin</p>
+
+<pre><code>eval dinosaurs ru1ez the pl@netz!!! ROArR{bark}[:ARF].ENV
+</code></pre>
+
+<p>  rescue Exception</p>
+
+<pre><code>puts "What meteor?"
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<h2>Break, Catch, and Throw</h2>
+
+<p><code>break</code>, <code>catch</code> and <code>throw</code> are used in order to terminate execution early when no other work is needed. <code>break</code> leaves the <em>current</em> loop while the <code>catch</code> and <code>throw</code> combination can be used to break out of <em>any number</em> of loops at one time.</p>
+
+<p>``` ruby break example
+array = [&ldquo;brainfuck&rdquo;, &ldquo;ruby&rdquo; &ldquo;befunge&rdquo;, &ldquo;python&rdquo;, &ldquo;perl&rdquo;]
+array.each do |language|
+  puts &ldquo;My favorite computer langauge is #{language}&rdquo;
+  break
+end</p>
+
+<h1>=> &ldquo;My favorite computer langauge is brainfuck&rdquo;</h1>
+
+<p><code>
+</code> ruby hypothetical throw and catch example</p>
+
+<h1>=> recipe_hash = {&hellip;}</h1>
+
+<p>def show_recipe_for(recipe_name)
+  recipe = catch(:recipe) {</p>
+
+<pre><code>recipe_hash.each do |meal_type, dish_hash|
+  dish_hash.each do |dish, dish_recipe|
+    if recipe_name == dish_recipe
+      throw :recipe, dish_recipe
+    end
+  end
+end
+</code></pre>
+
+<p>  }
+end
+<code>``
+Notice that the two loops are enclosed in the</code>catch<code>block. This means that once the</code>throw<code>statement is executed, it will store the value of its second argument into</code>:recipe` and send it back to the catch statement. By doing so, it exits all the loops after finding the first recipe match. From there, the method finishes executing as normal.</p>
+
+<p>Because my example is a bit contrived, I will post a real-life example from another <a href="http://rubylearning.com/blog/2011/07/12/throw-catch-raise-rescue-im-so-confused/">blog</a> by rubyist Avdi Grimm.</p>
+
+<p>``` ruby google search scraping example
+def show_rank_for(target, query)
+  rank = catch(:rank) {</p>
+
+<pre><code>each_google_result_page(query, 6) do |page, page_index|
+  each_google_result(page) do |result, result_index|
+    if result.text.include?(target)
+      throw :rank, (page_index * 10) + result_index
+    end
+  end
+end
+"&lt;not found&gt;"
+</code></pre>
+
+<p>  }
+  puts &ldquo;#{target} is ranked #{rank} for search &lsquo;#{query}&rsquo;&rdquo;
+end
+<code>``
+Since loading pages over and over again can be an expensive process, the coder above uses a</code>throw<code>-</code>catch` to exit the loop when the first matching result is found.</p>
+
+<h3>Throw, Catch and Sinatra</h3>
+
+<p>An even more mind-blowing example from the <a href="http://rubylearning.com/blog/2011/07/12/throw-catch-raise-rescue-im-so-confused/">same blog post</a> reveals that Sinatra has a built-in catch for the <code>#last-modified</code> method. You might use this method to check a user&rsquo;s <em>cache</em> for what version of a certain page the user has on his/her machine. Why would you do this? Simple! In order to cut out any expensive and unnecessary processing. If the page in the cache is old, then you&rsquo;d update the page. Otherwise, just load from cache.</p>
+
+<p>For your convenience, here&rsquo;s the simplified code Grimm posted to demonstrate.</p>
+
+<p>``` ruby
+def last_modified(time)
+  response[&lsquo;Last-Modified&rsquo;] = time
+  if request.env[&lsquo;HTTP_IF_MODIFIED_SINCE&rsquo;] > time</p>
+
+<pre><code>throw :halt, response
+</code></pre>
+
+<p>  end
+end
+<code>
+When Ruby encounters the `throw`, it zips back up the call stack looking for a matching symbol, `:halt`. Where's the `catch` block though? It's clearly not in the same method as the `throw`. This means that it must be further up the stack. In other words, `#last_modified` was called within a `catch` block.
+</code> ruby
+catch (:halt) do
+  # code
+  last_modified(time) # => the throw in this method sends :halt up to the encapsulating catch
+  # code
+end
+```</p>
+]]></content>
+  </entry>
+  
+</feed>

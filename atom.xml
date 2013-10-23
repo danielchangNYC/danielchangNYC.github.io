@@ -4,7 +4,7 @@
   <title><![CDATA[couchpanda @ Flatiron School]]></title>
   <link href="http://danielchangNYC.github.io/atom.xml" rel="self"/>
   <link href="http://danielchangNYC.github.io/"/>
-  <updated>2013-10-08T01:08:32-04:00</updated>
+  <updated>2013-10-23T03:33:21-04:00</updated>
   <id>http://danielchangNYC.github.io/</id>
   <author>
     <name><![CDATA[Daniel Chang (couchpanda / c0depanda)]]></name>
@@ -12,6 +12,264 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Ruby Exceptions]]></title>
+    <link href="http://danielchangNYC.github.io/blog/2013/10/23/throw-raise/"/>
+    <updated>2013-10-23T08:00:00-04:00</updated>
+    <id>http://danielchangNYC.github.io/blog/2013/10/23/throw-raise</id>
+    <content type="html"><![CDATA[<h2>Fun and Useful Ruby Exceptions</h2>
+
+<h3>Foreward</h3>
+
+<p>Most of us have encountered the methods <code>raise</code>, <code>rescue</code>, <code>catch</code>, <code>throw</code>, and <code>break</code> in Ruby. We can generally understand what&rsquo;s going on when we read code that uses it, but what exactly is the difference between them all? Here&rsquo;s a quick guide plus some fun and useful facts.</p>
+
+<h2>The Skinny</h2>
+
+<h3>Raise and Rescue</h3>
+
+<p><code>raise</code> and <code>rescue</code> are used exclusively for handling errors. By default, raising an error will exit the program.</p>
+
+<figure class='code'><figcaption><span>exception.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">test_rescue</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;This is before raise&quot;</span>
+</span><span class='line'>  <span class="k">raise</span> <span class="s2">&quot;Raised an error&quot;</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;This is after raise. It won&#39;t ever run.&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'><span class="n">test_rescue</span>
+</span><span class='line'><span class="c1"># =&gt; This is before raise</span>
+</span><span class='line'><span class="c1"># =&gt; test.rb:3:in `test_rescue&#39;: Raised an error (RuntimeError)</span>
+</span><span class='line'>  <span class="n">from</span> <span class="nb">test</span><span class="o">.</span><span class="n">rb</span><span class="p">:</span><span class="mi">9</span><span class="ss">:in</span> <span class="sb">`&lt;main&gt;&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This happens unless there is a <code>rescue</code> statement which will run in case of an exception.</p>
+
+<figure class='code'><figcaption><span>exception.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">test_rescue</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;This is before raise&quot;</span>
+</span><span class='line'>  <span class="k">raise</span> <span class="s2">&quot;Raised an error&quot;</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;This is after raise. It won&#39;t ever run.&quot;</span>
+</span><span class='line'>  <span class="k">rescue</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;I&#39;m rescued!&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'><span class="n">test_rescue</span>
+</span><span class='line'><span class="c1"># =&gt; This is before raise</span>
+</span><span class='line'><span class="c1"># =&gt; I&#39;m rescued!</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The above Ruby code can be rewritten like so:</p>
+
+<figure class='code'><figcaption><span>exception.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">test_rescue</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;This is before raise&quot;</span>
+</span><span class='line'>  <span class="k">raise</span> <span class="s2">&quot;Raised an error&quot;</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;This is after raise. It won&#39;t ever run.&quot;</span>
+</span><span class='line'>  <span class="k">rescue</span> <span class="no">Exception</span> <span class="o">=&gt;</span> <span class="n">e</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="n">e</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'><span class="n">test_rescue</span>
+</span><span class='line'><span class="c1"># =&gt; This is before raise</span>
+</span><span class='line'><span class="c1"># =&gt; Raised an error</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Ruby has many different types of exceptions (see <a href="http://ruby-doc.org/core-2.0.0/Exception.html">documentation</a>).
+Raise takes up to three parameters:
+ * the exception type
+ * an error message
+ * an array of callback information.</p>
+
+<p>All three are optional and Ruby knows that if you only pass in a string that it&rsquo;s the message. Usually you don&rsquo;t set the last parameter since <code>Kernel#caller</code> automatically creates that array.</p>
+
+<p>Here are a couple of valid <code>raise</code> statements.</p>
+
+<figure class='code'><figcaption><span>Message parameter given</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">raise</span> <span class="s2">&quot;This is an error&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<figure class='code'><figcaption><span>Error and Message parameters</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">raise</span> <span class="no">StandardError</span> <span class="s2">&quot;Most error subclasses extend StandardError&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Some <code>Exception</code>al Knowledge</h3>
+
+<p>Exception is the root of Ruby&rsquo;s exception hierarchy. It&rsquo;s the class from which all Exceptions descend. It is king. This has a very interesting consequence.</p>
+
+<p><code>rescue Exception</code> rescues from EVERYTHING, including syntax errors, load errors, and any of the following listed below.</p>
+
+<ul>
+<li><p>Rescuing <code>Interrupt</code> prevents you from being able to CTRL+C out of the program.</p></li>
+<li><p>Rescuing <code>SignalException</code> prevents the program from responding correctly to signals. It will be unkillable, except with kill -9. <a href="http://stackoverflow.com/questions/10048173/why-is-it-bad-style-to-rescue-exception-e-in-ruby">source</a></p></li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="kp">loop</span> <span class="k">do</span>
+</span><span class='line'>  <span class="k">begin</span>
+</span><span class='line'>    <span class="nb">eval</span> <span class="n">dinosaurs</span> <span class="n">ru1ez</span> <span class="n">the</span> <span class="n">pl</span><span class="vi">@netz</span><span class="o">!!!</span> <span class="no">ROArR</span><span class="p">{</span><span class="n">bark</span><span class="p">}</span><span class="o">[</span><span class="ss">:ARF</span><span class="o">].</span><span class="n">ENV</span>
+</span><span class='line'>  <span class="k">rescue</span> <span class="no">Exception</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;What meteor?&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Break, Catch, and Throw</h2>
+
+<p><code>break</code>, <code>catch</code> and <code>throw</code> are used in order to terminate execution early when no other work is needed. <code>break</code> leaves the <em>current</em> loop while the <code>catch</code> and <code>throw</code> combination can be used to break out of <em>any number</em> of loops at one time.</p>
+
+<figure class='code'><figcaption><span>break example</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">array</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;brainfuck&quot;</span><span class="p">,</span> <span class="s2">&quot;ruby&quot;</span> <span class="s2">&quot;befunge&quot;</span><span class="p">,</span> <span class="s2">&quot;python&quot;</span><span class="p">,</span> <span class="s2">&quot;perl&quot;</span><span class="o">]</span>
+</span><span class='line'><span class="n">array</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">language</span><span class="o">|</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;My favorite computer langauge is </span><span class="si">#{</span><span class="n">language</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="k">break</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'><span class="c1">#  =&gt; &quot;My favorite computer langauge is brainfuck&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<figure class='code'><figcaption><span>hypothetical throw and catch example</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># =&gt; recipe_hash = {...}</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">show_recipe_for</span><span class="p">(</span><span class="n">recipe_name</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">recipe</span> <span class="o">=</span> <span class="kp">catch</span><span class="p">(</span><span class="ss">:recipe</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">recipe_hash</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">meal_type</span><span class="p">,</span> <span class="n">dish_hash</span><span class="o">|</span>
+</span><span class='line'>      <span class="n">dish_hash</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">dish</span><span class="p">,</span> <span class="n">dish_recipe</span><span class="o">|</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">recipe_name</span> <span class="o">==</span> <span class="n">dish_recipe</span>
+</span><span class='line'>          <span class="kp">throw</span> <span class="ss">:recipe</span><span class="p">,</span> <span class="n">dish_recipe</span>
+</span><span class='line'>        <span class="k">end</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Notice that the two loops are enclosed in the <code>catch</code> block. This means that once the <code>throw</code> statement is executed, it will store the value of its second argument into <code>:recipe</code> and send it back to the catch statement. By doing so, it exits all the loops after finding the first recipe match. From there, the method finishes executing as normal.</p>
+
+<p>Because my example is a bit contrived, I will post a real-life example from another <a href="http://rubylearning.com/blog/2011/07/12/throw-catch-raise-rescue-im-so-confused/">blog</a> by rubyist Avdi Grimm.</p>
+
+<figure class='code'><figcaption><span>google search scraping example</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">show_rank_for</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">query</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">rank</span> <span class="o">=</span> <span class="kp">catch</span><span class="p">(</span><span class="ss">:rank</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">each_google_result_page</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">page</span><span class="p">,</span> <span class="n">page_index</span><span class="o">|</span>
+</span><span class='line'>      <span class="n">each_google_result</span><span class="p">(</span><span class="n">page</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">result</span><span class="p">,</span> <span class="n">result_index</span><span class="o">|</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+</span><span class='line'>          <span class="kp">throw</span> <span class="ss">:rank</span><span class="p">,</span> <span class="p">(</span><span class="n">page_index</span> <span class="o">*</span> <span class="mi">10</span><span class="p">)</span> <span class="o">+</span> <span class="n">result_index</span>
+</span><span class='line'>        <span class="k">end</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>    <span class="s2">&quot;&lt;not found&gt;&quot;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">target</span><span class="si">}</span><span class="s2"> is ranked </span><span class="si">#{</span><span class="n">rank</span><span class="si">}</span><span class="s2"> for search &#39;</span><span class="si">#{</span><span class="n">query</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Since loading pages over and over again can be an expensive process, the coder above uses a <code>throw</code>&ndash;<code>catch</code> to exit the loop when the first matching result is found.</p>
+
+<h3>Throw, Catch and Sinatra</h3>
+
+<p>An even more mind-blowing example from the <a href="http://rubylearning.com/blog/2011/07/12/throw-catch-raise-rescue-im-so-confused/">same blog post</a> reveals that Sinatra has a built-in catch for the <code>#last-modified</code> method. You might use this method to check a user&rsquo;s <em>cache</em> for what version of a certain page the user has on his/her machine. Why would you do this? Simple! In order to cut out any expensive and unnecessary processing. If the page in the cache is old, then you&rsquo;d update the page. Otherwise, just load from cache.</p>
+
+<p>For your convenience, here&rsquo;s the simplified code Grimm posted to demonstrate.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">last_modified</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">response</span><span class="o">[</span><span class="s1">&#39;Last-Modified&#39;</span><span class="o">]</span> <span class="o">=</span> <span class="n">time</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">env</span><span class="o">[</span><span class="s1">&#39;HTTP_IF_MODIFIED_SINCE&#39;</span><span class="o">]</span> <span class="o">&gt;</span> <span class="n">time</span>
+</span><span class='line'>    <span class="kp">throw</span> <span class="ss">:halt</span><span class="p">,</span> <span class="n">response</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>When Ruby encounters the <code>throw</code>, it zips back up the call stack looking for a matching symbol, <code>:halt</code>. Where&rsquo;s the <code>catch</code> block though? It&rsquo;s clearly not in the same method as the <code>throw</code>. This means that it must be further up the stack. In other words, <code>#last_modified</code> was called within a <code>catch</code> block.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="kp">catch</span> <span class="p">(</span><span class="ss">:halt</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>  <span class="c1"># code</span>
+</span><span class='line'>  <span class="n">last_modified</span><span class="p">(</span><span class="n">time</span><span class="p">)</span> <span class="c1"># =&gt; the throw in this method sends :halt up to the encapsulating catch</span>
+</span><span class='line'>  <span class="c1"># code</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[ActiveRecord]]></title>

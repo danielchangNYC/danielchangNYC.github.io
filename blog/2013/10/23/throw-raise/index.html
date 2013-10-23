@@ -5,11 +5,11 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>couchpanda @ Flatiron School</title>
+	<title>Ruby Exceptions - couchpanda @ Flatiron School</title>
 	<meta name="author" content="Daniel Chang (couchpanda / c0depanda)">
 
 	
-	<meta name="description" content="Oct 23rd, 2013 break, catch, exceptions, raise, rescue, ruby, throw Comments Ruby Exceptions Fun and Useful Ruby Exceptions Foreward Most of us have &hellip;">
+	<meta name="description" content="Ruby Exceptions Fun and Useful Ruby Exceptions Foreward Most of us have encountered the methods raise, rescue, catch, throw, and break in Ruby. We &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +19,7 @@
 
 	<link href="" rel="alternate" title="couchpanda @ Flatiron School" type="application/atom+xml">
 	
-	<link rel="canonical" href="http://danielchangNYC.github.io/">
+	<link rel="canonical" href="http://danielchangNYC.github.io/blog/2013/10/23/throw-raise/">
 	<link href="/favicon.png" rel="shortcut icon">
 	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
 	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -95,39 +95,9 @@
 				
 			
 			<div class="mid-col-container">
-				<div id="content" class="inner">
-<div itemscope itemtype="http://schema.org/Blog">
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-10-23T08:00:00-04:00" data-updated="true" itemprop="datePublished">Oct 23<span>rd</span>, 2013</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/break/'>break</a>, <a class='category' href='/blog/categories/catch/'>catch</a>, <a class='category' href='/blog/categories/exceptions/'>exceptions</a>, <a class='category' href='/blog/categories/raise/'>raise</a>, <a class='category' href='/blog/categories/rescue/'>rescue</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>, <a class='category' href='/blog/categories/throw/'>throw</a>
-
-
-</div>
-		
-			<span class="comments"><a href="/blog/2013/10/23/throw-raise/#disqus_thread">Comments</a></span>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2013/10/23/throw-raise/" itemprop="url">Ruby Exceptions</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<h2>Fun and Useful Ruby Exceptions</h2>
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">Ruby Exceptions</h1>
+	<div class="entry-content" itemprop="articleBody"><h2>Fun and Useful Ruby Exceptions</h2>
 
 <h3>Foreward</h3>
 
@@ -377,353 +347,34 @@ Raise takes up to three parameters:
 
 
 
-
-		
-		
-	</div>
+</div>
 
 </article>
 
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-10-08T07:00:00-04:00" data-updated="true" itemprop="datePublished">Oct 8<span>th</span>, 2013</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/activerecord/'>activerecord</a>, <a class='category' href='/blog/categories/mvc/'>mvc</a>, <a class='category' href='/blog/categories/rails/'>rails</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>
-
-
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	<a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+	
+	
+	<a class="addthis_button_tweet"></a>
+	
+	
+	<a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
 </div>
-		
-			<span class="comments"><a href="/blog/2013/10/08/rails-presentation-post/#disqus_thread">Comments</a></span>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2013/10/08/rails-presentation-post/" itemprop="url">ActiveRecord</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p>I took a bit of a dive today and looked a Ruby on Rails <a href="http://www.slideshare.net/aizatto/ruby-on-rails-48391">presentation</a>. Here&rsquo;s what I gleaned from looking through all the slides.</p>
-
-<ul>
-<li><p>Rails is a web application framework that allows your Ruby to interact with the web seamlessly. By &ldquo;interact with the web&rdquo;, I assume the presentation means &ldquo;interact with databases.&rdquo;</p></li>
-<li><p>Rails implements a principle called &ldquo;MVC&rdquo; &mdash; Model View Controller. Rails seems to handle each task separately. I&rsquo;m going to focus on the Model, which uses ActiveRecord.</p></li>
-<li><p>ActiveRecord is a Module that Rails uses to model and interact with databases. It makes database queries both simple and intuitive.</p></li>
-</ul>
-
-
-<p>Here are some concrete query comparisons between using SQLite3 versus Rails&#8217; ActiveRecord.</p>
-
-<p>Assume we have a table called &ldquo;dogs,&rdquo; each with a name, age, weight, and type. Each attribute would be a column, and each row would represent a different dog.</p>
-
-<figure class='code'><figcaption><span>Table using SQLite3</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">dogs</span> <span class="p">(</span>
-</span><span class='line'>  <span class="n">id</span> <span class="nb">INTEGER</span> <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="n">AUTOINCREMENT</span><span class="p">,</span>
-</span><span class='line'>  <span class="n">name</span> <span class="nb">TEXT</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">age</span> <span class="nb">INTEGER</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">weight</span> <span class="nb">INTEGER</span><span class="p">;</span>
-</span><span class='line'>  <span class="k">type</span> <span class="nb">TEXT</span>
-</span><span class='line'><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>We can also imagine this as a class of Dog objects in Ruby. Here&rsquo;s how one might create the barebones structure in Ruby.</p>
-
-<figure class='code'><figcaption><span>Dogs as objects of class Dog in Ruby</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Dog</span>
-</span><span class='line'>  <span class="kp">attr_accessor</span> <span class="ss">:id</span><span class="p">,</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">:age</span><span class="p">,</span> <span class="ss">:weight</span><span class="p">,</span> <span class="ss">:type</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<figure class='code'><figcaption><span>Table initialized using Rails&#8217; ActiveRecord</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Dog</span> <span class="o">&lt;</span> <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>See how simple that was? Now we can make queries on the table.</p>
-
-<figure class='code'><figcaption><span>SQLite3 query for first dog in table</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">dogs</span> <span class="k">WHERE</span> <span class="n">id</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<figure class='code'><figcaption><span>Rails query for first dog in table</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Dog</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>That&rsquo;s just the beginning! Check this out.</p>
-
-<figure class='code'><figcaption><span>SQLite3 query appending conditions</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">dogs</span> <span class="k">WHERE</span> <span class="n">age</span><span class="o">=</span><span class="mi">8</span> <span class="k">AND</span> <span class="k">type</span><span class="o">=</span><span class="ss">&quot;corgi&quot;</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<figure class='code'><figcaption><span>Rails query appending same conditions</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Dog</span><span class="o">.</span><span class="n">find_by_age_and_type</span> <span class="mi">25</span><span class="p">,</span> <span class="s2">&quot;corgi&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>It seems like ActiveRecord must use certain keywords like &lsquo;by&rsquo; and &lsquo;and&rsquo; in order to dynamically use the attribute names that the user inputs.</p>
-
-<p>What is really beautiful though is the idea of &ldquo;configuration of convention&rdquo; that Rails implements in order to shorten the amount of code you need to write. Slides 42-44 of the <a href="http://www.slideshare.net/aizatto/ruby-on-rails-48391">presentation</a>  gave a particularly good example of the idea. No wonder people love Rails!</p>
-
-<p>The slides continue talking about the MVC</p>
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
 
 
 
-
-
-
-
-
-  
-
-
-<time datetime="2013-10-07T13:00:00-04:00" data-updated="true" itemprop="datePublished">Oct 7<span>th</span>, 2013</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/aha/'>aha</a>, <a class='category' href='/blog/categories/arrays/'>arrays</a>, <a class='category' href='/blog/categories/object-oriented-programming/'>object_oriented_programming</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>
-
-
+<section id="comment">
+    <h1 class="title">Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
-		
-			<span class="comments"><a href="/blog/2013/10/07/flatten-arrays/#disqus_thread">Comments</a></span>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2013/10/07/flatten-arrays/" itemprop="url">Recursive Arrays</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<h2>Foreword</h2>
-
-<p>I feel a certain level of confidence declaring that every programmer has been in the situation where he/she has 10+ tabs open trying troubleshooting a problem and finally concludes, &ldquo;There must be an easier way.&rdquo; Or, if you&rsquo;ve been &lsquo;in the zone&rsquo; for long enough, you might start wondering what exactly got you in this troubleshooting hell to begin with.</p>
-
-<p>In this post, I will share what I learned from one such experience.</p>
-
-<h3>Context and Problem</h3>
-
-<p>I was writing an automatic schedule-maker in Ruby. create_groups is a method that, takes an array of student names and returns an array of the students in a specified group sizes. The create_groups method also takes a parameter that allows you to specify a number of groups. The student groups should be randomized.</p>
-
-<p>First, I defined the method create_groups, set up an array of grouped students that I can push groups into, and returned the value.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">create_groups</span><span class="p">(</span><span class="n">students</span><span class="p">,</span> <span class="n">group_size</span><span class="p">,</span> <span class="n">number_of_groups</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">groups</span> <span class="o">=</span> <span class="o">[]</span>  <span class="c1">#=&gt; store the groups of students in this array</span>
-</span><span class='line'>  <span class="c1"># Implement magic.</span>
-</span><span class='line'>  <span class="n">groups</span>  <span class="c1">#=&gt; Return groups</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'><span class="n">create_groups</span><span class="p">(</span><span class="n">students</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
-</span><span class='line'><span class="n">students</span> <span class="o">=</span> <span class="o">[.</span><span class="n">.</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">.</span><span class="o">.]</span> <span class="c1">#=&gt; This array contains 41 student names. Check my Github Gist linked below for the array I used in the completed program.</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>After considering several strategies, I decided that it would make the most sense sort the 40 students using what I dubbed the &ldquo;card dealing method&rdquo; &mdash; The first student goes to group 1, the second to group 2, the third to group 3, and so forth.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">create_groups</span><span class="p">(</span><span class="n">students</span><span class="p">,</span> <span class="n">group_size</span><span class="p">,</span> <span class="n">number_of_groups</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">groups</span> <span class="o">=</span> <span class="o">[]</span>
-</span><span class='line'>  <span class="n">normalized_list</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">students</span><span class="p">,</span> <span class="n">group_size</span><span class="p">,</span> <span class="n">number_of_groups</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">normalized_list</span><span class="o">.</span><span class="n">each_with_index</span> <span class="k">do</span> <span class="o">|</span><span class="nb">name</span><span class="p">,</span> <span class="n">i</span><span class="o">|</span>
-</span><span class='line'>    <span class="c1"># This part will sort students using the &quot;card-dealing method&quot;</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>  <span class="n">groups</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Since there are 20 groups of 4, I needed 80 students. On an abstract level, the number of students I need in order to sort (the &ldquo;desired length&rdquo;) is &ldquo;# of groups&rdquo; x &ldquo;# of students per group&rdquo;.</p>
-
-<p>I decided to create another method which would normalize my list to this set amount.</p>
-
-<p>The #normalize method will return an array of desired length by <em>replicating the students a number of times, and then slicing out the desired number of students from the replicated array.</em></p>
-
-<p>Here&rsquo;s what I came up with at first:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">create_groups</span><span class="p">(</span><span class="n">students</span><span class="p">,</span> <span class="n">group_size</span><span class="p">,</span> <span class="n">number_of_groups</span><span class="p">)</span>
-</span><span class='line'>  <span class="c1">#...folded this code for now...</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">def</span> <span class="nf">normalize</span><span class="p">(</span><span class="n">list_to_norm</span><span class="p">,</span> <span class="n">group_size</span><span class="p">,</span> <span class="n">number_of_groups</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">desired_length</span> <span class="o">=</span> <span class="n">group_size</span><span class="o">*</span><span class="n">number_of_groups</span>
-</span><span class='line'>  <span class="n">new_list</span> <span class="o">=</span> <span class="n">list_to_norm</span>
-</span><span class='line'>  <span class="k">while</span> <span class="n">new_list</span><span class="o">.</span><span class="n">length</span> <span class="o">&lt;</span> <span class="n">desired_length</span>
-</span><span class='line'>    <span class="n">new_list</span> <span class="o">&lt;&lt;</span> <span class="n">list_to_norm</span>
-</span><span class='line'>    <span class="n">new_list</span> <span class="o">=</span> <span class="n">new_list</span><span class="o">.</span><span class="n">flatten</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>When I ran this given a student array though, I received the following error:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>rb24:<span class="sb">`</span>flatten<span class="err">&#39;</span>: tried to flatten recursive array <span class="o">(</span>ArgumentError<span class="o">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>WAT? After many attempts at troubleshooting and searching the web for an answer, I decided to inspect what exactly I was trying to flatten.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">normalize</span><span class="p">(</span><span class="n">list_to_norm</span><span class="p">,</span> <span class="n">group_size</span><span class="p">,</span> <span class="n">number_of_groups</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">desired_length</span> <span class="o">=</span> <span class="n">group_size</span><span class="o">*</span><span class="n">number_of_groups</span>
-</span><span class='line'>  <span class="n">new_list</span> <span class="o">=</span> <span class="n">list_to_norm</span>
-</span><span class='line'>  <span class="n">new_list</span> <span class="o">&lt;&lt;</span> <span class="n">list_to_norm</span>
-</span><span class='line'>  <span class="nb">puts</span> <span class="n">new_list</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The output was VERY telling. The <code>...</code> line below is just a placeholder for names 4 through 40.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>Name1
-</span><span class='line'>Name2
-</span><span class='line'>Name3
-</span><span class='line'>...
-</span><span class='line'>Name41
-</span><span class='line'><span class="o">[</span>...<span class="o">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The clue was in the <code>[...]</code>.</p>
-
-<p>I then tried running <code>new_list.object_id</code> and <code>list_to_norm.object_id</code> and they turned out to be the same.</p>
-
-<h3>A-ha!</h3>
-
-<p>The <code>[...]</code> indicated that new_list is now a <em>recursive array</em>. More on recurive arrays <a href="http://stackoverflow.com/questions/10606734/what-are-recursive-arrays-good-for">here</a>.</p>
-
-<p>As it turns out, my problem was in the 2nd line of my normalize method.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">new_list</span> <span class="o">=</span> <span class="n">list_to_norm</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This line of code sets the <code>new_list</code> variable to point at the exact same object as the <code>list_to_norm</code> method. So later, when I called <code>new_list &lt;&lt; list_to_norm</code>, I ended up pushing an Array object into itself. The image below</p>
-
-<p>However, Ruby clearly didn&rsquo;t like this, and I suspect that it has to do with the way <code>Array.flatten</code> works. At the very least, we can conclude that <code>.flatten</code> can only flatten two different Array objects.</p>
-
-<p>So that&rsquo;s what I learned in 40 minutes of head-banging against a figurative brick wall. I hope you learned something as well from this post!</p>
-
-<p>Also, as promised, here is a link to <a href="https://gist.github.com/danielchangNYC/6787872">my full gist</a>.</p>
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-10-04T10:59:00-04:00" data-updated="true" itemprop="datePublished">Oct 4<span>th</span>, 2013</time></div>
-		<div class="tags">
-
+</section>
 </div>
-		
-			<span class="comments"><a href="/blog/2013/10/04/week-2/#disqus_thread">Comments</a></span>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2013/10/04/week-2/" itemprop="url">(Not the) First Post</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<h1>Level up!</h1>
-
-<p>This is my post using the Octopress framework. I&rsquo;m excited to be able to start posting code without taking screen shots of my Sublime Text.</p>
-
-<p>My original code blog on <a href="http://c0depanda.wordpress.com/">Wordpress</a>.</p>
-
-		
-		
-	</div>
-
-</article>
-
-</div>
-<nav id="pagenavi">
-    
-    
-    <div class="center"><a href="/blog/archives">Blog Archives</a></div>
-</nav></div>
 			</div>
 			<footer id="footer" class="inner"><p>
   Copyright &copy; 2013 - Daniel Chang (couchpanda / c0depanda) -
@@ -737,7 +388,10 @@ Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Sha
       var disqus_shortname = 'danielchangnyc';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://danielchangNYC.github.io/blog/2013/10/23/throw-raise/';
+        var disqus_url = 'http://danielchangNYC.github.io/blog/2013/10/23/throw-raise/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
