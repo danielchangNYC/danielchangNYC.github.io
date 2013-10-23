@@ -4,7 +4,7 @@
   <title><![CDATA[Category: throw | couchpanda @ Flatiron School]]></title>
   <link href="http://danielchangNYC.github.io/blog/categories/throw/atom.xml" rel="self"/>
   <link href="http://danielchangNYC.github.io/"/>
-  <updated>2013-10-23T03:33:21-04:00</updated>
+  <updated>2013-10-23T09:29:43-04:00</updated>
   <id>http://danielchangNYC.github.io/</id>
   <author>
     <name><![CDATA[Daniel Chang (couchpanda / c0depanda)]]></name>
@@ -18,15 +18,15 @@
     <link href="http://danielchangNYC.github.io/blog/2013/10/23/throw-raise/"/>
     <updated>2013-10-23T08:00:00-04:00</updated>
     <id>http://danielchangNYC.github.io/blog/2013/10/23/throw-raise</id>
-    <content type="html"><![CDATA[<h2>Fun and Useful Ruby Exceptions</h2>
+    <content type="html"><![CDATA[<h1>Fun and Useful Ruby Exceptions</h1>
 
-<h3>Foreward</h3>
+<h2>Foreward</h2>
 
 <p>Most of us have encountered the methods <code>raise</code>, <code>rescue</code>, <code>catch</code>, <code>throw</code>, and <code>break</code> in Ruby. We can generally understand what&rsquo;s going on when we read code that uses it, but what exactly is the difference between them all? Here&rsquo;s a quick guide plus some fun and useful facts.</p>
 
-<h2>The Skinny</h2>
+<h1>The Skinny</h1>
 
-<h3>Raise and Rescue</h3>
+<h2>Raise and Rescue</h2>
 
 <p><code>raise</code> and <code>rescue</code> are used exclusively for handling errors. By default, raising an error will exit the program.
 ``` ruby exception.rb
@@ -177,7 +177,7 @@ end
 <code>``
 Since loading pages over and over again can be an expensive process, the coder above uses a</code>throw<code>-</code>catch` to exit the loop when the first matching result is found.</p>
 
-<h3>Throw, Catch and Sinatra</h3>
+<h2>Throw, Catch and Sinatra</h2>
 
 <p>An even more mind-blowing example from the <a href="http://rubylearning.com/blog/2011/07/12/throw-catch-raise-rescue-im-so-confused/">same blog post</a> reveals that Sinatra has a built-in catch for the <code>#last-modified</code> method. You might use this method to check a user&rsquo;s <em>cache</em> for what version of a certain page the user has on his/her machine. Why would you do this? Simple! In order to cut out any expensive and unnecessary processing. If the page in the cache is old, then you&rsquo;d update the page. Otherwise, just load from cache.</p>
 
