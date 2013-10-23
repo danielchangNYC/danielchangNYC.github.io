@@ -4,7 +4,7 @@
   <title><![CDATA[Category: exceptions | couchpanda @ Flatiron School]]></title>
   <link href="http://danielchangNYC.github.io/blog/categories/exceptions/atom.xml" rel="self"/>
   <link href="http://danielchangNYC.github.io/"/>
-  <updated>2013-10-23T09:31:28-04:00</updated>
+  <updated>2013-10-23T11:38:37-04:00</updated>
   <id>http://danielchangNYC.github.io/</id>
   <author>
     <name><![CDATA[Daniel Chang (couchpanda / c0depanda)]]></name>
@@ -14,15 +14,21 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Ruby Exceptions]]></title>
+    <title type="html"><![CDATA[Ruby 'Exceptional' Knowledge]]></title>
     <link href="http://danielchangNYC.github.io/blog/2013/10/23/throw-raise/"/>
     <updated>2013-10-23T08:00:00-04:00</updated>
     <id>http://danielchangNYC.github.io/blog/2013/10/23/throw-raise</id>
-    <content type="html"><![CDATA[<h1>Fun and Useful Ruby Exceptions</h1>
-
-<h2>Foreward</h2>
+    <content type="html"><![CDATA[<h2>Foreward</h2>
 
 <p>Most of us have encountered the methods <code>raise</code>, <code>rescue</code>, <code>catch</code>, <code>throw</code>, and <code>break</code> in Ruby. We can generally understand what&rsquo;s going on when we read code that uses it, but what exactly is the difference between them all? Here&rsquo;s a quick guide plus some fun and useful facts.</p>
+
+<h1>If you remember just one thing&hellip;</h1>
+
+<ul>
+<li><code>raise</code> and <code>rescue</code> are used for handling errors <em>only</em></li>
+<li><code>throw</code> and <code>catch</code> are used in order to terminate execution early when no other work is needed. <a href="http://rubylearning.com/blog/2011/07/12/throw-catch-raise-rescue-im-so-confused/">source</a></li>
+</ul>
+
 
 <h1>Raise and Rescue</h1>
 
