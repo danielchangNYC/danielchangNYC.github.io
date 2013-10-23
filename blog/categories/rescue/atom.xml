@@ -4,7 +4,7 @@
   <title><![CDATA[Category: rescue | couchpanda @ Flatiron School]]></title>
   <link href="http://danielchangNYC.github.io/blog/categories/rescue/atom.xml" rel="self"/>
   <link href="http://danielchangNYC.github.io/"/>
-  <updated>2013-10-23T09:29:43-04:00</updated>
+  <updated>2013-10-23T09:31:28-04:00</updated>
   <id>http://danielchangNYC.github.io/</id>
   <author>
     <name><![CDATA[Daniel Chang (couchpanda / c0depanda)]]></name>
@@ -24,9 +24,7 @@
 
 <p>Most of us have encountered the methods <code>raise</code>, <code>rescue</code>, <code>catch</code>, <code>throw</code>, and <code>break</code> in Ruby. We can generally understand what&rsquo;s going on when we read code that uses it, but what exactly is the difference between them all? Here&rsquo;s a quick guide plus some fun and useful facts.</p>
 
-<h1>The Skinny</h1>
-
-<h2>Raise and Rescue</h2>
+<h1>Raise and Rescue</h1>
 
 <p><code>raise</code> and <code>rescue</code> are used exclusively for handling errors. By default, raising an error will exit the program.
 ``` ruby exception.rb
@@ -92,7 +90,7 @@ raise "This is an error"
 raise StandardError "Most error subclasses extend StandardError"
 </code></p>
 
-<h3>Some <code>Exception</code>al Knowledge</h3>
+<h3>Exceptional Ruby</h3>
 
 <p>Exception is the root of Ruby&rsquo;s exception hierarchy. It&rsquo;s the class from which all Exceptions descend. It is king. This has a very interesting consequence.</p>
 
@@ -120,7 +118,7 @@ loop do
 end
 ```</p>
 
-<h2>Break, Catch, and Throw</h2>
+<h1>Break, Catch, and Throw</h1>
 
 <p><code>break</code>, <code>catch</code> and <code>throw</code> are used in order to terminate execution early when no other work is needed. <code>break</code> leaves the <em>current</em> loop while the <code>catch</code> and <code>throw</code> combination can be used to break out of <em>any number</em> of loops at one time.</p>
 
