@@ -4,7 +4,7 @@
   <title><![CDATA[Category: self-referential | couchpanda @ Flatiron School]]></title>
   <link href="http://danielchangNYC.github.io/blog/categories/self-referential/atom.xml" rel="self"/>
   <link href="http://danielchangNYC.github.io/"/>
-  <updated>2013-11-06T02:05:04-05:00</updated>
+  <updated>2013-11-06T02:07:42-05:00</updated>
   <id>http://danielchangNYC.github.io/</id>
   <author>
     <name><![CDATA[Daniel Chang (couchpanda / c0depanda)]]></name>
@@ -52,20 +52,20 @@ end
 Let&rsquo;s think about this for a second. Why does this work and what does it do? <code>has_many</code> and <code>belongs_to</code> provide <code>Customer</code>s with a set of methods to access their associated data. The options passed doften do not change the database since Rails tries to keep logic defined within the application. Why? I&rsquo;m not exactly sure but I suppose this is partially why Rails easily supports a wide range of databases.</p>
 
 <p>Here&rsquo;s what the arguments do:
- * <code>class_name: "Customer"</code> tells Rails to look in the <code>Customer</code> class for the association. What do I mean by association? In <code>has_many :referrals</code>, the <code>:referrals</code> is called the assocation. When would I use this? When I need to override the Rails convention for identifying the class in which to find the association.
- * <code>foreign_key: "referring_customer_id"</code> tells Rails where to find the foreign key. When would I use this? When I need to override the Rails convention for identifying the class in which to find the association. Why didn&rsquo;t I use it for <code>belongs_to</code>? It is implicitly defined with that method.
- * <code>conditions: "referring_customer_id = id"</code> actually fires a <code>WHERE</code> SQL statement with the given value. I originally used this thinking it would match referring customers by their id. It turned out to be an extra constraint though &mdash; <code>AND (referring_customer_id = id)</code> &mdash; which filtered for any customer who referred <em>him/herself</em>.</p>
+* <code>class_name: "Customer"</code> tells Rails to look in the <code>Customer</code> class for the association. What do I mean by association? In <code>has_many :referrals</code>, the <code>:referrals</code> is called the assocation. When would I use this? When I need to override the Rails convention for identifying the class in which to find the association.
+* <code>foreign_key: "referring_customer_id"</code> tells Rails where to find the foreign key. When would I use this? When I need to override the Rails convention for identifying the class in which to find the association. Why didn&rsquo;t I use it for <code>belongs_to</code>? It is implicitly defined with that method.
+* <code>conditions: "referring_customer_id = id"</code> actually fires a <code>WHERE</code> SQL statement with the given value. I originally used this thinking it would match referring customers by their id. It turned out to be an extra constraint though &mdash; <code>AND (referring_customer_id = id)</code> &mdash; which filtered for any customer who referred <em>him/herself</em>.</p>
 
 <h1>When else can I use self-joins?</h1>
 
 <p>Generally you can use self-joins anytime you need to create a hierarchy-like, &ldquo;nested&rdquo; structure.
-<img class="right <a" src="href="http://d2o0t5hpnwv4c1.cloudfront.net/538_sql3/graph_5.png">http://d2o0t5hpnwv4c1.cloudfront.net/538_sql3/graph_5.png</a>" width="300"></p>
+<img class="right <a" src="href="http://d2o0t5hpnwv4c1.cloudfront.net/538_sql3/graph_5.png">http://d2o0t5hpnwv4c1.cloudfront.net/538_sql3/graph_5.png</a>" width="400"></p>
 
 <p>Some other applications could be:
- &ndash; Creating parent and child directories for Folder objects.
- &ndash; Creating managers and subordinates for Employee objects.
- &ndash; Creating callers and receivers for PhoneTreeMember objects.
- &ndash; Anything else with a parent-child data relationship.</p>
+&ndash; Creating parent and child directories for Folder objects.
+&ndash; Creating managers and subordinates for Employee objects.
+&ndash; Creating callers and receivers for PhoneTreeMember objects.
+&ndash; Anything else with a parent-child data relationship.</p>
 
 <h1>The Master Sword!</h1>
 
