@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: rails | couchpanda @ Flatiron School]]></title>
-  <link href="http://danielchangNYC.github.io/blog/categories/rails/atom.xml" rel="self"/>
+  <title><![CDATA[Category: associations | couchpanda @ Flatiron School]]></title>
+  <link href="http://danielchangNYC.github.io/blog/categories/associations/atom.xml" rel="self"/>
   <link href="http://danielchangNYC.github.io/"/>
   <updated>2013-11-06T01:58:27-05:00</updated>
   <id>http://danielchangNYC.github.io/</id>
@@ -71,70 +71,6 @@ Let&rsquo;s think about this for a second. Why does this work and what does it d
 <p>Just when you thought THAT was exciting, there are also plenty of <em>GEMS</em> that allow you to create these nested structures! Two from the Ruby Toolbox are <a href="https://www.ruby-toolbox.com/projects/awesome_nested_set">Awesome Nested Set</a> and <a href="https://www.ruby-toolbox.com/projects/ancestry">Ancestry</a>.</p>
 
 <p><img class="<a" src="href="https://lh3.ggpht.com/-XQj1y02FMH4/TcnEMrdHk_I/AAAAAAAAAZE/7ssw-Kwlv7s/s1600/Link_taking_Master_Sword.jpg">https://lh3.ggpht.com/-XQj1y02FMH4/TcnEMrdHk_I/AAAAAAAAAZE/7ssw-Kwlv7s/s1600/Link_taking_Master_Sword.jpg</a>"></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[ActiveRecord]]></title>
-    <link href="http://danielchangNYC.github.io/blog/2013/10/08/rails-presentation-post/"/>
-    <updated>2013-10-08T07:00:00-04:00</updated>
-    <id>http://danielchangNYC.github.io/blog/2013/10/08/rails-presentation-post</id>
-    <content type="html"><![CDATA[<p>I took a bit of a dive today and looked a Ruby on Rails <a href="http://www.slideshare.net/aizatto/ruby-on-rails-48391">presentation</a>. Here&rsquo;s what I gleaned from looking through all the slides.</p>
-
-<ul>
-<li><p>Rails is a web application framework that allows your Ruby to interact with the web seamlessly. By &ldquo;interact with the web&rdquo;, I assume the presentation means &ldquo;interact with databases.&rdquo;</p></li>
-<li><p>Rails implements a principle called &ldquo;MVC&rdquo; &mdash; Model View Controller. Rails seems to handle each task separately. I&rsquo;m going to focus on the Model, which uses ActiveRecord.</p></li>
-<li><p>ActiveRecord is a Module that Rails uses to model and interact with databases. It makes database queries both simple and intuitive.</p></li>
-</ul>
-
-
-<p>Here are some concrete query comparisons between using SQLite3 versus Rails' ActiveRecord.</p>
-
-<p>Assume we have a table called &ldquo;dogs,&rdquo; each with a name, age, weight, and type. Each attribute would be a column, and each row would represent a different dog.</p>
-
-<p><code>sql Table using SQLite3
-CREATE TABLE dogs (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  name TEXT;
-  age INTEGER;
-  weight INTEGER;
-  type TEXT
-);
-</code>
-We can also imagine this as a class of Dog objects in Ruby. Here&rsquo;s how one might create the barebones structure in Ruby.
-<code>ruby Dogs as objects of class Dog in Ruby
-class Dog
-  attr_accessor :id, :name, :age, :weight, :type
-end
-</code>
-<code>ruby Table initialized using Rails' ActiveRecord
-class Dog &lt; ActiveRecord::Base
-end
-</code></p>
-
-<p>See how simple that was? Now we can make queries on the table.</p>
-
-<p><code>sql SQLite3 query for first dog in table
-SELECT * FROM dogs WHERE id=1;
-</code>
-<code>ruby Rails query for first dog in table
-Dog.find(1)
-</code></p>
-
-<p>That&rsquo;s just the beginning! Check this out.</p>
-
-<p><code>sql SQLite3 query appending conditions
-SELECT * FROM dogs WHERE age=8 AND type="corgi";
-</code>
-<code>ruby Rails query appending same conditions
-Dog.find_by_age_and_type 25, "corgi"
-</code></p>
-
-<p>It seems like ActiveRecord must use certain keywords like &lsquo;by&rsquo; and &lsquo;and&rsquo; in order to dynamically use the attribute names that the user inputs.</p>
-
-<p>What is really beautiful though is the idea of &ldquo;configuration of convention&rdquo; that Rails implements in order to shorten the amount of code you need to write. Slides 42-44 of the <a href="http://www.slideshare.net/aizatto/ruby-on-rails-48391">presentation</a>  gave a particularly good example of the idea. No wonder people love Rails!</p>
-
-<p>The slides continue talking about the MVC</p>
 ]]></content>
   </entry>
   
