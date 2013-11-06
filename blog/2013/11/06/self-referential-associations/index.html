@@ -109,9 +109,9 @@
 
 <h1>What is a Self Join?</h1>
 
-<p>While foreign keys are usually used to link data between two tables, you can use foreign keys to refer to data within the <em>same</em> table to create a table that looks something like this:</p>
+<p>Below is a self-join. While foreign keys are usually used to link data between two tables, you can use foreign keys to refer to data within the <em>same</em> table to create one that looks something like this:</p>
 
-<p><img src="http://d2o0t5hpnwv4c1.cloudfront.net/538_sql3/ss_5.png">
+<p><img src="http://d2o0t5hpnwv4c1.cloudfront.net/538_sql3/ss_5.png" width="600">
 <a href="http://net.tutsplus.com/tutorials/databases/sql-for-beginners-part-3-database-relationships/">(source site)</a></p>
 
 <p>I originally tried the following associations below.</p>
@@ -140,7 +140,7 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Let&rsquo;s think about this for a second. Why does this work and what does it do? <code>has_many</code> and <code>belongs_to</code> provide <code>Customer</code>s with a set of methods to access their associated data. The options passed doften do not change the database since Rails tries to keep logic defined within the application. Why? I&rsquo;m not exactly sure but I suppose this is partially why Rails easily supports a wide range of databases.</p>
+<p>Let&rsquo;s think about this for a second. Why does this work and what does it do? <code>has_many</code> and <code>belongs_to</code> provide <code>Customer</code>s with a set of methods to access their associated data. The options passed often do not change the database since Rails tries to keep logic defined within the application. Why? I&rsquo;m not exactly sure but I suppose this is partially why Rails easily supports a wide range of databases.</p>
 
 <p>Here&rsquo;s what the arguments do:</p>
 
