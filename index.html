@@ -1,194 +1,1063 @@
 
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>couchpanda @ Flatiron School</title>
+  <meta name="author" content="Daniel Chang (couchpanda / c0depanda)">
 
-<!doctype html>
-  <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-  <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-  <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-  <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>This is the title for you homepage - couchpanda @ Flatiron School</title>
-    <meta name="author" content="Daniel Chang (couchpanda / c0depanda)">
-    
-    <meta name="description" content="Hear no evil Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur, facilis illo magni nobis ea quibusdam blanditiis officia ex dolorum &hellip;">
-    
-    <meta name="viewport" content="width=device-width">
-    
-    <link rel="canonical" href="http://danielchangNYC.github.io">
-    <link href="/favicon.png" rel="icon">
-    <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet">
-    <link href="/" rel="alternate" title="couchpanda @ Flatiron School" type="application/atom+xml">
-  </head>
+  
+  <meta name="description" content="A high-level, simplified explanation of Big O Notation Big O notation might look something like this: O(log N) N = number of input data
+O( ) = &hellip;">
+  
 
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <body >
+  
+  <link rel="canonical" href="http://danielchangNYC.github.io">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="" rel="alternate" title="couchpanda @ Flatiron School" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 
-    <header>
-      <div class="grid-wrapper">
-  <div class="grid">
+  
 
-    <div class="grid__item two-fifths lap-four-sixths palm-one-whole">
-  <a href="/" class="site-title">couchpanda @ Flatiron School</a>
-</div>
+</head>
 
-<div class="grid__item three-fifths lap-two-sixths palm-one-whole">
-  <nav>
-    <input type="checkbox" id="toggle">
-<label for="toggle" class="toggle" data-open="Main Menu" data-close="Close Menu"></label>
-<ul class="menu pull-right">
-  <li><a href="/">Home</a></li>
-  <li><a href="/blog/">Blog</a></li>
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">couchpanda @ Flatiron School</a></h1>
+  
+    <h2>eat, play, c0de</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
 </ul>
-  </nav>
-</div>
-
-  </div>
-</div>
-    </header>
-
-    
-      <div class="hero" style="background-image: url('/images/cliffs_of_moher.jpg');">
-  <div class="grid-wrapper">
-    <div class="grid flex">
-      <div class="grid__item flex__item two-fifths palm-one-whole avatar">
-        <img class="gravatar" src="/images/gravatar.jpg" alt="Daniel Chang (couchpanda / c0depanda)'s Picture" data-gravatar="daniel.chang85@gmail.com">
-      </div>
-      <div class="grid__item flex__item three-fifths palm-one-whole">
-       <h1>Daniel Chang (couchpanda / c0depanda)</h1>
- <hr>
- <p class="lead">
-Welcome! Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium.
-</p>
-      </div>
-    </div>
-  </div>
-
-  <div class="credit">
-    <p>
-      Cliffs of Moher, by <a href="http://www.flickr.com/photos/alfarese/2780612581/" target="_blank">Alessandro Farese</a> <a href="http://creativecommons.org/licenses/by-nc-nd/2.0/deed.en" target="_blank" class="licence"><small>(by-nc-nd)</small></a>
-    </p>
-  </div>
-</div>
-
-    
-
-    <div class="grid-wrapper">
-      <div class="grid grid-center">
-        
-        <div class="grid__item one-whole">
-        
-
-          
-
-<div class="grid-wrapper">
-  <div class="grid">
-    <div class="grid__item one-third lap-one-whole palm-one-whole usp">
-      <div class="grid">
-        <div class="grid__item one-whole lap-one-third">
-          <span class="icon">
-            <i class="icon-laptop"></i>
-          </span>
-        </div>
-
-        <div class="grid__item one-whole lap-two-thirds">
-          <h2 class="title">Hear no evil</h2>
-<hr>
-<p>
-Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur, facilis illo magni nobis ea quibusdam blanditiis officia ex dolorum laboriosam dolor earum inventore aperiam nam molestiae. Aperiam, est temporibus officiis.
-</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="grid__item one-third lap-one-whole palm-one-whole usp">
-      <div class="grid">
-        <div class="grid__item one-whole lap-one-third">
-          <span class="icon">
-            <i class="icon-search"></i>
-          </span>
-        </div>
-
-        <div class="grid__item one-whole lap-two-thirds">
-          <h2 class="title">See no evil</h2>
-<hr>
-<p>
-Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit, quia magni ipsum sapiente libero perspiciatis adipisci quibusdam nam nemo aut asperiores deserunt consectetur. Rem distinctio libero amet molestias saepe vero!
-</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="grid__item one-third lap-one-whole palm-one-whole usp">
-      <div class="grid">
-        <div class="grid__item one-whole lap-one-third">
-          <span class="icon">
-            <i class="icon-coffee"></i>
-          </span>
-        </div>
-		 
-        <div class="grid__item one-whole lap-two-thirds">
-         <h2 class="title">Speak no evil</h2>
-<hr>
-<p>
-Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus repellendus officia iusto reiciendis quae quod consequuntur tempora. Rem, placeat laboriosam perferendis eum obcaecati illo iste molestias? Optio in expedita dolor!
-</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-        
-        </div>
-        
-        
-      </div>
-    </div>
-    
-    <footer>
-      <div class="grid-wrapper">
-  <div class="grid">
-    <div class="grid__item">
-      <p class="copyright">
-  All content by Daniel Chang (couchpanda / c0depanda) and licenced under <a href="//creativecommons.org/licenses/by-nc-sa/3.0/ie/">Creative Commons</a>.<br>
-  Code under <a href="//github.com/coogie/oscailte/blob/master/README.md">MIT Licence</a>.
-</p>
-    </div>
-  </div>
-</div>
-
-    </footer>
-
-    <!--[if lt IE 7]>
-      <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
-    <![endif]-->
-
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-<script src="//crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script>
-<script defer src="/javascripts/octopress.js"></script>
-
-
-
-
-<script>
-  var disqus_shortname = 'danielchangnyc';
   
-    
-    // var disqus_developer = 1;
-    var disqus_identifier = 'http://danielchangNYC.github.io/index.html';
-    var disqus_url = 'http://danielchangNYC.github.io/index.html';
-    var disqus_script = 'embed.js';
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:danielchangNYC.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
   
-  (function () {
-    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-    dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
-    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-  }());
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/01/05/big-o/">Big O Notation</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-05T23:30:00-05:00" pubdate data-updated="true">Jan 5<span>th</span>, 2014</time>
+        
+         | <a href="/blog/2014/01/05/big-o/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>A high-level, simplified explanation of Big O Notation</h1>
+
+<p>Big O notation might look something like this: O(log N)</p>
+
+<p>N = number of input data
+O( ) = function notation for Big O (just tells you we&rsquo;re using Big O notation)
+log N = the function that describes the efficiency of the procedure or algorithm as N grows bigger and bigger</p>
+
+<p>Programmers use Big O Notation as a way to express how efficient an algorithm or procedure is at performing its designated task (e.g. sorting, searching). The function tells us the maximum number of &ldquo;actions&rdquo; it will take for the algorithm to achieve its goal, given N data.</p>
+
+<h2>Example 1: O(N)</h2>
+
+<p>O(N) is the linear case. Given 10 data, the worst-case scenario is that it will take 10 &ldquo;actions&rdquo; to search for a target, or sort the data, or whatever the goal of the algorithm is. Given 100 data, it will take 100 actions. Given 2000 data, it will take 2000 actions. Given N data, it will take N actions.</p>
+
+<p>A real life example would be if you were looking for a book on your friend&rsquo;s bookshelf.</p>
+
+<p><img src="http://2.bp.blogspot.com/_5PudbMqUjng/TR5Cu-fq4ZI/AAAAAAAAACk/t_oojdxP-c8/s400/harrypotter.jpg" width="400"></p>
+
+<p>Lets say you want your program to find any given book. You could tell the program to start checking books one by one from the left. If you wanted Harry Potter 3, it would only take 3 actions (or tries) because it&rsquo;s the third book in. However, Big O tells us the worst-case scenario. What book would cause the algorithm to take the most possible actions? Harry Potter 7 &mdash; it&rsquo;s the last book so the algorithm would have to run all 7 times. Given 7 books, it took the algorithm 7 actions / tries to find the book <em>in the worst case scenario</em>.</p>
+
+<p>What if we ran this algorithm on 10 books? The worst case would take all 10 tries. How about 1,000,000 books? It would take 1 million tries.</p>
+
+<p>So, TL;DR &mdash; O(N) tells us that given N data, it will take an algorithm N actions / tries to accomplish a task.</p>
+
+<h2>Example 2: O(1)</h2>
+
+<p>What does O(1) tell us? The function inside is simply &ldquo;1&rdquo;. This means that no matter what number N is, it will always accomplish the task in 1 try. It represents the most efficient algorithm possible.</p>
+
+<p>Does this exist? Sure it does! But it might not give you exactly what you&rsquo;re looking for. Here&rsquo;s an algorithm that can be described with O(1).</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">efficient_but_useless</span>
+</span><span class='line'>  <span class="k">return</span> <span class="kp">true</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>TL;DR algorithms with O(1) always finish in 1 try.</p>
+
+<h2>Example 3: O(N<sup>2</sup>) or any higher exponent</h2>
+
+<p>Is this an efficient algorithm? In other words, if I input a large amount of data for N, what does that tell me about the algorithm? If I input N=1, then no matter what, it will take 1 try. But if I put in N=10, then it will take 10<sup>2</sup> = 100 actions / tries to complete the algorithm (worst case scenario). Imagine if the exponent were higher, or if N were higher. Then the algorithm would be super inefficient!</p>
+
+<p>What kinds of algorithms would have O(N<sup>2</sup>)? Simply put, algorithms with nested loops usually exhibit this behavior. If you have to run a procedure on each item, and each item has to check itself against every other item in some way, then worst case is that you run the procedure N<sup>2</sup> times. In other words, it takes N<sup>2</sup> actions.</p>
+
+<h2>Example 4: O(log N)</h2>
+
+<p>This time the function is logarithmic.</p>
+
+<p><img src="http://image.tutorvista.com/content/feed/tvcs/img64.gif"></p>
+
+<p>Imagine that the x-axis represents N, how much input data you have, and the y-axis tells us how many actions or tries it takes the algorithm to finish (worst case scenario, as usual). As N grows larger, the number of tries grows, but slowly.</p>
+
+<p>Let&rsquo;s try calculating a few examples. Keep in mind that when programmers write log N, it refers to <a href="https://stackoverflow.com/questions/1569702/is-big-ologn-log-base-e">log base 2</a>. Also, since the number of actions has to be a whole number, if you get a decimal, the rule of thumb is to round up. So given 10 data, it will take log(10) = 3.32 which rounds up to 4 actions, max. This isn&rsquo;t that much more efficient than O(N), but what if N=1,000,000? It would take your algorithm log(1000000) = 19.93 which rounds up to 20 tries, max. For 1000000 data, that&rsquo;s pretty efficient!</p>
+
+<h2>Conclusion and Resources</h2>
+
+<p>I hope that this post helps clarify big O notation for those of you who are brand new to the idea. A few other resources I feel are really well-done: this <a href="http://pointlessprogramming.wordpress.com/2011/02/24/what-in-the-hell-is-big-o/">visual, real-world explanation</a> and this <a href="http://www.daveperrett.com/articles/2010/12/07/comp-sci-101-big-o-notation/">much more technical explanation</a>. I didn&rsquo;t include code in this post because these algorithms are all solved problems already and with some Google sleuthing, you will repos full of them in a multitude of languages. One more resource I like is the <a href="http://bigocheatsheet.com/">big o cheat-sheet</a>.</p>
+
+<p>Happy coding!</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/11/06/self-referential-associations/">Self-Referential Associations, AKA Self Joins</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-06T08:00:00-05:00" pubdate data-updated="true">Nov 6<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/11/06/self-referential-associations/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Week 2 of learning Rails. After 6 weeks at Flatiron, I feel like a beginner again, but not quite like I&rsquo;m stranded on a deserted island &mdash; more like I&rsquo;m Link, and although I wield a wooden sword, new items abound and I&rsquo;m eager to learn how to use them.</p>
+
+<p><img src="http://www.ohmz.net/wp-content/uploads/2011/08/its-dangerous-to-go-alone-take-this.jpg" width="400"></p>
+
+<p>Although the <a href="http://guides.rubyonrails.org/">Rails Guides</a> have been invaluable, trying new constructs myself is how I internalize a concept. This blog post will be about <a href="http://guides.rubyonrails.org/association_basics.html">associations</a>, particularly <a href="http://guides.rubyonrails.org/association_basics.html#self-joins">self joins</a>.</p>
+
+<h2>Mini-Project: Self-Joins</h2>
+
+<p>I created a basic rails app and deployed it on Heroku <a href="https://customer-referrals-testsite.herokuapp.com/">here</a>. Try it out to see how the customer data behaves. Imagine what the schema (or &ldquo;table&rdquo;) might look like and then read on.</p>
+
+<h1>What is a Self Join?</h1>
+
+<p>Below is a self-join. While foreign keys are usually used to link data between two tables, you can use foreign keys to refer to data within the <em>same</em> table to create one that looks something like this:</p>
+
+<p><img src="http://d2o0t5hpnwv4c1.cloudfront.net/538_sql3/ss_5.png" width="600">
+<a href="http://net.tutsplus.com/tutorials/databases/sql-for-beginners-part-3-database-relationships/">(source site)</a></p>
+
+<p>I originally tried the following associations below.</p>
+
+<figure class='code'><figcaption><span>customer.rb BROKEN VERSION</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Customer</span> <span class="o">&lt;</span> <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span>
+</span><span class='line'>  <span class="n">has_many</span> <span class="ss">:referrals</span><span class="p">,</span> <span class="n">class_name</span><span class="p">:</span> <span class="s2">&quot;Customer&quot;</span><span class="p">,</span> <span class="n">foreign_key</span><span class="p">:</span> <span class="s2">&quot;referring_customer_id&quot;</span><span class="p">,</span> <span class="ss">conditions</span><span class="p">:</span> <span class="p">{</span><span class="ss">:referring_customer_id</span> <span class="o">=&gt;</span> <span class="ss">:id</span><span class="p">}</span>
+</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:referring_customer</span><span class="p">,</span> <span class="n">class_name</span><span class="p">:</span> <span class="s2">&quot;Customer&quot;</span><span class="p">,</span> <span class="n">foreign_key</span><span class="p">:</span> <span class="s2">&quot;referring_customer_id&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This didn&rsquo;t work. After some serious research, stackoverflow, posting my own <a href="http://stackoverflow.com/questions/19803759/how-do-i-create-a-self-referential-association-self-join-in-a-single-class-usi">stackoverflow question</a> (thanks Peter!!!), trial-and-error, and pry sessions, I refactored my code to:</p>
+
+<figure class='code'><figcaption><span>customer.rb WORKING VERSION</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Customer</span> <span class="o">&lt;</span> <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span>
+</span><span class='line'>  <span class="n">has_many</span> <span class="ss">:referrals</span><span class="p">,</span> <span class="n">class_name</span><span class="p">:</span> <span class="s2">&quot;Customer&quot;</span><span class="p">,</span> <span class="n">foreign_key</span><span class="p">:</span> <span class="s2">&quot;referring_customer_id&quot;</span>
+</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:referring_customer</span><span class="p">,</span> <span class="n">class_name</span><span class="p">:</span> <span class="s2">&quot;Customer&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Let&rsquo;s think about this for a second. Why does this work and what does it do? <code>has_many</code> and <code>belongs_to</code> provide <code>Customer</code>s with a set of methods to access their associated data. The options passed often do not change the database since Rails tries to keep logic defined within the application. Why? I&rsquo;m not exactly sure but I suppose this is partially why Rails easily supports a wide range of databases.</p>
+
+<p>Here&rsquo;s what the arguments do:</p>
+
+<ul>
+<li><code>class_name: "Customer"</code> tells Rails to look in the <code>Customer</code> class for the association. What do I mean by association? In <code>has_many :referrals</code>, the <code>:referrals</code> is called the assocation. When would I use this? When I need to override the Rails convention for identifying the class in which to find the association.</li>
+<li><code>foreign_key: "referring_customer_id"</code> tells Rails where to find the foreign key. When would I use this? When I need to override the Rails convention for identifying the class in which to find the association. Why didn&rsquo;t I use it for <code>belongs_to</code>? It is implicitly defined with that method.</li>
+<li><code>conditions: "referring_customer_id = id"</code> actually fires a <code>WHERE</code> SQL statement with the given value. I originally used this thinking it would match referring customers by their id. It turned out to be an extra constraint though &mdash; <code>AND (referring_customer_id = id)</code> &mdash; which filtered for any customer who referred <em>him/herself</em>.</li>
+</ul>
+
+
+<h1>When else can I use self-joins?</h1>
+
+<p>Generally you can use self-joins anytime you need to create a hierarchy-like, &ldquo;nested&rdquo; structure.
+<img class="right" src="http://d2o0t5hpnwv4c1.cloudfront.net/538_sql3/graph_5.png" width="400"></p>
+
+<p>Some other applications could be:</p>
+
+<ul>
+<li>Creating parent and child directories for Folder objects.</li>
+<li>Creating managers and subordinates for Employee objects.</li>
+<li>Creating callers and receivers for PhoneTreeMember objects.</li>
+<li>Anything else with a parent-child data relationship.</li>
+</ul>
+
+
+<h1>The Master Sword!</h1>
+
+<p>Just when you thought THAT was exciting, there are also plenty of <em>GEMS</em> that allow you to create these nested structures! Two from the Ruby Toolbox are <a href="https://www.ruby-toolbox.com/projects/awesome_nested_set">Awesome Nested Set</a> and <a href="https://www.ruby-toolbox.com/projects/ancestry">Ancestry</a>.</p>
+
+<p><img src="https://lh3.ggpht.com/-XQj1y02FMH4/TcnEMrdHk_I/AAAAAAAAAZE/7ssw-Kwlv7s/s1600/Link_taking_Master_Sword.jpg" width="400"></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/10/23/throw-raise/">Ruby &#8216;Exceptional&#8217; Knowledge</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-23T08:00:00-04:00" pubdate data-updated="true">Oct 23<span>rd</span>, 2013</time>
+        
+         | <a href="/blog/2013/10/23/throw-raise/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Foreward</h2>
+
+<p>Most of us have encountered the methods <code>raise</code>, <code>rescue</code>, <code>catch</code>, <code>throw</code>, and <code>break</code> in Ruby. We can generally understand what&rsquo;s going on when we read code that uses it, but what exactly is the difference between them all? Here&rsquo;s a quick guide plus some fun and useful facts.</p>
+
+<h1>If you remember just one thing&hellip;</h1>
+
+<ul>
+<li><code>raise</code> and <code>rescue</code> are used for handling errors <em>only</em></li>
+<li><code>throw</code> and <code>catch</code> are used in order to terminate execution early when no other work is needed. <a href="http://rubylearning.com/blog/2011/07/12/throw-catch-raise-rescue-im-so-confused/">source</a></li>
+</ul>
+
+
+<h1>Raise and Rescue</h1>
+
+<p><code>raise</code> and <code>rescue</code> are used exclusively for handling errors. By default, raising an error will exit the program.</p>
+
+<figure class='code'><figcaption><span>exception.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">test_rescue</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;This is before raise&quot;</span>
+</span><span class='line'>  <span class="k">raise</span> <span class="s2">&quot;Raised an error&quot;</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;This is after raise. It won&#39;t ever run.&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'><span class="n">test_rescue</span>
+</span><span class='line'><span class="c1"># =&gt; This is before raise</span>
+</span><span class='line'><span class="c1"># =&gt; test.rb:3:in `test_rescue&#39;: Raised an error (RuntimeError)</span>
+</span><span class='line'>  <span class="n">from</span> <span class="nb">test</span><span class="o">.</span><span class="n">rb</span><span class="p">:</span><span class="mi">9</span><span class="ss">:in</span> <span class="sb">`&lt;main&gt;&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This happens unless there is a <code>rescue</code> statement which will run in case of an exception.</p>
+
+<figure class='code'><figcaption><span>exception.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">test_rescue</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;This is before raise&quot;</span>
+</span><span class='line'>  <span class="k">raise</span> <span class="s2">&quot;Raised an error&quot;</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;This is after raise. It won&#39;t ever run.&quot;</span>
+</span><span class='line'>  <span class="k">rescue</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;I&#39;m rescued!&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'><span class="n">test_rescue</span>
+</span><span class='line'><span class="c1"># =&gt; This is before raise</span>
+</span><span class='line'><span class="c1"># =&gt; I&#39;m rescued!</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The above Ruby code can be rewritten like so:</p>
+
+<figure class='code'><figcaption><span>exception.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">test_rescue</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;This is before raise&quot;</span>
+</span><span class='line'>  <span class="k">raise</span> <span class="s2">&quot;Raised an error&quot;</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;This is after raise. It won&#39;t ever run.&quot;</span>
+</span><span class='line'>  <span class="k">rescue</span> <span class="no">Exception</span> <span class="o">=&gt;</span> <span class="n">e</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="n">e</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'><span class="n">test_rescue</span>
+</span><span class='line'><span class="c1"># =&gt; This is before raise</span>
+</span><span class='line'><span class="c1"># =&gt; Raised an error</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Ruby has many different types of exceptions (see <a href="http://ruby-doc.org/core-2.0.0/Exception.html">documentation</a>).
+Raise takes up to three parameters:
+ * the exception type
+ * an error message
+ * an array of callback information.</p>
+
+<p>All three are optional and Ruby knows that if you only pass in a string that it&rsquo;s the message. Usually you don&rsquo;t set the last parameter since <code>Kernel#caller</code> automatically creates that array.</p>
+
+<p>Here are a couple of valid <code>raise</code> statements.</p>
+
+<figure class='code'><figcaption><span>Message parameter given</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">raise</span> <span class="s2">&quot;This is an error&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<figure class='code'><figcaption><span>Error and Message parameters</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">raise</span> <span class="no">StandardError</span> <span class="s2">&quot;Most error subclasses extend StandardError&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Exceptional Ruby</h3>
+
+<p>Exception is the root of Ruby&rsquo;s exception hierarchy. It&rsquo;s the class from which all Exceptions descend. It is king. This has a very interesting consequence.</p>
+
+<p><code>rescue Exception</code> rescues from EVERYTHING, including syntax errors, load errors, and any of the following listed below.</p>
+
+<ul>
+<li><p>Rescuing <code>Interrupt</code> prevents you from being able to CTRL+C out of the program.</p></li>
+<li><p>Rescuing <code>SignalException</code> prevents the program from responding correctly to signals. It will be unkillable, except with kill -9. <a href="http://stackoverflow.com/questions/10048173/why-is-it-bad-style-to-rescue-exception-e-in-ruby">source</a></p></li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="kp">loop</span> <span class="k">do</span>
+</span><span class='line'>  <span class="k">begin</span>
+</span><span class='line'>    <span class="nb">eval</span> <span class="n">dinosaurs</span> <span class="n">ru1ez</span> <span class="n">the</span> <span class="n">pl</span><span class="vi">@netz</span><span class="o">!!!</span> <span class="no">ROArR</span><span class="p">{</span><span class="n">bark</span><span class="p">}</span><span class="o">[</span><span class="ss">:ARF</span><span class="o">].</span><span class="n">ENV</span>
+</span><span class='line'>  <span class="k">rescue</span> <span class="no">Exception</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;What meteor?&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>Break, Catch, and Throw</h1>
+
+<p><code>break</code>, <code>catch</code> and <code>throw</code> are used in order to terminate execution early when no other work is needed. <code>break</code> leaves the <em>current</em> loop while the <code>catch</code> and <code>throw</code> combination can be used to break out of <em>any number</em> of loops at one time.</p>
+
+<figure class='code'><figcaption><span>break example</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">array</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;brainfuck&quot;</span><span class="p">,</span> <span class="s2">&quot;ruby&quot;</span> <span class="s2">&quot;befunge&quot;</span><span class="p">,</span> <span class="s2">&quot;python&quot;</span><span class="p">,</span> <span class="s2">&quot;perl&quot;</span><span class="o">]</span>
+</span><span class='line'><span class="n">array</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">language</span><span class="o">|</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;My favorite computer langauge is </span><span class="si">#{</span><span class="n">language</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="k">break</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'><span class="c1">#  =&gt; &quot;My favorite computer langauge is brainfuck&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<figure class='code'><figcaption><span>hypothetical throw and catch example</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># =&gt; recipe_hash = {...}</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">show_recipe_for</span><span class="p">(</span><span class="n">recipe_name</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">recipe</span> <span class="o">=</span> <span class="kp">catch</span><span class="p">(</span><span class="ss">:recipe</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">recipe_hash</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">meal_type</span><span class="p">,</span> <span class="n">dish_hash</span><span class="o">|</span>
+</span><span class='line'>      <span class="n">dish_hash</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">dish</span><span class="p">,</span> <span class="n">dish_recipe</span><span class="o">|</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">recipe_name</span> <span class="o">==</span> <span class="n">dish_recipe</span>
+</span><span class='line'>          <span class="kp">throw</span> <span class="ss">:recipe</span><span class="p">,</span> <span class="n">dish_recipe</span>
+</span><span class='line'>        <span class="k">end</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Notice that the two loops are enclosed in the <code>catch</code> block. This means that once the <code>throw</code> statement is executed, it will store the value of its second argument into <code>:recipe</code> and send it back to the catch statement. By doing so, it exits all the loops after finding the first recipe match. From there, the method finishes executing as normal.</p>
+
+<p>Because my example is a bit contrived, I will post a real-life example from another <a href="http://rubylearning.com/blog/2011/07/12/throw-catch-raise-rescue-im-so-confused/">blog</a> by rubyist Avdi Grimm.</p>
+
+<figure class='code'><figcaption><span>google search scraping example</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">show_rank_for</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">query</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">rank</span> <span class="o">=</span> <span class="kp">catch</span><span class="p">(</span><span class="ss">:rank</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">each_google_result_page</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">page</span><span class="p">,</span> <span class="n">page_index</span><span class="o">|</span>
+</span><span class='line'>      <span class="n">each_google_result</span><span class="p">(</span><span class="n">page</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">result</span><span class="p">,</span> <span class="n">result_index</span><span class="o">|</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+</span><span class='line'>          <span class="kp">throw</span> <span class="ss">:rank</span><span class="p">,</span> <span class="p">(</span><span class="n">page_index</span> <span class="o">*</span> <span class="mi">10</span><span class="p">)</span> <span class="o">+</span> <span class="n">result_index</span>
+</span><span class='line'>        <span class="k">end</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>    <span class="s2">&quot;&lt;not found&gt;&quot;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">target</span><span class="si">}</span><span class="s2"> is ranked </span><span class="si">#{</span><span class="n">rank</span><span class="si">}</span><span class="s2"> for search &#39;</span><span class="si">#{</span><span class="n">query</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Since loading pages over and over again can be an expensive process, the coder above uses a <code>throw</code>&ndash;<code>catch</code> to exit the loop when the first matching result is found.</p>
+
+<h2>Throw, Catch and Sinatra</h2>
+
+<p>An even more mind-blowing example from the <a href="http://rubylearning.com/blog/2011/07/12/throw-catch-raise-rescue-im-so-confused/">same blog post</a> reveals that Sinatra has a built-in catch for the <code>#last-modified</code> method. You might use this method to check a user&rsquo;s <em>cache</em> for what version of a certain page the user has on his/her machine. Why would you do this? Simple! In order to cut out any expensive and unnecessary processing. If the page in the cache is old, then you&rsquo;d update the page. Otherwise, just load from cache.</p>
+
+<p>For your convenience, here&rsquo;s the simplified code Grimm posted to demonstrate.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">last_modified</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">response</span><span class="o">[</span><span class="s1">&#39;Last-Modified&#39;</span><span class="o">]</span> <span class="o">=</span> <span class="n">time</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">env</span><span class="o">[</span><span class="s1">&#39;HTTP_IF_MODIFIED_SINCE&#39;</span><span class="o">]</span> <span class="o">&gt;</span> <span class="n">time</span>
+</span><span class='line'>    <span class="kp">throw</span> <span class="ss">:halt</span><span class="p">,</span> <span class="n">response</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>When Ruby encounters the <code>throw</code>, it zips back up the call stack looking for a matching symbol, <code>:halt</code>. Where&rsquo;s the <code>catch</code> block though? It&rsquo;s clearly not in the same method as the <code>throw</code>. This means that it must be further up the stack. In other words, <code>#last_modified</code> was called within a <code>catch</code> block.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="kp">catch</span> <span class="p">(</span><span class="ss">:halt</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>  <span class="c1"># code</span>
+</span><span class='line'>  <span class="n">last_modified</span><span class="p">(</span><span class="n">time</span><span class="p">)</span> <span class="c1"># =&gt; the throw in this method sends :halt up to the encapsulating catch</span>
+</span><span class='line'>  <span class="c1"># code</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/10/08/rails-presentation-post/">ActiveRecord</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-08T07:00:00-04:00" pubdate data-updated="true">Oct 8<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/10/08/rails-presentation-post/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I took a bit of a dive today and looked a Ruby on Rails <a href="http://www.slideshare.net/aizatto/ruby-on-rails-48391">presentation</a>. Here&rsquo;s what I gleaned from looking through all the slides.</p>
+
+<ul>
+<li><p>Rails is a web application framework that allows your Ruby to interact with the web seamlessly. By &ldquo;interact with the web&rdquo;, I assume the presentation means &ldquo;interact with databases.&rdquo;</p></li>
+<li><p>Rails implements a principle called &ldquo;MVC&rdquo; &mdash; Model View Controller. Rails seems to handle each task separately. I&rsquo;m going to focus on the Model, which uses ActiveRecord.</p></li>
+<li><p>ActiveRecord is a Module that Rails uses to model and interact with databases. It makes database queries both simple and intuitive.</p></li>
+</ul>
+
+
+<p>Here are some concrete query comparisons between using SQLite3 versus Rails&#8217; ActiveRecord.</p>
+
+<p>Assume we have a table called &ldquo;dogs,&rdquo; each with a name, age, weight, and type. Each attribute would be a column, and each row would represent a different dog.</p>
+
+<figure class='code'><figcaption><span>Table using SQLite3</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">dogs</span> <span class="p">(</span>
+</span><span class='line'>  <span class="n">id</span> <span class="nb">INTEGER</span> <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="n">AUTOINCREMENT</span><span class="p">,</span>
+</span><span class='line'>  <span class="n">name</span> <span class="nb">TEXT</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">age</span> <span class="nb">INTEGER</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">weight</span> <span class="nb">INTEGER</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">type</span> <span class="nb">TEXT</span>
+</span><span class='line'><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We can also imagine this as a class of Dog objects in Ruby. Here&rsquo;s how one might create the barebones structure in Ruby.</p>
+
+<figure class='code'><figcaption><span>Dogs as objects of class Dog in Ruby</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Dog</span>
+</span><span class='line'>  <span class="kp">attr_accessor</span> <span class="ss">:id</span><span class="p">,</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">:age</span><span class="p">,</span> <span class="ss">:weight</span><span class="p">,</span> <span class="ss">:type</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<figure class='code'><figcaption><span>Table initialized using Rails&#8217; ActiveRecord</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Dog</span> <span class="o">&lt;</span> <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>See how simple that was? Now we can make queries on the table.</p>
+
+<figure class='code'><figcaption><span>SQLite3 query for first dog in table</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">dogs</span> <span class="k">WHERE</span> <span class="n">id</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<figure class='code'><figcaption><span>Rails query for first dog in table</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Dog</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That&rsquo;s just the beginning! Check this out.</p>
+
+<figure class='code'><figcaption><span>SQLite3 query appending conditions</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">dogs</span> <span class="k">WHERE</span> <span class="n">age</span><span class="o">=</span><span class="mi">8</span> <span class="k">AND</span> <span class="k">type</span><span class="o">=</span><span class="ss">&quot;corgi&quot;</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<figure class='code'><figcaption><span>Rails query appending same conditions</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Dog</span><span class="o">.</span><span class="n">find_by_age_and_type</span> <span class="mi">25</span><span class="p">,</span> <span class="s2">&quot;corgi&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It seems like ActiveRecord must use certain keywords like &lsquo;by&rsquo; and &lsquo;and&rsquo; in order to dynamically use the attribute names that the user inputs.</p>
+
+<p>What is really beautiful though is the idea of &ldquo;configuration of convention&rdquo; that Rails implements in order to shorten the amount of code you need to write. Slides 42-44 of the <a href="http://www.slideshare.net/aizatto/ruby-on-rails-48391">presentation</a>  gave a particularly good example of the idea. No wonder people love Rails!</p>
+
+<p>The slides continue talking about the MVC</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/10/07/flatten-arrays/">Recursive Arrays</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-07T13:00:00-04:00" pubdate data-updated="true">Oct 7<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/10/07/flatten-arrays/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Foreword</h2>
+
+<p>I feel a certain level of confidence declaring that every programmer has been in the situation where he/she has 10+ tabs open trying troubleshooting a problem and finally concludes, &ldquo;There must be an easier way.&rdquo; Or, if you&rsquo;ve been &lsquo;in the zone&rsquo; for long enough, you might start wondering what exactly got you in this troubleshooting hell to begin with.</p>
+
+<p>In this post, I will share what I learned from one such experience.</p>
+
+<h3>Context and Problem</h3>
+
+<p>I was writing an automatic schedule-maker in Ruby. create_groups is a method that, takes an array of student names and returns an array of the students in a specified group sizes. The create_groups method also takes a parameter that allows you to specify a number of groups. The student groups should be randomized.</p>
+
+<p>First, I defined the method create_groups, set up an array of grouped students that I can push groups into, and returned the value.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">create_groups</span><span class="p">(</span><span class="n">students</span><span class="p">,</span> <span class="n">group_size</span><span class="p">,</span> <span class="n">number_of_groups</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">groups</span> <span class="o">=</span> <span class="o">[]</span>  <span class="c1">#=&gt; store the groups of students in this array</span>
+</span><span class='line'>  <span class="c1"># Implement magic.</span>
+</span><span class='line'>  <span class="n">groups</span>  <span class="c1">#=&gt; Return groups</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'><span class="n">create_groups</span><span class="p">(</span><span class="n">students</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+</span><span class='line'><span class="n">students</span> <span class="o">=</span> <span class="o">[.</span><span class="n">.</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">.</span><span class="o">.]</span> <span class="c1">#=&gt; This array contains 41 student names. Check my Github Gist linked below for the array I used in the completed program.</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>After considering several strategies, I decided that it would make the most sense sort the 40 students using what I dubbed the &ldquo;card dealing method&rdquo; &mdash; The first student goes to group 1, the second to group 2, the third to group 3, and so forth.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">create_groups</span><span class="p">(</span><span class="n">students</span><span class="p">,</span> <span class="n">group_size</span><span class="p">,</span> <span class="n">number_of_groups</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">groups</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'>  <span class="n">normalized_list</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">students</span><span class="p">,</span> <span class="n">group_size</span><span class="p">,</span> <span class="n">number_of_groups</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">normalized_list</span><span class="o">.</span><span class="n">each_with_index</span> <span class="k">do</span> <span class="o">|</span><span class="nb">name</span><span class="p">,</span> <span class="n">i</span><span class="o">|</span>
+</span><span class='line'>    <span class="c1"># This part will sort students using the &quot;card-dealing method&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="n">groups</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Since there are 20 groups of 4, I needed 80 students. On an abstract level, the number of students I need in order to sort (the &ldquo;desired length&rdquo;) is &ldquo;# of groups&rdquo; x &ldquo;# of students per group&rdquo;.</p>
+
+<p>I decided to create another method which would normalize my list to this set amount.</p>
+
+<p>The #normalize method will return an array of desired length by <em>replicating the students a number of times, and then slicing out the desired number of students from the replicated array.</em></p>
+
+<p>Here&rsquo;s what I came up with at first:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">create_groups</span><span class="p">(</span><span class="n">students</span><span class="p">,</span> <span class="n">group_size</span><span class="p">,</span> <span class="n">number_of_groups</span><span class="p">)</span>
+</span><span class='line'>  <span class="c1">#...folded this code for now...</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">normalize</span><span class="p">(</span><span class="n">list_to_norm</span><span class="p">,</span> <span class="n">group_size</span><span class="p">,</span> <span class="n">number_of_groups</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">desired_length</span> <span class="o">=</span> <span class="n">group_size</span><span class="o">*</span><span class="n">number_of_groups</span>
+</span><span class='line'>  <span class="n">new_list</span> <span class="o">=</span> <span class="n">list_to_norm</span>
+</span><span class='line'>  <span class="k">while</span> <span class="n">new_list</span><span class="o">.</span><span class="n">length</span> <span class="o">&lt;</span> <span class="n">desired_length</span>
+</span><span class='line'>    <span class="n">new_list</span> <span class="o">&lt;&lt;</span> <span class="n">list_to_norm</span>
+</span><span class='line'>    <span class="n">new_list</span> <span class="o">=</span> <span class="n">new_list</span><span class="o">.</span><span class="n">flatten</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>When I ran this given a student array though, I received the following error:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>rb24:<span class="sb">`</span>flatten<span class="err">&#39;</span>: tried to flatten recursive array <span class="o">(</span>ArgumentError<span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>WAT? After many attempts at troubleshooting and searching the web for an answer, I decided to inspect what exactly I was trying to flatten.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">normalize</span><span class="p">(</span><span class="n">list_to_norm</span><span class="p">,</span> <span class="n">group_size</span><span class="p">,</span> <span class="n">number_of_groups</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">desired_length</span> <span class="o">=</span> <span class="n">group_size</span><span class="o">*</span><span class="n">number_of_groups</span>
+</span><span class='line'>  <span class="n">new_list</span> <span class="o">=</span> <span class="n">list_to_norm</span>
+</span><span class='line'>  <span class="n">new_list</span> <span class="o">&lt;&lt;</span> <span class="n">list_to_norm</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="n">new_list</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The output was VERY telling. The <code>...</code> line below is just a placeholder for names 4 through 40.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>Name1
+</span><span class='line'>Name2
+</span><span class='line'>Name3
+</span><span class='line'>...
+</span><span class='line'>Name41
+</span><span class='line'><span class="o">[</span>...<span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The clue was in the <code>[...]</code>.</p>
+
+<p>I then tried running <code>new_list.object_id</code> and <code>list_to_norm.object_id</code> and they turned out to be the same.</p>
+
+<h3>A-ha!</h3>
+
+<p>The <code>[...]</code> indicated that new_list is now a <em>recursive array</em>. More on recurive arrays <a href="http://stackoverflow.com/questions/10606734/what-are-recursive-arrays-good-for">here</a>.</p>
+
+<p>As it turns out, my problem was in the 2nd line of my normalize method.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">new_list</span> <span class="o">=</span> <span class="n">list_to_norm</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This line of code sets the <code>new_list</code> variable to point at the exact same object as the <code>list_to_norm</code> method. So later, when I called <code>new_list &lt;&lt; list_to_norm</code>, I ended up pushing an Array object into itself. The image below</p>
+
+<p>However, Ruby clearly didn&rsquo;t like this, and I suspect that it has to do with the way <code>Array.flatten</code> works. At the very least, we can conclude that <code>.flatten</code> can only flatten two different Array objects.</p>
+
+<p>So that&rsquo;s what I learned in 40 minutes of head-banging against a figurative brick wall. I hope you learned something as well from this post!</p>
+
+<p>Also, as promised, here is a link to <a href="https://gist.github.com/danielchangNYC/6787872">my full gist</a>.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/10/04/week-2/">(Not the) First Post</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-04T10:59:00-04:00" pubdate data-updated="true">Oct 4<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/10/04/week-2/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>Level up!</h1>
+
+<p>This is my post using the Octopress framework. I&rsquo;m excited to be able to start posting code without taking screen shots of my Sublime Text.</p>
+
+<p>My original code blog on <a href="http://c0depanda.wordpress.com/">Wordpress</a>.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <ul id="recent_posts">
+      <li class="post">
+      <a href="http://danielchangNYC.github.io" alt="Home"><img src="/images/Home.png"></a>
+      <a href="http://danielchangNYC.github.io/archives/" alt="Archives"><img src="/images/Calendar.png"></a>
+      <a href="mailto:daniel.chang85@gmail.com" alt="E-Mail"><img src="/images/Envelope.png"></a>
+      <a href="http://danielchangNYC.github.io/atom.xml" alt="subscribe feed"><img src="/images/rss_big.png"></a>
+      </li>
+  </ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/01/05/big-o/">Big O Notation</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/11/06/self-referential-associations/">Self-Referential Associations, AKA Self Joins</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/10/23/throw-raise/">Ruby &#8216;Exceptional&#8217; Knowledge</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/10/08/rails-presentation-post/">ActiveRecord</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/10/07/flatten-arrays/">Recursive Arrays</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <a href="https://github.com/danielchangNYC">@danielchangNYC</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'danielchangNYC',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+<section class="googleplus">
+  <h1>
+    <a href="https://plus.google.com/117389635991723583799?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Daniel Chang (couchpanda / c0depanda) -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'danielchangnyc';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
 </script>
 
 
 
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
 
-  </body>
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
 </html>
