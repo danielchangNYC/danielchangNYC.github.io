@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: big-o | couchpanda @ Flatiron School]]></title>
+  <link href="http://danielchangNYC.github.io/blog/categories/big-o/atom.xml" rel="self"/>
+  <link href="http://danielchangNYC.github.io/"/>
+  <updated>2014-01-05T23:44:53-05:00</updated>
+  <id>http://danielchangNYC.github.io/</id>
+  <author>
+    <name><![CDATA[Daniel Chang (couchpanda / c0depanda)]]></name>
+    <email><![CDATA[daniel.chang85@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Big O Notation]]></title>
+    <link href="http://danielchangNYC.github.io/blog/2014/01/05/big-o/"/>
+    <updated>2014-01-05T23:30:00-05:00</updated>
+    <id>http://danielchangNYC.github.io/blog/2014/01/05/big-o</id>
+    <content type="html"><![CDATA[<h1>A high-level, simplified explanation of Big O Notation</h1>
+
+<p>Big O notation might look something like this: O(log N)</p>
+
+<p>N = number of input data
+O( ) = function notation for Big O (just tells you we&rsquo;re using Big O notation)
+log N = the function that describes the efficiency of the procedure or algorithm as N grows bigger and bigger</p>
+
+<p>Programmers use Big O Notation as a way to express how efficient an algorithm or procedure is at performing its designated task (e.g. sorting, searching). The function tells us the maximum number of &ldquo;actions&rdquo; it will take for the algorithm to achieve its goal, given N data.</p>
+
+<h2>Example 1: O(N)</h2>
+
+<p>O(N) is the linear case. Given 10 data, the worst-case scenario is that it will take 10 &ldquo;actions&rdquo; to search for a target, or sort the data, or whatever the goal of the algorithm is. Given 100 data, it will take 100 actions. Given 2000 data, it will take 2000 actions. Given N data, it will take N actions.</p>
+
+<p>A real life example would be if you were looking for a book on your friend&rsquo;s bookshelf.</p>
+
+<p><img class="<a" src="href="http://2.bp.blogspot.com/_5PudbMqUjng/TR5Cu-fq4ZI/AAAAAAAAACk/t_oojdxP-c8/s400/harrypotter.jpg">http://2.bp.blogspot.com/_5PudbMqUjng/TR5Cu-fq4ZI/AAAAAAAAACk/t_oojdxP-c8/s400/harrypotter.jpg</a>" width="400"></p>
+
+<p>Lets say you want your program to find any given book. You could tell the program to start checking books one by one from the left. If you wanted Harry Potter 3, it would only take 3 actions (or tries) because it&rsquo;s the third book in. However, Big O tells us the worst-case scenario. What book would cause the algorithm to take the most possible actions? Harry Potter 7 &mdash; it&rsquo;s the last book so the algorithm would have to run all 7 times. Given 7 books, it took the algorithm 7 actions / tries to find the book <em>in the worst case scenario</em>.</p>
+
+<p>What if we ran this algorithm on 10 books? The worst case would take all 10 tries. How about 1,000,000 books? It would take 1 million tries.</p>
+
+<p>So, TL;DR &mdash; O(N) tells us that given N data, it will take an algorithm N actions / tries to accomplish a task.</p>
+
+<h2>Example 2: O(1)</h2>
+
+<p>What does O(1) tell us? The function inside is simply &ldquo;1&rdquo;. This means that no matter what number N is, it will always accomplish the task in 1 try. It represents the most efficient algorithm possible.</p>
+
+<p>Does this exist? Sure it does! But it might not give you exactly what you&rsquo;re looking for. Here&rsquo;s an algorithm that can be described with O(1).</p>
+
+<p><code>ruby
+def efficient_but_useless
+  return true
+end
+</code></p>
+
+<p>TL;DR algorithms with O(1) always finish in 1 try.</p>
+
+<h2>Example 3: O(N<sup>2</sup>) or any higher exponent</h2>
+
+<p>Is this an efficient algorithm? In other words, if I input a large amount of data for N, what does that tell me about the algorithm? If I input N=1, then no matter what, it will take 1 try. But if I put in N=10, then it will take 10<sup>2</sup> = 100 actions / tries to complete the algorithm (worst case scenario). Imagine if the exponent were higher, or if N were higher. Then the algorithm would be super inefficient!</p>
+
+<p>What kinds of algorithms would have O(N<sup>2</sup>)? Simply put, algorithms with nested loops usually exhibit this behavior. If you have to run a procedure on each item, and each item has to check itself against every other item in some way, then worst case is that you run the procedure N<sup>2</sup> times. In other words, it takes N<sup>2</sup> actions.</p>
+
+<h2>Example 4: O(log N)</h2>
+
+<p>This time the function is logarithmic.</p>
+
+<p><img class="<a" src="href="http://image.tutorvista.com/content/feed/tvcs/img64.gif">http://image.tutorvista.com/content/feed/tvcs/img64.gif</a>"></p>
+
+<p>Imagine that the x-axis represents N, how much input data you have, and the y-axis tells us how many actions or tries it takes the algorithm to finish (worst case scenario, as usual). As N grows larger, the number of tries grows, but slowly.</p>
+
+<p>Let&rsquo;s try calculating a few examples. Keep in mind that when programmers write log N, it refers to <a href="https://stackoverflow.com/questions/1569702/is-big-ologn-log-base-e">log base 2</a>. Also, since the number of actions has to be a whole number, if you get a decimal, the rule of thumb is to round up. So given 10 data, it will take log(10) = 3.32 which rounds up to 4 actions, max. This isn&rsquo;t that much more efficient than O(N), but what if N=1,000,000? It would take your algorithm log(1000000) = 19.93 which rounds up to 20 tries, max. For 1000000 data, that&rsquo;s pretty efficient!</p>
+
+<h2>Conclusion and Resources</h2>
+
+<p>I hope that this post helps clarify big O notation for those of you who are brand new to the idea. A few other resources I feel are really well-done: this <a href="http://pointlessprogramming.wordpress.com/2011/02/24/what-in-the-hell-is-big-o/">visual, real-world explanation</a> and this <a href="http://www.daveperrett.com/articles/2010/12/07/comp-sci-101-big-o-notation/">much more technical explanation</a>. I didn&rsquo;t include code in this post because these algorithms are all solved problems already and with some Google sleuthing, you will repos full of them in a multitude of languages. One more resource I like is the <a href="http://bigocheatsheet.com/">big o cheat-sheet</a>.</p>
+
+<p>Happy coding!</p>
+]]></content>
+  </entry>
+  
+</feed>
