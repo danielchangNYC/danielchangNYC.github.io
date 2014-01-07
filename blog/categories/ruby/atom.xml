@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ruby | Daniel Chang]]></title>
   <link href="http://danielchangNYC.github.io/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://danielchangNYC.github.io/"/>
-  <updated>2014-01-06T19:22:30-05:00</updated>
+  <updated>2014-01-07T01:17:47-05:00</updated>
   <id>http://danielchangNYC.github.io/</id>
   <author>
     <name><![CDATA[Daniel Chang (couchpanda / c0depanda)]]></name>
@@ -71,6 +71,21 @@ end
 <p>Imagine that the x-axis represents N, how much input data you have, and the y-axis tells us how many actions or tries it takes the algorithm to finish (worst case scenario, as usual). As N grows larger, the number of tries grows, but slowly.</p>
 
 <p>Let&rsquo;s try calculating a few examples. Keep in mind that when programmers write log N, it refers to <a href="https://stackoverflow.com/questions/1569702/is-big-ologn-log-base-e">log base 2</a>. Also, since the number of actions has to be a whole number, if you get a decimal, the rule of thumb is to round up. So given 10 data, it will take log(10) = 3.32 which rounds up to 4 actions, max. This isn&rsquo;t that much more efficient than O(N), but what if N=1,000,000? It would take your algorithm log(1000000) = 19.93 which rounds up to 20 tries, max. For 1000000 data, that&rsquo;s pretty efficient!</p>
+
+<p>When would we use a logarithmic function to describe the efficiency of an algorithm? One example is the binary search. The binary search algorithm finds a target value within a set of sorted data by repeating the process below until you&rsquo;re left with one value.</p>
+
+<ol>
+<li>Find the middle value. If there is more than one, take the higher value.</li>
+<li>Compare the target value with the middle value. If the target > middle value, then eliminate all values to the left of the middle (lower than the middle); we know the target is in the half with greater values. If the target is &lt;= middle, eliminate the right.</li>
+<li>Repeat steps 1 and 2 on the remaining side. Continue until you are left with one value; this is your target.</li>
+</ol>
+
+
+<p>So let&rsquo;s say this is your data:</p>
+
+<p><code>ruby
+[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+</code></p>
 
 <h2>Conclusion and Resources</h2>
 
