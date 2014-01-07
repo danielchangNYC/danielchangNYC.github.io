@@ -4,7 +4,7 @@
   <title><![CDATA[Category: big-o | Daniel Chang]]></title>
   <link href="http://danielchangNYC.github.io/blog/categories/big-o/atom.xml" rel="self"/>
   <link href="http://danielchangNYC.github.io/"/>
-  <updated>2014-01-07T01:35:05-05:00</updated>
+  <updated>2014-01-07T01:39:31-05:00</updated>
   <id>http://danielchangNYC.github.io/</id>
   <author>
     <name><![CDATA[Daniel Chang (couchpanda / c0depanda)]]></name>
@@ -20,11 +20,9 @@
     <id>http://danielchangNYC.github.io/blog/2014/01/05/big-o</id>
     <content type="html"><![CDATA[<h1>A high-level, simplified explanation of Big O Notation</h1>
 
-<p>Big O notation might look something like this: O(log N)</p>
-
-<p>N = number of input data</p>
-
-<p>O( ) = function notation for Big O (just tells you we&rsquo;re using Big O notation)</p>
+<blockquote><p>Big O notation might look something like this: O(log N)
+N = number of input data
+O( ) = function notation for Big O (just tells you we&rsquo;re using Big O notation)</p></blockquote>
 
 <p>log N = the function that describes the efficiency of the procedure or algorithm as N grows bigger and bigger</p>
 
