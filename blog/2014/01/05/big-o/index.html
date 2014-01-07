@@ -7,8 +7,7 @@
 	<meta name="author" content="Daniel Chang (couchpanda / c0depanda)">
 
 	
-	<meta name="description" content="A high-level, simplified explanation of Big O Notation Big O notation might look something like this: O(log N) N = number of input data
-O( ) = &hellip;">
+	<meta name="description" content="A high-level, simplified explanation of Big O Notation Big O notation might look something like this: O(log N) N = number of input data O( ) = &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -84,9 +83,11 @@ O( ) = &hellip;">
 
 <p>Big O notation might look something like this: O(log N)</p>
 
-<p>N = number of input data
-O( ) = function notation for Big O (just tells you we&rsquo;re using Big O notation)
-log N = the function that describes the efficiency of the procedure or algorithm as N grows bigger and bigger</p>
+<p>N = number of input data</p>
+
+<p>O( ) = function notation for Big O (just tells you we&rsquo;re using Big O notation)</p>
+
+<p>log N = the function that describes the efficiency of the procedure or algorithm as N grows bigger and bigger</p>
 
 <p>Programmers use Big O Notation as a way to express how efficient an algorithm or procedure is at performing its designated task (e.g. sorting, searching). The function tells us the maximum number of &ldquo;actions&rdquo; it will take for the algorithm to achieve its goal, given N data.</p>
 
@@ -141,17 +142,95 @@ log N = the function that describes the efficiency of the procedure or algorithm
 
 <ol>
 <li>Find the middle value. If there is more than one, take the higher value.</li>
-<li>Compare the target value with the middle value. If the target > middle value, then eliminate all values to the left of the middle (lower than the middle); we know the target is in the half with greater values. If the target is &lt;= middle, eliminate the right.</li>
+<li>Compare the target value with the middle value. If it&rsquo;s equal, then we&rsquo;ve found the target. Otherwise, if the target > middle value, then eliminate all values to the left of the middle (lower than the middle); we know the target is in the half with greater values. If the target is &lt;= middle, eliminate the right.</li>
 <li>Repeat steps 1 and 2 on the remaining side. Continue until you are left with one value; this is your target.</li>
 </ol>
 
 
-<p>So let&rsquo;s say this is your data:</p>
+<p>So let&rsquo;s say this is your data, and you&rsquo;re looking for the value, 4.</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="o">]</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">data</span> <span class="o">=</span> <span class="o">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="o">]</span>
+</span><span class='line'><span class="n">target</span> <span class="o">=</span> <span class="mi">4</span>
 </span></code></pre></td></tr></table></div></figure>
 
+
+<ol>
+<li>Find the middle value. There are 10 values, thus two middles. Take the higher: 5.</li>
+</ol>
+
+
+<figure class='code'><figcaption><span>first_action</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">middle</span> <span class="o">=</span> <span class="mi">5</span>
+</span><span class='line'><span class="o">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="o">]</span><span class="p">;</span> <span class="o">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># left side = [0, 1, 2, 3, 4]</span>
+</span><span class='line'><span class="c1"># right side = [5, 6, 7, 8, 9]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li><p>Compare target with middle. Is it equal to 4? No. Since target &lt;= middle (4 &lt;= 5), eliminate the right side.</p></li>
+<li><p>Repeat steps 1 and 2 on the left side. We&rsquo;ll keep doing this until we find the target value, 4.</p></li>
+</ol>
+
+
+<figure class='code'><figcaption><span>second_action</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">middle</span> <span class="o">=</span> <span class="mi">2</span>
+</span><span class='line'><span class="o">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># left side = [0, 1]</span>
+</span><span class='line'><span class="c1"># right side = [2, 3, 4]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Check: is target = middle? No. So onto step 2, compare: target > middle (4 > 2). Use the right side.</p>
+
+<figure class='code'><figcaption><span>third_action</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">middle</span> <span class="o">=</span> <span class="mi">3</span>
+</span><span class='line'><span class="o">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># left side = [2]</span>
+</span><span class='line'><span class="c1"># right side = [3, 4]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>target = middle? No
+So compare again. target > middle (4 > 3). Use the right side.</p>
+
+<figure class='code'><figcaption><span>fourth_action</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">middle</span> <span class="o">=</span> <span class="mi">4</span>  <span class="c1"># note, we always take the higher of two as the middle for an even set.</span>
+</span><span class='line'><span class="o">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># left side = [3]</span>
+</span><span class='line'><span class="c1"># right side = [4]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Target = middle? Yes. We&rsquo;ve found the target and it took 4 tries!</p>
+
+<p>Now let&rsquo;s make sense of this as a logarithmic function: O(log N). We saw above that the calculations work, but why is it log base 2, and why log? If you think of logs as the inverse of exponents, and exponents as repeated multiplication, then logs are repeated division. Where are we dividing in the above procedure? Every step! We&rsquo;re cutting each set in half over and over again until we reach the target, hence repeated division. Why is it log base 2? Log base 2 simply means that we keep dividing by 2, which makes sense because we&rsquo;re cutting the data set in half.</p>
+
+<p>I chose the target number 4 in the binary search method above because it represents the worst case scenario for a set of 10 data. It took 4 tries / actions, and log(10), again with an assumed base 2 since we&rsquo;re in the world of programming, gives us 3.32 which rounds up to 4. Tada!</p>
+
+<p>If you want to see the binary search method or linear methods in action, here&rsquo;s a rather straight-forward <a href="https://www.youtube.com/watch?v=wNVCJj642n4">video</a> demonstrating what I showed above.</p>
 
 <h2>Conclusion and Resources</h2>
 

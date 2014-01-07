@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ruby | Daniel Chang]]></title>
   <link href="http://danielchangNYC.github.io/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://danielchangNYC.github.io/"/>
-  <updated>2014-01-07T01:17:47-05:00</updated>
+  <updated>2014-01-07T01:35:05-05:00</updated>
   <id>http://danielchangNYC.github.io/</id>
   <author>
     <name><![CDATA[Daniel Chang (couchpanda / c0depanda)]]></name>
@@ -22,9 +22,11 @@
 
 <p>Big O notation might look something like this: O(log N)</p>
 
-<p>N = number of input data
-O( ) = function notation for Big O (just tells you we&rsquo;re using Big O notation)
-log N = the function that describes the efficiency of the procedure or algorithm as N grows bigger and bigger</p>
+<p>N = number of input data</p>
+
+<p>O( ) = function notation for Big O (just tells you we&rsquo;re using Big O notation)</p>
+
+<p>log N = the function that describes the efficiency of the procedure or algorithm as N grows bigger and bigger</p>
 
 <p>Programmers use Big O Notation as a way to express how efficient an algorithm or procedure is at performing its designated task (e.g. sorting, searching). The function tells us the maximum number of &ldquo;actions&rdquo; it will take for the algorithm to achieve its goal, given N data.</p>
 
@@ -76,16 +78,79 @@ end
 
 <ol>
 <li>Find the middle value. If there is more than one, take the higher value.</li>
-<li>Compare the target value with the middle value. If the target > middle value, then eliminate all values to the left of the middle (lower than the middle); we know the target is in the half with greater values. If the target is &lt;= middle, eliminate the right.</li>
+<li>Compare the target value with the middle value. If it&rsquo;s equal, then we&rsquo;ve found the target. Otherwise, if the target > middle value, then eliminate all values to the left of the middle (lower than the middle); we know the target is in the half with greater values. If the target is &lt;= middle, eliminate the right.</li>
 <li>Repeat steps 1 and 2 on the remaining side. Continue until you are left with one value; this is your target.</li>
 </ol>
 
 
-<p>So let&rsquo;s say this is your data:</p>
+<p>So let&rsquo;s say this is your data, and you&rsquo;re looking for the value, 4.</p>
 
 <p><code>ruby
-[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+data = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+target = 4
 </code></p>
+
+<ol>
+<li>Find the middle value. There are 10 values, thus two middles. Take the higher: 5.</li>
+</ol>
+
+
+<p>``` ruby first_action
+middle = 5
+[0, 1, 2, 3, 4]; [5, 6, 7, 8, 9]</p>
+
+<h1>left side = [0, 1, 2, 3, 4]</h1>
+
+<h1>right side = [5, 6, 7, 8, 9]</h1>
+
+<p>```</p>
+
+<ol>
+<li><p>Compare target with middle. Is it equal to 4? No. Since target &lt;= middle (4 &lt;= 5), eliminate the right side.</p></li>
+<li><p>Repeat steps 1 and 2 on the left side. We&rsquo;ll keep doing this until we find the target value, 4.</p></li>
+</ol>
+
+
+<p>``` ruby second_action
+middle = 2
+[0, 1, 2, 3, 4]</p>
+
+<h1>left side = [0, 1]</h1>
+
+<h1>right side = [2, 3, 4]</h1>
+
+<p>```</p>
+
+<p>Check: is target = middle? No. So onto step 2, compare: target > middle (4 > 2). Use the right side.</p>
+
+<p>``` ruby third_action
+middle = 3
+[2, 3, 4]</p>
+
+<h1>left side = <a href="http://pointlessprogramming.wordpress.com/2011/02/24/what-in-the-hell-is-big-o/">2</a></h1>
+
+<h1>right side = [3, 4]</h1>
+
+<p>```
+target = middle? No
+So compare again. target > middle (4 > 3). Use the right side.</p>
+
+<p>``` ruby fourth_action
+middle = 4  # note, we always take the higher of two as the middle for an even set.
+[3, 4]</p>
+
+<h1>left side = <a href="http://www.daveperrett.com/articles/2010/12/07/comp-sci-101-big-o-notation/">3</a></h1>
+
+<h1>right side = <a href="http://bigocheatsheet.com/">4</a></h1>
+
+<p>```
+Target = middle? Yes. We&rsquo;ve found the target and it took 4 tries!</p>
+
+<p>Now let&rsquo;s make sense of this as a logarithmic function: O(log N). We saw above that the calculations work, but why is it log base 2, and why log? If you think of logs as the inverse of exponents, and exponents as repeated multiplication, then logs are repeated division. Where are we dividing in the above procedure? Every step! We&rsquo;re cutting each set in half over and over again until we reach the target, hence repeated division. Why is it log base 2? Log base 2 simply means that we keep dividing by 2, which makes sense because we&rsquo;re cutting the data set in half.</p>
+
+<p>I chose the target number 4 in the binary search method above because it represents the worst case scenario for a set of 10 data. It took 4 tries / actions, and log(10), again with an assumed base 2 since we&rsquo;re in the world of programming, gives us 3.32 which rounds up to 4. Tada!</p>
+
+<p>If you want to see the binary search method or linear methods in action, here&rsquo;s a rather straight-forward <a href="https://www.youtube.com/watch?v=wNVCJj642n4">video</a> demonstrating what I showed above.</p>
 
 <h2>Conclusion and Resources</h2>
 
