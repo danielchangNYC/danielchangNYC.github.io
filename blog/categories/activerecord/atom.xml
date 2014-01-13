@@ -4,7 +4,7 @@
   <title><![CDATA[Category: activerecord | Daniel Chang]]></title>
   <link href="http://danielchangNYC.github.io/blog/categories/activerecord/atom.xml" rel="self"/>
   <link href="http://danielchangNYC.github.io/"/>
-  <updated>2014-01-13T18:45:33-05:00</updated>
+  <updated>2014-01-13T18:56:33-05:00</updated>
   <id>http://danielchangNYC.github.io/</id>
   <author>
     <name><![CDATA[Daniel Chang (couchpanda / c0depanda)]]></name>
@@ -18,9 +18,7 @@
     <link href="http://danielchangNYC.github.io/blog/2014/01/12/tdd-modelspecsLRW/"/>
     <updated>2014-01-12T23:00:00-05:00</updated>
     <id>http://danielchangNYC.github.io/blog/2014/01/12/tdd-modelspecsLRW</id>
-    <content type="html"><![CDATA[<p><img class="<a" src="href="http://static.comicvine.com/uploads/original/8/85629/1887574-rogue1.gif">http://static.comicvine.com/uploads/original/8/85629/1887574-rogue1.gif</a>"></p>
-
-<p>Almost done with my model specs! I ran into a couple of interesting problems that I posted on Stack Overflow, one of which I&rsquo;ll cover briefly below. Oh yeah, and Rogue! I&rsquo;ll explain that in the last section of this post.</p>
+    <content type="html"><![CDATA[<p><img class="<a" src="href="http://static.comicvine.com/uploads/original/8/85629/1887574-rogue1.gif">http://static.comicvine.com/uploads/original/8/85629/1887574-rogue1.gif</a>"> Almost done with my model specs! I ran into a couple of interesting problems that I posted on Stack Overflow, one of which I&rsquo;ll cover briefly below. Oh yeah, and Rogue! I&rsquo;ll explain that in the last section of this post.</p>
 
 <h2>The problem I ran into (from my <a href="https://stackoverflow.com/questions/21102549/why-is-the-where-query-in-rails-returning-a-different-object">StackOverflow post</a>)</h2>
 
@@ -94,7 +92,7 @@ Here I&rsquo;m creating two identical strings. They are identical, but not equal
 
 <p>Think of an Active Record object sort of like Rogue (see above). For those of you who don&rsquo;t remember, Rogue absorbs the memories and abilities of any person she touches.</p>
 
-<p><img class="<a" src="href="http://www.supermegamonkey.net/chronocomic/entries/scans4/UX178_Rogue.JPG">http://www.supermegamonkey.net/chronocomic/entries/scans4/UX178_Rogue.JPG</a>"></p>
+<p><img class="<a" src="href="http://31.media.tumblr.com/25cd14bae1b207202d0ee9b56b475409/tumblr_mzd6fjLYmf1sqhdy2o1_1280.png">http://31.media.tumblr.com/25cd14bae1b207202d0ee9b56b475409/tumblr_mzd6fjLYmf1sqhdy2o1_1280.png</a>" width="480"></p>
 
 <p>Similarly (sorta), an Active Record objects takes the data (memories) of a certain row and then takes on the behavior (abilities) of the object type matching the table name.</p>
 
