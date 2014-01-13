@@ -7,7 +7,7 @@
 	<meta name="author" content="Daniel Chang (couchpanda / c0depanda)">
 
 	
-	<meta name="description" content="Equality in the land of ActiveRecord and RSpec Jan 12th, 2014 activerecord rails rspec ruby tdd Comments Almost done with my model specs! I ran into &hellip;">
+	<meta name="description" content="ActiveRecord, Equality, and Rogue Jan 12th, 2014 activerecord rails rspec ruby tdd Comments Almost done with my model specs! I ran into a couple of &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -85,7 +85,7 @@
     <header>
   
   <h1 class="beta">
-    <a href="/blog/2014/01/12/tdd-modelspecsLRW/">Equality in the land of ActiveRecord and RSpec</a>
+    <a href="/blog/2014/01/12/tdd-modelspecsLRW/">ActiveRecord, Equality, and Rogue</a>
   </h1>
   
 
@@ -139,7 +139,9 @@
 
 
 
-  <p>Almost done with my model specs! I ran into a couple of interesting problems that I posted on Stack Overflow, one of which I&rsquo;ll cover briefly below.</p>
+  <p><img src="http://static.comicvine.com/uploads/original/8/85629/1887574-rogue1.gif"></p>
+
+<p>Almost done with my model specs! I ran into a couple of interesting problems that I posted on Stack Overflow, one of which I&rsquo;ll cover briefly below. Oh yeah, and Rogue! I&rsquo;ll explain that in the last section of this post.</p>
 
 <h2>The problem I ran into (from my <a href="https://stackoverflow.com/questions/21102549/why-is-the-where-query-in-rails-returning-a-different-object">StackOverflow post</a>)</h2>
 
@@ -158,7 +160,7 @@
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">it</span> <span class="s2">&quot;creates a chat if one does not exist&quot;</span> <span class="k">do</span>
 </span><span class='line'>  <span class="n">bob</span> <span class="o">=</span> <span class="n">create</span><span class="p">(</span><span class="ss">:user</span><span class="p">,</span> <span class="ss">username</span><span class="p">:</span> <span class="s2">&quot;bob&quot;</span><span class="p">)</span>
 </span><span class='line'>  <span class="n">dan</span> <span class="o">=</span> <span class="n">create</span><span class="p">(</span><span class="ss">:user</span><span class="p">,</span> <span class="ss">username</span><span class="p">:</span> <span class="s2">&quot;dan&quot;</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">new_chat</span> <span class="o">=</span> <span class="no">Chat</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">user_id</span><span class="p">:</span> <span class="vi">@dan</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">chatted_user_id</span><span class="p">:</span> <span class="n">bob</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">new_chat</span> <span class="o">=</span> <span class="no">Chat</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">user_id</span><span class="p">:</span> <span class="n">dan</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">chatted_user_id</span><span class="p">:</span> <span class="n">bob</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
 </span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="no">Chat</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="s2">&quot;chatted_user_id = ?&quot;</span><span class="p">,</span> <span class="n">bob</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">equal</span><span class="p">(</span><span class="n">new_chat</span><span class="p">)</span>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
@@ -235,6 +237,16 @@
 <p>I wanted to confirm this before throwing it out on the web as &ldquo;fact&rdquo;, so here&rsquo;s what an Active Record object is from <a href="http://www.martinfowler.com/eaaCatalog/activeRecord.html">Martin Fowler himself</a>:</p>
 
 <blockquote><p>An object that wraps a row in a database table or view, encapsulates the database access, and adds domain logic on that data.</p></blockquote>
+
+<p>Think of an Active Record object sort of like Rogue (see above). For those of you who don&rsquo;t remember, Rogue absorbs the memories and abilities of any person she touches.</p>
+
+<p><img src="http://www.supermegamonkey.net/chronocomic/entries/scans4/UX178_Rogue.JPG"></p>
+
+<p>Similarly (sorta), an Active Record objects takes the data (memories) of a certain row and then takes on the behavior (abilities) of the object type matching the table name.</p>
+
+<p>Ok, so that was really just an excuse to get Rogue somewhere on my blog. While I&rsquo;m at it, here&rsquo;s one of her destroying Ororo (Storm).</p>
+
+<p><img src="http://i22.photobucket.com/albums/b310/RogueX18/Rogue%20Absorptions/UncannyX-Men158Storm.jpg"></p>
 
 <p>So there you have it! Moral of the story: generally remember to use eq to test equivalence in RSpec with ActiveRecord.</p>
 

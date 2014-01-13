@@ -4,7 +4,7 @@
   <title><![CDATA[Category: rspec | Daniel Chang]]></title>
   <link href="http://danielchangNYC.github.io/blog/categories/rspec/atom.xml" rel="self"/>
   <link href="http://danielchangNYC.github.io/"/>
-  <updated>2014-01-13T18:16:00-05:00</updated>
+  <updated>2014-01-13T18:45:33-05:00</updated>
   <id>http://danielchangNYC.github.io/</id>
   <author>
     <name><![CDATA[Daniel Chang (couchpanda / c0depanda)]]></name>
@@ -14,11 +14,13 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Equality in the land of ActiveRecord and RSpec]]></title>
+    <title type="html"><![CDATA[ActiveRecord, Equality, and Rogue]]></title>
     <link href="http://danielchangNYC.github.io/blog/2014/01/12/tdd-modelspecsLRW/"/>
     <updated>2014-01-12T23:00:00-05:00</updated>
     <id>http://danielchangNYC.github.io/blog/2014/01/12/tdd-modelspecsLRW</id>
-    <content type="html"><![CDATA[<p>Almost done with my model specs! I ran into a couple of interesting problems that I posted on Stack Overflow, one of which I&rsquo;ll cover briefly below.</p>
+    <content type="html"><![CDATA[<p><img class="<a" src="href="http://static.comicvine.com/uploads/original/8/85629/1887574-rogue1.gif">http://static.comicvine.com/uploads/original/8/85629/1887574-rogue1.gif</a>"></p>
+
+<p>Almost done with my model specs! I ran into a couple of interesting problems that I posted on Stack Overflow, one of which I&rsquo;ll cover briefly below. Oh yeah, and Rogue! I&rsquo;ll explain that in the last section of this post.</p>
 
 <h2>The problem I ran into (from my <a href="https://stackoverflow.com/questions/21102549/why-is-the-where-query-in-rails-returning-a-different-object">StackOverflow post</a>)</h2>
 
@@ -32,7 +34,7 @@
 it "creates a chat if one does not exist" do
   bob = create(:user, username: "bob")
   dan = create(:user, username: "dan")
-  new_chat = Chat.create(user_id: @dan.id, chatted_user_id: bob.id)
+  new_chat = Chat.create(user_id: dan.id, chatted_user_id: bob.id)
   expect(Chat.where("chatted_user_id = ?", bob.id).first).to equal(new_chat)
 end
 </code></p>
@@ -89,6 +91,16 @@ Here I&rsquo;m creating two identical strings. They are identical, but not equal
 <p>I wanted to confirm this before throwing it out on the web as &ldquo;fact&rdquo;, so here&rsquo;s what an Active Record object is from <a href="http://www.martinfowler.com/eaaCatalog/activeRecord.html">Martin Fowler himself</a>:</p>
 
 <blockquote><p>An object that wraps a row in a database table or view, encapsulates the database access, and adds domain logic on that data.</p></blockquote>
+
+<p>Think of an Active Record object sort of like Rogue (see above). For those of you who don&rsquo;t remember, Rogue absorbs the memories and abilities of any person she touches.</p>
+
+<p><img class="<a" src="href="http://www.supermegamonkey.net/chronocomic/entries/scans4/UX178_Rogue.JPG">http://www.supermegamonkey.net/chronocomic/entries/scans4/UX178_Rogue.JPG</a>"></p>
+
+<p>Similarly (sorta), an Active Record objects takes the data (memories) of a certain row and then takes on the behavior (abilities) of the object type matching the table name.</p>
+
+<p>Ok, so that was really just an excuse to get Rogue somewhere on my blog. While I&rsquo;m at it, here&rsquo;s one of her destroying Ororo (Storm).</p>
+
+<p><img class="<a" src="href="http://i22.photobucket.com/albums/b310/RogueX18/Rogue%20Absorptions/UncannyX-Men158Storm.jpg">http://i22.photobucket.com/albums/b310/RogueX18/Rogue%20Absorptions/UncannyX-Men158Storm.jpg</a>"></p>
 
 <p>So there you have it! Moral of the story: generally remember to use eq to test equivalence in RSpec with ActiveRecord.</p>
 
