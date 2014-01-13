@@ -4,7 +4,7 @@
   <title><![CDATA[Category: rails | Daniel Chang]]></title>
   <link href="http://danielchangNYC.github.io/blog/categories/rails/atom.xml" rel="self"/>
   <link href="http://danielchangNYC.github.io/"/>
-  <updated>2014-01-13T18:14:23-05:00</updated>
+  <updated>2014-01-13T18:16:00-05:00</updated>
   <id>http://danielchangNYC.github.io/</id>
   <author>
     <name><![CDATA[Daniel Chang (couchpanda / c0depanda)]]></name>
@@ -14,13 +14,11 @@
 
   
   <entry>
-    <title type="html"><![CDATA[RSpec Equality]]></title>
+    <title type="html"><![CDATA[Equality in the land of ActiveRecord and RSpec]]></title>
     <link href="http://danielchangNYC.github.io/blog/2014/01/12/tdd-modelspecsLRW/"/>
     <updated>2014-01-12T23:00:00-05:00</updated>
     <id>http://danielchangNYC.github.io/blog/2014/01/12/tdd-modelspecsLRW</id>
     <content type="html"><![CDATA[<p>Almost done with my model specs! I ran into a couple of interesting problems that I posted on Stack Overflow, one of which I&rsquo;ll cover briefly below.</p>
-
-<h1>RSpec Equality: eq vs equal</h1>
 
 <h2>The problem I ran into (from my <a href="https://stackoverflow.com/questions/21102549/why-is-the-where-query-in-rails-returning-a-different-object">StackOverflow post</a>)</h2>
 
