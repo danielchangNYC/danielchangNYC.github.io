@@ -1,0 +1,196 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>How and Why I Began Testing in Ruby on Rails - Daniel Chang</title>
+	<meta name="author" content="Daniel Chang (couchpanda / c0depanda)">
+
+	
+	<meta name="description" content="Testing is one of those things that feels a bit like eating well or going to the gym. Since it&rsquo;s already ten days into the New Year and I have &hellip;">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="" rel="alternate" title="Daniel Chang" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script async="true" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Daniel Chang</a></h1>
+<nav id="main-nav"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q" results="0">
+				<input type="hidden" name="q" value="site:danielchangNYC.github.io">
+			</form>
+		</div>
+	</div>
+</nav>
+<nav id="sub-nav" class="alignright">
+	<div class="social">
+		
+		
+		<a class="google" href="https://plus.google.com/117389635991723583799?rel=author" title="Google+">Google+</a>
+		
+		
+		<a class="twitter" href="http://twitter.com/danielchangNYC" title="Twitter">Twitter</a>
+		
+		
+		<a class="github" href="https://github.com/danielchangNYC" title="GitHub">GitHub</a>
+		
+    
+		
+		
+		
+		
+		
+    
+	</div>
+	<form class="search" action="http://google.com/search" method="get">
+		<input class="alignright" type="text" name="q" results="0">
+		<input type="hidden" name="q" value="site:danielchangNYC.github.io">
+	</form>
+</nav>
+
+</header>
+	
+		
+	
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">How and Why I Began Testing in Ruby on Rails</h2>
+	<div class="entry-content"><p>Testing is one of those things that feels a bit like eating well or going to the gym. Since it&rsquo;s already ten days into the New Year and I have yet to commit to any resolutions, let this be it: no more will I make excuses for skipping testing.</p>
+
+<p>What does this really mean to me though? Am I eating broccoli just because someone told me it&rsquo;s good for me? Here are three reasons that have driven me to make the change.</p>
+
+<h2>TDD Reason 1: Manual Testing Sucks; TDD Saves Time</h2>
+
+<p>My friend told me about the job she left before coming to the Flatiron School and one of her responsibilities looked a bit like this:</p>
+
+<p><img src="http://blog.polarion.com/wp-content/uploads/2012/12/Screen-Shot-2012-12-06-at-12.07.14-PM.png" width="400"></p>
+
+<p>What. A. Nightmare. There should be a -phobia for this.</p>
+
+<p>Don&rsquo;t get me wrong &mdash; I&rsquo;m sure this could be pretty efficient if the scope of the UX is very small, or you don&rsquo;t know-how to implement TDD yet. However, how can you be sure your site won&rsquo;t expand, or why not learn how to use a gem like Capybara to save you time in the future? Used in conjuction with Guard, you could really save some serious time while coding!</p>
+
+<h2>TDD Reason 2: Code Confidence</h2>
+
+<p>Now that I&rsquo;ve had a bit more experience writing web apps (still without TDD), I&rsquo;ve had the pleasure of seeing them grow and change throughout development. On the other hand, everytime I implemented a new feature, I had less and less confidence that the rest of my code base would work fine. At some point, the prospect of a new feature started feeling like a laundry list or the guarantee of a new bug. Testing will certainly help me find bugs as I introduce them, and therefore boost my confidence in in my code.</p>
+
+<h2>TDD Reason 3: Thinking Before Doing</h2>
+
+<p>Writing tests before writing production code forces you to clearly iterate what it is you want your application to do before you start writing production code. Ideally, you want your tests to last as long as possible as well, so it will force you to make important decisions about design as well. The prospect of having well thought-out code with lasting design excites me! I&rsquo;ve had several experiences already of trying to refactor poorly designed code and it&rsquo;s quite painful.</p>
+
+<h2>My Next Steps</h2>
+
+<p>I&rsquo;ve decided to begin my TDD exploration by refactoring my first app, Little Red Wagon (LRW). My current reads are Aaron Sumner&rsquo;s book, <a href="https://leanpub.com/everydayrailsrspec">Everyday Rails Testing with RSpec</a>, and <a href="http://www.amazon.com/Practical-Object-Oriented-Design-Ruby-Addison-Wesley/dp/0321721330">Practical Object-Oriented Design in Ruby</a> by Sandi Metz. I&rsquo;m about 30% through each book right now and have written model tests already for LRW, which have proven to be quite easy. I&rsquo;ve decided not to use Factory Girl since it will slow down testing and Rails&#8217; built-in fixtures are satisfactory for what I currently have. In any case, the grand plan is to get some hands-on practice writing tests using the TDD book first and then taking on the much larger challenge of redesigning my code base. Thanks for reading, and more updates to come on TDD!</p>
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-12T23:00:00-05:00" pubdate data-updated="true">Jan 12<span>th</span>, 2014</time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/rails/'>rails</a>, <a class='category' href='/blog/categories/rspec/'>rspec</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>, <a class='category' href='/blog/categories/tdd/'>tdd</a>
+
+
+</div>
+	
+	<div class="comments"><a href="#disqus_thread">Comments</a></div>
+	
+</div>
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+		
+		<a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+		
+		
+		<a class="addthis_button_tweet"></a>
+		
+		
+		<a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+		
+		
+	</div>
+	
+</div>
+
+
+
+<section id="comment">
+    <h2 class="title">Comments</h2>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2014
+
+    Daniel Chang (couchpanda / c0depanda)
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'danielchangnyc';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://danielchangNYC.github.io/blog/2014/01/12/tdd1/';
+        var disqus_url = 'http://danielchangNYC.github.io/blog/2014/01/12/tdd1/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//go.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+</body>
+</html>
