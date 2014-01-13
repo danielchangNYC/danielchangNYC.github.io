@@ -7,7 +7,7 @@
 	<meta name="author" content="Daniel Chang (couchpanda / c0depanda)">
 
 	
-	<meta name="description" content="How and Why I Began Testing in Ruby on Rails Jan 12th, 2014 rails rspec ruby tdd Comments Testing is one of those things that feels a bit like &hellip;">
+	<meta name="description" content="RSpec Equality Jan 12th, 2014 activerecord rails rspec ruby tdd Comments Almost done with my model specs! I ran into a couple of interesting &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -85,7 +85,173 @@
     <header>
   
   <h1 class="beta">
-    <a href="/blog/2014/01/12/tdd1/">How and Why I Began Testing in Ruby on Rails</a>
+    <a href="/blog/2014/01/12/tdd-modelspecsLRW/">RSpec Equality</a>
+  </h1>
+  
+
+  
+  <div class="meta clearfix">
+    
+
+
+
+
+
+
+
+
+  
+
+
+<time class="pull-left" datetime="2014-01-12T23:00:00-05:00" pubdate data-updated="true"><i class="icon-calendar"></i> Jan 12<span>th</span>, 2014</time>
+    
+
+
+
+  
+  <div class="pull-left">
+    <i class="icon-tags"></i>
+    <ul class="tags unstyled">
+    
+      <li><a href="/blog/categories/activerecord/">activerecord</a></li>
+    
+      <li><a href="/blog/categories/rails/">rails</a></li>
+    
+      <li><a href="/blog/categories/rspec/">rspec</a></li>
+    
+      <li><a href="/blog/categories/ruby/">ruby</a></li>
+    
+      <li><a href="/blog/categories/tdd/">tdd</a></li>
+    
+    </ul>
+  </div>
+  
+
+    
+      <a class="pull-right" href="http://danielchangNYC.github.io/blog/2014/01/12/tdd-modelspecsLRW/#disqus_thread">
+        Comments <i class="icon-comment"></i>
+      </a>
+    
+  </div>
+  
+</header>
+
+
+
+
+  <p>Almost done with my model specs! I ran into a couple of interesting problems that I posted on Stack Overflow, one of which I&rsquo;ll cover briefly below.</p>
+
+<h1>RSpec Equality: eq vs equal</h1>
+
+<h2>The problem I ran into (from my <a href="https://stackoverflow.com/questions/21102549/why-is-the-where-query-in-rails-returning-a-different-object">StackOverflow post</a>)</h2>
+
+<p><em>If you just read the whole post, skip to the last section of this blog post.</em></p>
+
+<p>I&rsquo;m testing chats between users in my app. I&rsquo;m using RSpec and FactoryGirl</p>
+
+<p>The test that&rsquo;s not passing:</p>
+
+<figure class='code'><figcaption><span>chat_spec.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">it</span> <span class="s2">&quot;creates a chat if one does not exist&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">bob</span> <span class="o">=</span> <span class="n">create</span><span class="p">(</span><span class="ss">:user</span><span class="p">,</span> <span class="ss">username</span><span class="p">:</span> <span class="s2">&quot;bob&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">dan</span> <span class="o">=</span> <span class="n">create</span><span class="p">(</span><span class="ss">:user</span><span class="p">,</span> <span class="ss">username</span><span class="p">:</span> <span class="s2">&quot;dan&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">new_chat</span> <span class="o">=</span> <span class="no">Chat</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">user_id</span><span class="p">:</span> <span class="vi">@dan</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">chatted_user_id</span><span class="p">:</span> <span class="n">bob</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="no">Chat</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="s2">&quot;chatted_user_id = ?&quot;</span><span class="p">,</span> <span class="n">bob</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">equal</span><span class="p">(</span><span class="n">new_chat</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The failure message says:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>Failure/Error: expect<span class="o">(</span>Chat.where<span class="o">(</span><span class="s2">&quot;chatted_user_id = ?&quot;</span>, bob.id<span class="o">)</span>.first<span class="o">)</span>.to equal<span class="o">(</span>new_chat<span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'>   expected <span class="c">#&lt;Chat:70120833243920&gt; =&gt; #&lt;Chat id: 2, user_id: 2, chatted_user_id: 3&gt;</span>
+</span><span class='line'>        got <span class="c">#&lt;Chat:70120833276240&gt; =&gt; #&lt;Chat id: 2, user_id: 2, chatted_user_id: 3&gt;</span>
+</span><span class='line'>
+</span><span class='line'>   Compared using equal?, which compares object identity,
+</span><span class='line'>   but expected and actual are not the same object. Use
+</span><span class='line'>   <span class="sb">`</span>expect<span class="o">(</span>actual<span class="o">)</span>.to eq<span class="o">(</span>expected<span class="o">)</span><span class="sb">`</span> <span class="k">if </span>you don<span class="err">&#39;</span>t care about
+</span><span class='line'>   object identity in this example.
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Why is my query returning a different object id?</p>
+
+<h3>Answer from Simone Carletti on StackOverflow</h3>
+
+<p>equal checks object identity. The objects you are testing are two objects (instances) referencing the same record, but they are actually different objects from a Ruby virtual machine point of view.</p>
+
+<p>You should use</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">expect</span><span class="p">(</span><span class="no">Chat</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="s2">&quot;chatted_user_id = ?&quot;</span><span class="p">,</span> <span class="n">bob</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="n">new_chat</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To better understand the problem, look at the following example</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="mi">2</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="o">-</span><span class="n">p353</span> <span class="p">:</span><span class="mo">001</span> <span class="o">&gt;</span> <span class="s2">&quot;foo&quot;</span><span class="o">.</span><span class="n">object_id</span>
+</span><span class='line'> <span class="o">=&gt;</span> <span class="mi">70117320944040</span>
+</span><span class='line'><span class="mi">2</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="o">-</span><span class="n">p353</span> <span class="p">:</span><span class="mo">002</span> <span class="o">&gt;</span> <span class="s2">&quot;foo&quot;</span><span class="o">.</span><span class="n">object_id</span>
+</span><span class='line'> <span class="o">=&gt;</span> <span class="mi">70117320962820</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here I&rsquo;m creating two identical strings. They are identical, but not equal because they are actually two different objects.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="mi">2</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="o">-</span><span class="n">p353</span> <span class="p">:</span><span class="mo">00</span><span class="mi">8</span> <span class="o">&gt;</span> <span class="s2">&quot;foo&quot;</span> <span class="o">==</span> <span class="s2">&quot;foo&quot;</span>
+</span><span class='line'> <span class="o">=&gt;</span> <span class="kp">true</span>
+</span><span class='line'><span class="mi">2</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="o">-</span><span class="n">p353</span> <span class="p">:</span><span class="mo">00</span><span class="mi">9</span> <span class="o">&gt;</span> <span class="s2">&quot;foo&quot;</span><span class="o">.</span><span class="n">equal?</span> <span class="s2">&quot;foo&quot;</span>
+</span><span class='line'> <span class="o">=&gt;</span> <span class="kp">false</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That&rsquo;s the same issue affecting your test. equal checks if two objects are actually the same at the object_id level. But what you really want to know is if they are the same record.</p>
+
+<h2>So what&rsquo;s happening under the hood?</h2>
+
+<p>The &ldquo;where&rdquo; query returns an array of objects matching the query, and those objects must be Active Record objects that just handle the data. If I make another query, Active Record must be creating another set of objects to handle each row of data.</p>
+
+<p>I wanted to confirm this before throwing it out on the web as &ldquo;fact&rdquo;, so here&rsquo;s what an Active Record object is from <a href="http://www.martinfowler.com/eaaCatalog/activeRecord.html">Martin Fowler himself</a>:</p>
+
+<blockquote><p>An object that wraps a row in a database table or view, encapsulates the database access, and adds domain logic on that data.</p></blockquote>
+
+<p>So there you have it! Moral of the story: generally remember to use eq to test equivalence in RSpec with ActiveRecord.</p>
+
+<p>Oh, and here&rsquo;s a <a href="https://www.relishapp.com/rspec/rspec-expectations/v/2-0/docs/matchers/equality-matchers">bonus resource: equal, eql, eq, and ==</a> in RSpec.</p>
+
+
+  </article>
+  <hr>
+
+  
+  <article class="listing">
+    <header>
+  
+  <h1 class="beta">
+    <a href="/blog/2014/01/12/tdd-intro/">How and Why I Began Testing in Ruby on Rails</a>
   </h1>
   
 
@@ -126,7 +292,7 @@
   
 
     
-      <a class="pull-right" href="http://danielchangNYC.github.io/blog/2014/01/12/tdd1/#disqus_thread">
+      <a class="pull-right" href="http://danielchangNYC.github.io/blog/2014/01/12/tdd-intro/#disqus_thread">
         Comments <i class="icon-comment"></i>
       </a>
     
@@ -161,7 +327,7 @@
 
 <h2>My Next Steps</h2>
 
-<p>I&rsquo;ve decided to begin my TDD exploration by refactoring my first app, Little Red Wagon (LRW). My current reads are Aaron Sumner&rsquo;s book, <a href="https://leanpub.com/everydayrailsrspec">Everyday Rails Testing with RSpec</a>, and <a href="http://www.amazon.com/Practical-Object-Oriented-Design-Ruby-Addison-Wesley/dp/0321721330">Practical Object-Oriented Design in Ruby</a> by Sandi Metz. I&rsquo;m about 30% through each book right now and have written model tests already for LRW, which have proven to be quite easy. I&rsquo;ve decided not to use Factory Girl since it will slow down testing and Rails&#8217; built-in fixtures are satisfactory for what I currently have. In any case, the grand plan is to get some hands-on practice writing tests using the TDD book first and then taking on the much larger challenge of redesigning my code base. Thanks for reading, and more updates to come on TDD!</p>
+<p>I&rsquo;ve decided to begin my TDD exploration by refactoring my first app, Little Red Wagon (LRW). My current reads are Aaron Sumner&rsquo;s book, <a href="https://leanpub.com/everydayrailsrspec">Everyday Rails Testing with RSpec</a>, and <a href="http://www.amazon.com/Practical-Object-Oriented-Design-Ruby-Addison-Wesley/dp/0321721330">Practical Object-Oriented Design in Ruby</a> by Sandi Metz. I&rsquo;m about 30% through each book right now and have written a few model specs already for LRW. I&rsquo;ve decided not to use Factory Girl since it will slow down testing and Rails&#8217; built-in fixtures are satisfactory for what I currently have. In any case, the grand plan is to get some hands-on practice writing tests using the TDD book first and then taking on the much larger challenge of redesigning my code base. Thanks for reading, and more updates to come on TDD!</p>
 
 
   </article>

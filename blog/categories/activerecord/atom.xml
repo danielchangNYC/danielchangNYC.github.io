@@ -4,7 +4,7 @@
   <title><![CDATA[Category: activerecord | Daniel Chang]]></title>
   <link href="http://danielchangNYC.github.io/blog/categories/activerecord/atom.xml" rel="self"/>
   <link href="http://danielchangNYC.github.io/"/>
-  <updated>2014-01-13T00:16:54-05:00</updated>
+  <updated>2014-01-13T18:14:23-05:00</updated>
   <id>http://danielchangNYC.github.io/</id>
   <author>
     <name><![CDATA[Daniel Chang (couchpanda / c0depanda)]]></name>
@@ -12,6 +12,91 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[RSpec Equality]]></title>
+    <link href="http://danielchangNYC.github.io/blog/2014/01/12/tdd-modelspecsLRW/"/>
+    <updated>2014-01-12T23:00:00-05:00</updated>
+    <id>http://danielchangNYC.github.io/blog/2014/01/12/tdd-modelspecsLRW</id>
+    <content type="html"><![CDATA[<p>Almost done with my model specs! I ran into a couple of interesting problems that I posted on Stack Overflow, one of which I&rsquo;ll cover briefly below.</p>
+
+<h1>RSpec Equality: eq vs equal</h1>
+
+<h2>The problem I ran into (from my <a href="https://stackoverflow.com/questions/21102549/why-is-the-where-query-in-rails-returning-a-different-object">StackOverflow post</a>)</h2>
+
+<p><em>If you just read the whole post, skip to the last section of this blog post.</em></p>
+
+<p>I&rsquo;m testing chats between users in my app. I&rsquo;m using RSpec and FactoryGirl</p>
+
+<p>The test that&rsquo;s not passing:</p>
+
+<p><code>ruby chat_spec.rb
+it "creates a chat if one does not exist" do
+  bob = create(:user, username: "bob")
+  dan = create(:user, username: "dan")
+  new_chat = Chat.create(user_id: @dan.id, chatted_user_id: bob.id)
+  expect(Chat.where("chatted_user_id = ?", bob.id).first).to equal(new_chat)
+end
+</code></p>
+
+<p>The failure message says:</p>
+
+<p>``` sh
+Failure/Error: expect(Chat.where(&ldquo;chatted_user_id = ?&rdquo;, bob.id).first).to equal(new_chat)</p>
+
+<p>   expected #&lt;Chat:70120833243920> => #<Chat id: 2, user_id: 2, chatted_user_id: 3></p>
+
+<pre><code>    got #&lt;Chat:70120833276240&gt; =&gt; #&lt;Chat id: 2, user_id: 2, chatted_user_id: 3&gt;
+</code></pre>
+
+<p>   Compared using equal?, which compares object identity,
+   but expected and actual are not the same object. Use
+   <code>expect(actual).to eq(expected)</code> if you don&rsquo;t care about
+   object identity in this example.
+```</p>
+
+<p>Why is my query returning a different object id?</p>
+
+<h3>Answer from Simone Carletti on StackOverflow</h3>
+
+<p>equal checks object identity. The objects you are testing are two objects (instances) referencing the same record, but they are actually different objects from a Ruby virtual machine point of view.</p>
+
+<p>You should use
+<code>ruby
+expect(Chat.where("chatted_user_id = ?", bob.id).first).to eq(new_chat)
+</code>
+To better understand the problem, look at the following example</p>
+
+<p><code>
+2.0.0-p353 :001 &gt; "foo".object_id
+ =&gt; 70117320944040
+2.0.0-p353 :002 &gt; "foo".object_id
+ =&gt; 70117320962820
+</code>
+Here I&rsquo;m creating two identical strings. They are identical, but not equal because they are actually two different objects.</p>
+
+<p><code>
+2.0.0-p353 :008 &gt; "foo" == "foo"
+ =&gt; true
+2.0.0-p353 :009 &gt; "foo".equal? "foo"
+ =&gt; false
+</code></p>
+
+<p>That&rsquo;s the same issue affecting your test. equal checks if two objects are actually the same at the object_id level. But what you really want to know is if they are the same record.</p>
+
+<h2>So what&rsquo;s happening under the hood?</h2>
+
+<p>The &ldquo;where&rdquo; query returns an array of objects matching the query, and those objects must be Active Record objects that just handle the data. If I make another query, Active Record must be creating another set of objects to handle each row of data.</p>
+
+<p>I wanted to confirm this before throwing it out on the web as &ldquo;fact&rdquo;, so here&rsquo;s what an Active Record object is from <a href="http://www.martinfowler.com/eaaCatalog/activeRecord.html">Martin Fowler himself</a>:</p>
+
+<blockquote><p>An object that wraps a row in a database table or view, encapsulates the database access, and adds domain logic on that data.</p></blockquote>
+
+<p>So there you have it! Moral of the story: generally remember to use eq to test equivalence in RSpec with ActiveRecord.</p>
+
+<p>Oh, and here&rsquo;s a <a href="https://www.relishapp.com/rspec/rspec-expectations/v/2-0/docs/matchers/equality-matchers">bonus resource: equal, eql, eq, and ==</a> in RSpec.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Self-Referential Associations, AKA Self Joins]]></title>
