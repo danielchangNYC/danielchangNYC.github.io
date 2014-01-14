@@ -4,7 +4,7 @@
   <title><![CDATA[Category: activerecord | Daniel Chang]]></title>
   <link href="http://danielchangNYC.github.io/blog/categories/activerecord/atom.xml" rel="self"/>
   <link href="http://danielchangNYC.github.io/"/>
-  <updated>2014-01-13T21:45:29-05:00</updated>
+  <updated>2014-01-14T00:28:24-05:00</updated>
   <id>http://danielchangNYC.github.io/</id>
   <author>
     <name><![CDATA[Daniel Chang (couchpanda / c0depanda)]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[ActiveRecord, Equality, and Rogue]]></title>
-    <link href="http://danielchangNYC.github.io/blog/2014/01/12/tdd1-ActiveRecordEqualityRogue/"/>
-    <updated>2014-01-12T23:00:00-05:00</updated>
-    <id>http://danielchangNYC.github.io/blog/2014/01/12/tdd1-ActiveRecordEqualityRogue</id>
+    <link href="http://danielchangNYC.github.io/blog/2014/01/13/tdd1-ActiveRecordEqualityRogue/"/>
+    <updated>2014-01-13T23:00:00-05:00</updated>
+    <id>http://danielchangNYC.github.io/blog/2014/01/13/tdd1-ActiveRecordEqualityRogue</id>
     <content type="html"><![CDATA[<p><img class="right <a" src="href="http://static.comicvine.com/uploads/original/8/85629/1887574-rogue1.gif">http://static.comicvine.com/uploads/original/8/85629/1887574-rogue1.gif</a>" title="Rogue" >
 Almost done with my model specs! I ran into a couple of interesting problems that I posted on Stack Overflow, one of which I&rsquo;ll cover briefly below. Oh yeah, and Rogue! I&rsquo;ll explain that in the last section of this post.</p>
 
