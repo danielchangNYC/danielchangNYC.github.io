@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ruby | Daniel Chang]]></title>
   <link href="http://danielchangNYC.github.io/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://danielchangNYC.github.io/"/>
-  <updated>2014-01-15T06:41:30-05:00</updated>
+  <updated>2014-01-15T06:44:05-05:00</updated>
   <id>http://danielchangNYC.github.io/</id>
   <author>
     <name><![CDATA[Daniel Chang (couchpanda / c0depanda)]]></name>
@@ -173,17 +173,7 @@ end
 <p>So if I were to run the original line, <code>expect(dan).to be_in_zipcode(10002)</code>, the following would happen:</p>
 
 <ol>
-<li><code>expect(dan)</code> returns an <code>RSpec::Expectations::ExpectationTarget</code> object storing the object <code>dan</code>.
-<code>`` ruby pry_session
-</code>expect(dan).to be_in_zipcode(10002)`</li>
-</ol>
-
-
-<h1>=> #&lt;RSpec::Expectations::ExpectationTarget:0x007fbf511e4c78 @target=#<User id: 1, name: dan>></h1>
-
-<p>```</p>
-
-<ol>
+<li><code>expect(dan)</code> returns an <code>RSpec::Expectations::ExpectationTarget</code> object storing the object <code>dan</code>. Specifically: <code>=&gt; #&lt;RSpec::Expectations::ExpectationTarget:0x007fbf511e4c78 @target=#&lt;User id: 1, name: dan&gt;&gt;</code></li>
 <li>the <code>to</code> method passes in <code>be_in_zipcode(10002)</code> and calls a method called <code>handle_matcher</code>&hellip;</li>
 <li>&hellip; which checks if <code>be_in_zipcode</code> has been defined as a matcher.</li>
 <li>Since we&rsquo;ve defined <code>be_in_zipcode</code>, <code>matches?</code> gets called our block, which we saw above.</li>
@@ -191,7 +181,7 @@ end
 </ol>
 
 
-<p>&hellip; And that&rsquo;s our deep dive into RSpec&rsquo;s Custom Matchers. Again, feedback always welcome. Hope you enjoyed the complexity as much as I did! :)</p>
+<p>That&rsquo;s our deep dive into RSpec&rsquo;s Custom Matchers. Again, feedback always welcome. Hope you enjoyed the complexity as much as I did! :)</p>
 ]]></content>
   </entry>
   

@@ -327,20 +327,7 @@
 <p>So if I were to run the original line, <code>expect(dan).to be_in_zipcode(10002)</code>, the following would happen:</p>
 
 <ol>
-<li><code>expect(dan)</code> returns an <code>RSpec::Expectations::ExpectationTarget</code> object storing the object <code>dan</code>.</li>
-</ol>
-
-
-<figure class='code'><figcaption><span>pry_session</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="sb">`expect(dan).to be_in_zipcode(10002)`</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># =&gt; #&lt;RSpec::Expectations::ExpectationTarget:0x007fbf511e4c78 @target=#&lt;User id: 1, name: dan&gt;&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ol>
+<li><code>expect(dan)</code> returns an <code>RSpec::Expectations::ExpectationTarget</code> object storing the object <code>dan</code>. Specifically: <code>=&gt; #&lt;RSpec::Expectations::ExpectationTarget:0x007fbf511e4c78 @target=#&lt;User id: 1, name: dan&gt;&gt;</code></li>
 <li>the <code>to</code> method passes in <code>be_in_zipcode(10002)</code> and calls a method called <code>handle_matcher</code>&hellip;</li>
 <li>&hellip; which checks if <code>be_in_zipcode</code> has been defined as a matcher.</li>
 <li>Since we&rsquo;ve defined <code>be_in_zipcode</code>, <code>matches?</code> gets called our block, which we saw above.</li>
@@ -348,7 +335,7 @@
 </ol>
 
 
-<p>&hellip; And that&rsquo;s our deep dive into RSpec&rsquo;s Custom Matchers. Again, feedback always welcome. Hope you enjoyed the complexity as much as I did! :)</p>
+<p>That&rsquo;s our deep dive into RSpec&rsquo;s Custom Matchers. Again, feedback always welcome. Hope you enjoyed the complexity as much as I did! :)</p>
 
 
   </article>
