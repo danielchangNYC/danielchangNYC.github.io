@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ruby | Daniel Chang]]></title>
   <link href="http://danielchangNYC.github.io/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://danielchangNYC.github.io/"/>
-  <updated>2014-01-14T00:28:24-05:00</updated>
+  <updated>2014-01-15T06:40:01-05:00</updated>
   <id>http://danielchangNYC.github.io/</id>
   <author>
     <name><![CDATA[Daniel Chang (couchpanda / c0depanda)]]></name>
@@ -12,6 +12,188 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Rspec Custom Matchers: A Deep Dive]]></title>
+    <link href="http://danielchangNYC.github.io/blog/2014/01/15/tdd2-RSpecMatchers/"/>
+    <updated>2014-01-15T06:40:00-05:00</updated>
+    <id>http://danielchangNYC.github.io/blog/2014/01/15/tdd2-RSpecMatchers</id>
+    <content type="html"><![CDATA[<h2>What&rsquo;s a Matcher?</h2>
+
+<p><code>expect(dan.current_zipcode).to eq(10002)</code></p>
+
+<p>In the line above, the <code>matcher</code> is the method <code>eq</code> because RSpec will check to see if the value of <code>dan.current_zipcode</code> matches <code>10002</code>.</p>
+
+<p>Let&rsquo;s say that this was a line you wrote for as part of a test for a location tracking app. You want your code to be as clear as possible for collaborators or even for your future self.</p>
+
+<p>Wouldn&rsquo;t it sound even better if you could write this?</p>
+
+<p><code>expect(dan).to be_in_zipcode(10002)</code></p>
+
+<p>This requires <code>be_in_zipcode</code> to be a method in <code>RSpec</code>&rsquo;s matcher library. I&rsquo;m going to briefly explain how to create this new matcher, but for alternate explanations, check out the <a href="https://github.com/dchelimsky/rspec/wiki/Custom-Matchers">Rspec Github Wiki</a> and Chapter 7 of Aaron Sumner&rsquo;s <a href="https://leanpub.com/everydayrailsrspec">Everyday Rails Testing with RSpec</a>.</p>
+
+<p>My intention is not to write another Matcher tutorial (though this might inevitably happen). After reading Sumner&rsquo;s chapter, I could imagine how matchers were created but ultimately, I felt a bit uncertain. With a little bit of <code>Pry</code> magic and doc-digging, I think I&rsquo;ve finally put most of the puzzle together which I&rsquo;m looking forward to sharing below! Constructive feedback and deeper insights are always welcome. :)</p>
+
+<h2>Match-Maker, Match-Maker, Make Me a Match!</h2>
+
+<p>Let&rsquo;s write some code so that we can use the method <code>be_in_zipcode(10002)</code> from above.</p>
+
+<p>General syntax at bare minimum first:
+``` ruby syntax.rb
+RSpec::Matchers.define :new_matcher_name do |expected|
+  match do |actual|</p>
+
+<pre><code># Lines of code you want this matcher to run
+</code></pre>
+
+<p>  end</p>
+
+<p>  #optional description and failure message definition blocks
+end</p>
+
+<h1>From the describe block:</h1>
+
+<h1>expect(actual).to matcher_method(expected)</h1>
+
+<p>```</p>
+
+<p>NOTE: Store your matcher files in <code>spec/support/matchers/</code> and require them in <code>spec/spec_helper.rb</code> with the following line:</p>
+
+<p><code>Dir[File.dirname(__FILE__) + "/support/**/*.rb"].each {|f| require f}</code></p>
+
+<p>Now onto our example:
+``` ruby be_in_zipcode.rb
+RSpec::Matchers.define :be_in_zipcode do |zipcode|
+  match do |friend|</p>
+
+<pre><code>friend.in_zipcode?(zipcode)
+</code></pre>
+
+<p>  end</p>
+
+<p>  # Optional failure messages
+  failure_message_for_should do |actual|</p>
+
+<pre><code>"expected friend to be in zipcode"
+</code></pre>
+
+<p>  end</p>
+
+<p>  failure_message_for_should_not do |actual|</p>
+
+<pre><code>"expected friend not to be in zipcode"
+</code></pre>
+
+<p>  end</p>
+
+<p>  # Optional method description
+  description do</p>
+
+<pre><code>"checks user's current zipcode"
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p>Again, the failure messages and description are optional blocks. The match block is obviously mandatory. So now that we have our new matcher, let&rsquo;s check out what&rsquo;s going on behind the scenes.</p>
+
+<h2>Under the hood</h2>
+
+<p><code>RSpec::Matchers.define :be_in_zipcode do |zipcode|</code></p>
+
+<p>The <code>define</code> method, extended from the DSL module, does the following:</p>
+
+<p>``` ruby define.rb RSpec::Matchers::DSL#define
+def define(name, &amp;declarations)
+  matcher_template = RSpec::Matchers::DSL::Matcher.new(name, &amp;declarations)
+  define_method name do |*expected|    # => expected for us is the var zipcode</p>
+
+<pre><code>matcher = matcher_template.for_expected(*expected)
+matcher.matcher_execution_context = @matcher_execution_context ||= self
+matcher
+</code></pre>
+
+<p>  end
+end</p>
+
+<h1>name = be_in_zipcode</h1>
+
+<p>```</p>
+
+<p>The second line setting <code>matcher_template</code> initializes an <code>RSpec::Matchers::DSL::Matcher</code> object which stores the method name and the declarations block.</p>
+
+<p><code>define_method</code> then creates the <code>be_in_zipcode</code> method. The next line&rsquo;s <code>for_expected(*expected)</code> method sets the zipcode as the expected value and your failure messages/description from the matcher template in the second line. The messages and description are stored in the @messages attribute hash.</p>
+
+<p>The next line I&rsquo;m not sure about since <code>matcher_execution_context</code> refers to an attribute accessor. I don&rsquo;t see it in the Matcher module either. Any insight here would be great!</p>
+
+<p>Moving onto the last piece: the match block.</p>
+
+<p>``` ruby
+  match do |friend|</p>
+
+<pre><code>friend.in_zipcode?(zipcode)
+</code></pre>
+
+<p>  end
+```</p>
+
+<p><code>RSpec::Match#match</code> stores the given block in <code>@match_block</code>, so essentially, <code>@match_block = friend.in_zipcode?(zipcode)</code>.</p>
+
+<p>Later, when you run your specs with the new matcher, the <code>match_block</code> will get called from the method <code>RSpec::Match#matches?</code>.</p>
+
+<p>``` ruby matches?
+def matches?(actual)
+  @actual = actual
+  if @expected_exception</p>
+
+<pre><code>begin
+  instance_exec(actual, &amp;@match_block)
+  true
+rescue @expected_exception
+  false
+end
+</code></pre>
+
+<p>  else</p>
+
+<pre><code>begin
+  instance_exec(actual, &amp;@match_block)
+rescue Spec::Expectations::ExpectationNotMetError
+  false
+end
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p>And that&rsquo;s it!</p>
+
+<p>So if I were to run the original line, <code>expect(dan).to be_in_zipcode(10002)</code>, the following would happen:</p>
+
+<ol>
+<li><code>expect(dan)</code> returns an <code>RSpec::Expectations::ExpectationTarget</code> object storing the object <code>dan</code>.
+<code>`` ruby pry_session
+</code>expect(dan).to be_in_zipcode(10002)`</li>
+</ol>
+
+
+<h1>=> #&lt;RSpec::Expectations::ExpectationTarget:0x007fbf511e4c78 @target=#<User id: 1, name: dan>></h1>
+
+<p>```</p>
+
+<ol>
+<li>the <code>to</code> method passes in <code>be_in_zipcode(10002)</code> and calls a method called <code>handle_matcher</code>&hellip;</li>
+<li>&hellip; which checks if <code>be_in_zipcode</code> has been defined as a matcher.</li>
+<li>Since we&rsquo;ve defined <code>be_in_zipcode</code>, <code>matches?</code> gets called our block, which we saw above.</li>
+<li><code>handle_matcher</code> then figures out how to respond, given the messages you passed in when you defined the new matcher.</li>
+</ol>
+
+
+<p>&hellip; And that&rsquo;s our deep dive into RSpec&rsquo;s Custom Matchers. Again, feedback always welcome. Hope you enjoyed the complexity as much as I did! :)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[ActiveRecord, Equality, and Rogue]]></title>
@@ -478,70 +660,6 @@ catch (:halt) do
   # code
 end
 ```</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[ActiveRecord]]></title>
-    <link href="http://danielchangNYC.github.io/blog/2013/10/08/rails-presentation-post/"/>
-    <updated>2013-10-08T07:00:00-04:00</updated>
-    <id>http://danielchangNYC.github.io/blog/2013/10/08/rails-presentation-post</id>
-    <content type="html"><![CDATA[<p>I took a bit of a dive today and looked a Ruby on Rails <a href="http://www.slideshare.net/aizatto/ruby-on-rails-48391">presentation</a>. Here&rsquo;s what I gleaned from looking through all the slides.</p>
-
-<ul>
-<li><p>Rails is a web application framework that allows your Ruby to interact with the web seamlessly. By &ldquo;interact with the web&rdquo;, I assume the presentation means &ldquo;interact with databases.&rdquo;</p></li>
-<li><p>Rails implements a principle called &ldquo;MVC&rdquo; &mdash; Model View Controller. Rails seems to handle each task separately. I&rsquo;m going to focus on the Model, which uses ActiveRecord.</p></li>
-<li><p>ActiveRecord is a Module that Rails uses to model and interact with databases. It makes database queries both simple and intuitive.</p></li>
-</ul>
-
-
-<p>Here are some concrete query comparisons between using SQLite3 versus Rails' ActiveRecord.</p>
-
-<p>Assume we have a table called &ldquo;dogs,&rdquo; each with a name, age, weight, and type. Each attribute would be a column, and each row would represent a different dog.</p>
-
-<p><code>sql Table using SQLite3
-CREATE TABLE dogs (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  name TEXT;
-  age INTEGER;
-  weight INTEGER;
-  type TEXT
-);
-</code>
-We can also imagine this as a class of Dog objects in Ruby. Here&rsquo;s how one might create the barebones structure in Ruby.
-<code>ruby Dogs as objects of class Dog in Ruby
-class Dog
-  attr_accessor :id, :name, :age, :weight, :type
-end
-</code>
-<code>ruby Table initialized using Rails' ActiveRecord
-class Dog &lt; ActiveRecord::Base
-end
-</code></p>
-
-<p>See how simple that was? Now we can make queries on the table.</p>
-
-<p><code>sql SQLite3 query for first dog in table
-SELECT * FROM dogs WHERE id=1;
-</code>
-<code>ruby Rails query for first dog in table
-Dog.find(1)
-</code></p>
-
-<p>That&rsquo;s just the beginning! Check this out.</p>
-
-<p><code>sql SQLite3 query appending conditions
-SELECT * FROM dogs WHERE age=8 AND type="corgi";
-</code>
-<code>ruby Rails query appending same conditions
-Dog.find_by_age_and_type 25, "corgi"
-</code></p>
-
-<p>It seems like ActiveRecord must use certain keywords like &lsquo;by&rsquo; and &lsquo;and&rsquo; in order to dynamically use the attribute names that the user inputs.</p>
-
-<p>What is really beautiful though is the idea of &ldquo;configuration of convention&rdquo; that Rails implements in order to shorten the amount of code you need to write. Slides 42-44 of the <a href="http://www.slideshare.net/aizatto/ruby-on-rails-48391">presentation</a>  gave a particularly good example of the idea. No wonder people love Rails!</p>
-
-<p>The slides continue talking about the MVC</p>
 ]]></content>
   </entry>
   

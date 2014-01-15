@@ -7,7 +7,7 @@
 	<meta name="author" content="Daniel Chang (couchpanda / c0depanda)">
 
 	
-	<meta name="description" content="Almost done with my model specs! I ran into a couple of interesting problems that I posted on Stack Overflow, one of which I&rsquo;ll cover briefly &hellip;">
+	<meta name="description" content="What&rsquo;s a Matcher? expect(dan.current_zipcode).to eq(10002) In the line above, the matcher is the method eq because RSpec will check to see if &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -78,6 +78,256 @@
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2014/01/15/tdd2-RSpecMatchers/">
+		
+			Rspec Custom Matchers: A Deep Dive</a>
+	</h2>
+	<div class="entry-content">
+		<h2>What&rsquo;s a Matcher?</h2>
+
+<p><code>expect(dan.current_zipcode).to eq(10002)</code></p>
+
+<p>In the line above, the <code>matcher</code> is the method <code>eq</code> because RSpec will check to see if the value of <code>dan.current_zipcode</code> matches <code>10002</code>.</p>
+
+<p>Let&rsquo;s say that this was a line you wrote for as part of a test for a location tracking app. You want your code to be as clear as possible for collaborators or even for your future self.</p>
+
+<p>Wouldn&rsquo;t it sound even better if you could write this?</p>
+
+<p><code>expect(dan).to be_in_zipcode(10002)</code></p>
+
+<p>This requires <code>be_in_zipcode</code> to be a method in <code>RSpec</code>&rsquo;s matcher library. I&rsquo;m going to briefly explain how to create this new matcher, but for alternate explanations, check out the <a href="https://github.com/dchelimsky/rspec/wiki/Custom-Matchers">Rspec Github Wiki</a> and Chapter 7 of Aaron Sumner&rsquo;s <a href="https://leanpub.com/everydayrailsrspec">Everyday Rails Testing with RSpec</a>.</p>
+
+<p>My intention is not to write another Matcher tutorial (though this might inevitably happen). After reading Sumner&rsquo;s chapter, I could imagine how matchers were created but ultimately, I felt a bit uncertain. With a little bit of <code>Pry</code> magic and doc-digging, I think I&rsquo;ve finally put most of the puzzle together which I&rsquo;m looking forward to sharing below! Constructive feedback and deeper insights are always welcome. :)</p>
+
+<h2>Match-Maker, Match-Maker, Make Me a Match!</h2>
+
+<p>Let&rsquo;s write some code so that we can use the method <code>be_in_zipcode(10002)</code> from above.</p>
+
+<p>General syntax at bare minimum first:</p>
+
+<figure class='code'><figcaption><span>syntax.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="ss">RSpec</span><span class="p">:</span><span class="ss">:Matchers</span><span class="o">.</span><span class="n">define</span> <span class="ss">:new_matcher_name</span> <span class="k">do</span> <span class="o">|</span><span class="n">expected</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">match</span> <span class="k">do</span> <span class="o">|</span><span class="n">actual</span><span class="o">|</span>
+</span><span class='line'>    <span class="c1"># Lines of code you want this matcher to run</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">#optional description and failure message definition blocks</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># From the describe block:</span>
+</span><span class='line'><span class="c1"># expect(actual).to matcher_method(expected)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>NOTE: Store your matcher files in <code>spec/support/matchers/</code> and require them in <code>spec/spec_helper.rb</code> with the following line:</p>
+
+<p><code>Dir[File.dirname(__FILE__) + "/support/**/*.rb"].each {|f| require f}</code></p>
+
+<p>Now onto our example:</p>
+
+<figure class='code'><figcaption><span>be_in_zipcode.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="ss">RSpec</span><span class="p">:</span><span class="ss">:Matchers</span><span class="o">.</span><span class="n">define</span> <span class="ss">:be_in_zipcode</span> <span class="k">do</span> <span class="o">|</span><span class="n">zipcode</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">match</span> <span class="k">do</span> <span class="o">|</span><span class="n">friend</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">friend</span><span class="o">.</span><span class="n">in_zipcode?</span><span class="p">(</span><span class="n">zipcode</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># Optional failure messages</span>
+</span><span class='line'>  <span class="n">failure_message_for_should</span> <span class="k">do</span> <span class="o">|</span><span class="n">actual</span><span class="o">|</span>
+</span><span class='line'>    <span class="s2">&quot;expected friend to be in zipcode&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">failure_message_for_should_not</span> <span class="k">do</span> <span class="o">|</span><span class="n">actual</span><span class="o">|</span>
+</span><span class='line'>    <span class="s2">&quot;expected friend not to be in zipcode&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># Optional method description</span>
+</span><span class='line'>  <span class="n">description</span> <span class="k">do</span>
+</span><span class='line'>    <span class="s2">&quot;checks user&#39;s current zipcode&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Again, the failure messages and description are optional blocks. The match block is obviously mandatory. So now that we have our new matcher, let&rsquo;s check out what&rsquo;s going on behind the scenes.</p>
+
+<h2>Under the hood</h2>
+
+<p><code>RSpec::Matchers.define :be_in_zipcode do |zipcode|</code></p>
+
+<p>The <code>define</code> method, extended from the DSL module, does the following:</p>
+
+<figure class='code'><figcaption><span>define.rb RSpec::Matchers::DSL#define</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">define</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">declarations</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">matcher_template</span> <span class="o">=</span> <span class="ss">RSpec</span><span class="p">:</span><span class="ss">:Matchers</span><span class="o">::</span><span class="ss">DSL</span><span class="p">:</span><span class="ss">:Matcher</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">declarations</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">define_method</span> <span class="nb">name</span> <span class="k">do</span> <span class="o">|*</span><span class="n">expected</span><span class="o">|</span>    <span class="c1"># =&gt; expected for us is the var zipcode</span>
+</span><span class='line'>    <span class="n">matcher</span> <span class="o">=</span> <span class="n">matcher_template</span><span class="o">.</span><span class="n">for_expected</span><span class="p">(</span><span class="o">*</span><span class="n">expected</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">matcher</span><span class="o">.</span><span class="n">matcher_execution_context</span> <span class="o">=</span> <span class="vi">@matcher_execution_context</span> <span class="o">||=</span> <span class="nb">self</span>
+</span><span class='line'>    <span class="n">matcher</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># name = be_in_zipcode</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The second line setting <code>matcher_template</code> initializes an <code>RSpec::Matchers::DSL::Matcher</code> object which stores the method name and the declarations block.</p>
+
+<p><code>define_method</code> then creates the <code>be_in_zipcode</code> method. The next line&rsquo;s <code>for_expected(*expected)</code> method sets the zipcode as the expected value and your failure messages/description from the matcher template in the second line. The messages and description are stored in the @messages attribute hash.</p>
+
+<p>The next line I&rsquo;m not sure about since <code>matcher_execution_context</code> refers to an attribute accessor. I don&rsquo;t see it in the Matcher module either. Any insight here would be great!</p>
+
+<p>Moving onto the last piece: the match block.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">match</span> <span class="k">do</span> <span class="o">|</span><span class="n">friend</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">friend</span><span class="o">.</span><span class="n">in_zipcode?</span><span class="p">(</span><span class="n">zipcode</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>RSpec::Match#match</code> stores the given block in <code>@match_block</code>, so essentially, <code>@match_block = friend.in_zipcode?(zipcode)</code>.</p>
+
+<p>Later, when you run your specs with the new matcher, the <code>match_block</code> will get called from the method <code>RSpec::Match#matches?</code>.</p>
+
+<figure class='code'><figcaption><span>matches?</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">matches?</span><span class="p">(</span><span class="n">actual</span><span class="p">)</span>
+</span><span class='line'>  <span class="vi">@actual</span> <span class="o">=</span> <span class="n">actual</span>
+</span><span class='line'>  <span class="k">if</span> <span class="vi">@expected_exception</span>
+</span><span class='line'>    <span class="k">begin</span>
+</span><span class='line'>      <span class="n">instance_exec</span><span class="p">(</span><span class="n">actual</span><span class="p">,</span> <span class="o">&amp;</span><span class="vi">@match_block</span><span class="p">)</span>
+</span><span class='line'>      <span class="kp">true</span>
+</span><span class='line'>    <span class="k">rescue</span> <span class="vi">@expected_exception</span>
+</span><span class='line'>      <span class="kp">false</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="k">begin</span>
+</span><span class='line'>      <span class="n">instance_exec</span><span class="p">(</span><span class="n">actual</span><span class="p">,</span> <span class="o">&amp;</span><span class="vi">@match_block</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">rescue</span> <span class="ss">Spec</span><span class="p">:</span><span class="ss">:Expectations</span><span class="o">::</span><span class="no">ExpectationNotMetError</span>
+</span><span class='line'>      <span class="kp">false</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And that&rsquo;s it!</p>
+
+<p>So if I were to run the original line, <code>expect(dan).to be_in_zipcode(10002)</code>, the following would happen:</p>
+
+<ol>
+<li><code>expect(dan)</code> returns an <code>RSpec::Expectations::ExpectationTarget</code> object storing the object <code>dan</code>.</li>
+</ol>
+
+
+<figure class='code'><figcaption><span>pry_session</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="sb">`expect(dan).to be_in_zipcode(10002)`</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># =&gt; #&lt;RSpec::Expectations::ExpectationTarget:0x007fbf511e4c78 @target=#&lt;User id: 1, name: dan&gt;&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>the <code>to</code> method passes in <code>be_in_zipcode(10002)</code> and calls a method called <code>handle_matcher</code>&hellip;</li>
+<li>&hellip; which checks if <code>be_in_zipcode</code> has been defined as a matcher.</li>
+<li>Since we&rsquo;ve defined <code>be_in_zipcode</code>, <code>matches?</code> gets called our block, which we saw above.</li>
+<li><code>handle_matcher</code> then figures out how to respond, given the messages you passed in when you defined the new matcher.</li>
+</ol>
+
+
+<p>&hellip; And that&rsquo;s our deep dive into RSpec&rsquo;s Custom Matchers. Again, feedback always welcome. Hope you enjoyed the complexity as much as I did! :)</p>
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-15T06:40:00-05:00" pubdate data-updated="true">Jan 15<span>th</span>, 2014</time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/match/'>match</a>, <a class='category' href='/blog/categories/rails/'>rails</a>, <a class='category' href='/blog/categories/rspec/'>rspec</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>, <a class='category' href='/blog/categories/tdd/'>tdd</a>
+
+
+</div>
+	
+	<div class="comments"><a href="/blog/2014/01/15/tdd2-RSpecMatchers/#disqus_thread">Comments</a></div>
+	
+</div>
+</article>
 
 
     <article class="post">
