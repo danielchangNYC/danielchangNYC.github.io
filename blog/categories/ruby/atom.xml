@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ruby | Daniel Chang]]></title>
   <link href="http://danielchangNYC.github.io/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://danielchangNYC.github.io/"/>
-  <updated>2014-01-15T06:44:05-05:00</updated>
+  <updated>2014-01-15T06:47:37-05:00</updated>
   <id>http://danielchangNYC.github.io/</id>
   <author>
     <name><![CDATA[Daniel Chang (couchpanda / c0depanda)]]></name>
@@ -18,7 +18,7 @@
     <link href="http://danielchangNYC.github.io/blog/2014/01/15/tdd2-RSpecMatchers/"/>
     <updated>2014-01-15T06:40:00-05:00</updated>
     <id>http://danielchangNYC.github.io/blog/2014/01/15/tdd2-RSpecMatchers</id>
-    <content type="html"><![CDATA[<h2>What&rsquo;s a Matcher?</h2>
+    <content type="html"><![CDATA[<h1>What&rsquo;s a Matcher?</h1>
 
 <p><code>expect(dan.current_zipcode).to eq(10002)</code></p>
 
@@ -34,7 +34,7 @@
 
 <p>My intention is not to write another Matcher tutorial (though this might inevitably happen). After reading Sumner&rsquo;s chapter, I could imagine how matchers were created but ultimately, I felt a bit uncertain. With a little bit of <code>Pry</code> magic and doc-digging, I think I&rsquo;ve finally put most of the puzzle together which I&rsquo;m looking forward to sharing below! Constructive feedback and deeper insights are always welcome. :)</p>
 
-<h2>Match-Maker, Match-Maker, Make Me a Match!</h2>
+<h1>Match-Maker, Match-Maker, Make Me a Match!</h1>
 
 <p>Let&rsquo;s write some code so that we can use the method <code>be_in_zipcode(10002)</code> from above.</p>
 
@@ -98,7 +98,7 @@ end
 
 <p>Again, the failure messages and description are optional blocks. The match block is obviously mandatory. So now that we have our new matcher, let&rsquo;s check out what&rsquo;s going on behind the scenes.</p>
 
-<h2>Under the hood</h2>
+<h1>Under the hood</h1>
 
 <p><code>RSpec::Matchers.define :be_in_zipcode do |zipcode|</code></p>
 
