@@ -4,7 +4,7 @@
   <title><![CDATA[Category: callbacks | Daniel Chang]]></title>
   <link href="http://danielchangNYC.github.io/blog/categories/callbacks/atom.xml" rel="self"/>
   <link href="http://danielchangNYC.github.io/"/>
-  <updated>2014-04-09T01:29:24-04:00</updated>
+  <updated>2014-04-09T01:30:31-04:00</updated>
   <id>http://danielchangNYC.github.io/</id>
   <author>
     <name><![CDATA[Daniel Chang (couchpanda / c0depanda)]]></name>
@@ -18,9 +18,7 @@
     <link href="http://danielchangNYC.github.io/blog/2014/04/08/tdd3-TestingHooks/"/>
     <updated>2014-04-08T09:00:00-04:00</updated>
     <id>http://danielchangNYC.github.io/blog/2014/04/08/tdd3-TestingHooks</id>
-    <content type="html"><![CDATA[<h1>Testing Rails Callbacks: A Step in the Right Direction</h1>
-
-<p>Anyone who&rsquo;s worked with tightly-coupled models in rails will likely know the pain of tracing the stack for an error triggered from a callback method. Such painful experiences have led developers to come to a consensus on general rules like <a href="http://blog.bignerdranch.com/1658-the-only-acceptable-use-for-callbacks-in-rails-ever/">&ldquo;Use a callback only when the logic refers to state internal to the object&rdquo;</a>, according to Jonathan Wallace. More on this topic by Samuel Mullen in a great blogpost, <a href="http://www.samuelmullen.com/2013/05/the-problem-with-rails-callbacks/">The Problem with Rails Callbacks</a>.</p>
+    <content type="html"><![CDATA[<p>Anyone who&rsquo;s worked with tightly-coupled models in rails will likely know the pain of tracing the stack for an error triggered from a callback method. Such painful experiences have led developers to come to a consensus on general rules like <a href="http://blog.bignerdranch.com/1658-the-only-acceptable-use-for-callbacks-in-rails-ever/">&ldquo;Use a callback only when the logic refers to state internal to the object&rdquo;</a>, according to Jonathan Wallace. More on this topic by Samuel Mullen in a great blogpost, <a href="http://www.samuelmullen.com/2013/05/the-problem-with-rails-callbacks/">The Problem with Rails Callbacks</a>.</p>
 
 <p>The following post revolves around an <code>Invitation</code> model I wrote with my team mates and then later debated the callback to use.</p>
 
