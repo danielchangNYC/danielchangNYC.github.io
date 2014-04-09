@@ -231,6 +231,8 @@
 
 <p>Additionally, <em>if you&rsquo;re testing a callback that affects the internal state of an object, we must test for a state-change.</em> Using <code>after_initialize</code>, we can tell that a new invite has a token. However, we cannot say that we&rsquo;ve tested the non-presence and the presence of the token. The pivotal point again is around <code>#save</code>. <code>#save</code> triggers the change and we can say with certainty that we&rsquo;ve not only seen a &ldquo;zero to one&rdquo; change happen, but that the change has persisted in our database.</p>
 
+<p>Finally, if you use <code>after_initialize</code> with the underscore in a block of code in <code>Octopress</code>, your blog will refuse to generate. Coincidence? I think not.</p>
+
 
   </article>
   <hr>
