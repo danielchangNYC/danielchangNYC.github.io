@@ -4,7 +4,7 @@
   <title><![CDATA[Category: rspec | Daniel Chang]]></title>
   <link href="http://danielchangNYC.github.io/blog/categories/rspec/atom.xml" rel="self"/>
   <link href="http://danielchangNYC.github.io/"/>
-  <updated>2014-01-15T06:47:37-05:00</updated>
+  <updated>2014-04-09T01:29:24-04:00</updated>
   <id>http://danielchangNYC.github.io/</id>
   <author>
     <name><![CDATA[Daniel Chang (couchpanda / c0depanda)]]></name>
@@ -12,6 +12,89 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Testing Rails Callbacks: A Step in the Right Direction]]></title>
+    <link href="http://danielchangNYC.github.io/blog/2014/04/08/tdd3-TestingHooks/"/>
+    <updated>2014-04-08T09:00:00-04:00</updated>
+    <id>http://danielchangNYC.github.io/blog/2014/04/08/tdd3-TestingHooks</id>
+    <content type="html"><![CDATA[<h1>Testing Rails Callbacks: A Step in the Right Direction</h1>
+
+<p>Anyone who&rsquo;s worked with tightly-coupled models in rails will likely know the pain of tracing the stack for an error triggered from a callback method. Such painful experiences have led developers to come to a consensus on general rules like <a href="http://blog.bignerdranch.com/1658-the-only-acceptable-use-for-callbacks-in-rails-ever/">&ldquo;Use a callback only when the logic refers to state internal to the object&rdquo;</a>, according to Jonathan Wallace. More on this topic by Samuel Mullen in a great blogpost, <a href="http://www.samuelmullen.com/2013/05/the-problem-with-rails-callbacks/">The Problem with Rails Callbacks</a>.</p>
+
+<p>The following post revolves around an <code>Invitation</code> model I wrote with my team mates and then later debated the callback to use.</p>
+
+<p>The <code>Invitation</code> model generates a unique token which it uses to identify users who have clicked on a registration link.</p>
+
+<p>The callback I chose to use first was <code>after_initialize</code> because an <code>invite</code> object must always have a <code>token</code>.</p>
+
+<p>``` ruby invitation.rb
+class User &lt; ActiveRecord::Base
+  after initialize :add_token</p>
+
+<p>  def add_unique_token</p>
+
+<pre><code>self.token = Tokenizer.Generate
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p><em>NOTE</em> <code>after initialize</code> above should be <code>after_initialize</code>. For some reason my syntax highlighting plugin doesn&rsquo;t like the underscore in the correct version.</p>
+
+<p>The associated test:</p>
+
+<p>``` ruby invitation_spec.rb
+describe Invitation do
+  it &ldquo;generates a random token on initialize&rdquo; do</p>
+
+<pre><code>invite = Invitation.new
+expect(invite.token).not_to be_nil
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p>However, another team mate suggested using <code>before_create</code> instead.</p>
+
+<p>His model and test:</p>
+
+<p>``` ruby invitation.rb
+class User &lt; ActiveRecord::Base
+  before_create :add_token</p>
+
+<p>  def add_unique_token</p>
+
+<pre><code>self.token = Tokenizer.generate
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p>``` ruby invitation_spec.rb
+describe Invitation do
+  it &ldquo;generates a random token before create&rdquo; do</p>
+
+<pre><code>invite = Invitation.new
+expect(invite.token).to be_nil
+invite.save
+expect(invite.token).not_to be_nil
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<h3>Why does this subtle change matter?</h3>
+
+<p>First, <em>using <code>after_initialize</code> could produce a false positive.</em> While the <code>after_initialize</code> test does exactly what the <code>it</code> statement says, there&rsquo;s a chance that we may miss, say, a validation error that happens before <code>save</code>. This test would pass, and so would the validations, but for some reason you might find that your invitations aren&rsquo;t working properly. <code>after_initialize</code> allows us to omit saving from the test, which one could generally assume is always desired given that callbacks should only &ldquo;refer to state internal to an object&rdquo;.</p>
+
+<p>Additionally, <em>if you&rsquo;re testing a callback that affects the internal state of an object, we must test for a state-change.</em> Using <code>after_initialize</code>, we can tell that a new invite has a token. However, we cannot say that we&rsquo;ve tested the non-presence and the presence of the token. The pivotal point again is around <code>#save</code>. <code>#save</code> triggers the change and we can say with certainty that we&rsquo;ve not only seen a &ldquo;zero to one&rdquo; change happen, but that the change has persisted in our database.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[RSpec Custom Matchers: A Deep Dive]]></title>
