@@ -147,14 +147,14 @@
 
 <p>The callback I chose to use first was <code>after_initialize</code> because an <code>invite</code> object must always have a <code>token</code>.</p>
 
-<figure class='code'><figcaption><span>user.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>invitation.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Invitation</span> <span class="o">&lt;</span> <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span>
 </span><span class='line'>  <span class="n">after</span> <span class="kp">initialize</span> <span class="ss">:add_token</span> <span class="c1">#NOTE my syntax highlighter dislikes the underscore. see below.</span>
 </span><span class='line'>
 </span><span class='line'>  <span class="k">def</span> <span class="nf">add_unique_token</span>
@@ -194,7 +194,7 @@
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Invitation</span> <span class="o">&lt;</span> <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span>
 </span><span class='line'>  <span class="n">before_create</span> <span class="ss">:add_token</span>
 </span><span class='line'>
 </span><span class='line'>  <span class="k">def</span> <span class="nf">add_unique_token</span>
@@ -231,7 +231,32 @@
 
 <p>Additionally, <strong>if you&rsquo;re testing a callback that affects the internal state of an object, we must test for a state-change.</strong> Using <code>after_initialize</code>, we can tell that a new invite has a token. However, we cannot say that we&rsquo;ve tested the non-presence and the presence of the token. The pivotal point again is around <code>#save</code>. <code>#save</code> triggers the change and we can say with certainty that we&rsquo;ve not only seen a &ldquo;zero to one&rdquo; change happen, but that the change has persisted in our database.</p>
 
-<p>Finally, if you use <code>after_initialize</code> with the underscore in a block of code in <code>Octopress</code>, your blog will refuse to generate. Coincidence? I think not.</p>
+<p>UPDATE: <a href="https://twitter.com/scottadhoc/status/453917228648640512">Twitter comment</a> from <a href="https://twitter.com/scottadhoc">@scottadhoc</a>: &ldquo;what happens if you load that record from the db into a new object and then assert on that field?&rdquo;</p>
+
+<p>Good point! If I understand your suggestion correctly, here&rsquo;s how I might refactor the after_initialize version of the spec:</p>
+
+<figure class='code'><figcaption><span>invitation_spec.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">describe</span> <span class="no">Invitation</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">it</span> <span class="s2">&quot;generates a random token #after_initialize&quot;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">invite</span> <span class="o">=</span> <span class="no">Invitation</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="n">invite</span><span class="o">.</span><span class="n">token</span><span class="p">)</span><span class="o">.</span><span class="n">not_to</span> <span class="n">be_nil</span>
+</span><span class='line'>    <span class="n">invite</span><span class="o">.</span><span class="n">save!</span>
+</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="n">invite</span><span class="o">.</span><span class="n">token</span><span class="p">)</span><span class="o">.</span><span class="n">not_to</span> <span class="n">be_nil</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This way, we can make sure that the data persisted. While this works, my feeling is that the implication of testing after_initialize allows one to omit the persistence part. I certainly fell into that trap and wouldn&rsquo;t be surprised if I forget again while testing an after_initialize callback.</p>
+
+<p>Lastly, if you use <code>after_initialize</code> with the underscore in a block of code in <code>Octopress</code>, your blog will refuse to generate. Coincidence? I think not.</p>
 
 
   </article>

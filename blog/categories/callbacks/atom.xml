@@ -4,7 +4,7 @@
   <title><![CDATA[Category: callbacks | Daniel Chang]]></title>
   <link href="http://danielchangNYC.github.io/blog/categories/callbacks/atom.xml" rel="self"/>
   <link href="http://danielchangNYC.github.io/"/>
-  <updated>2014-04-09T11:16:39-04:00</updated>
+  <updated>2014-04-09T12:17:37-04:00</updated>
   <id>http://danielchangNYC.github.io/</id>
   <author>
     <name><![CDATA[Daniel Chang (couchpanda / c0depanda)]]></name>
@@ -26,8 +26,8 @@
 
 <p>The callback I chose to use first was <code>after_initialize</code> because an <code>invite</code> object must always have a <code>token</code>.</p>
 
-<p>``` ruby user.rb
-class User &lt; ActiveRecord::Base
+<p>``` ruby invitation.rb
+class Invitation &lt; ActiveRecord::Base
   after initialize :add_token #NOTE my syntax highlighter dislikes the underscore. see below.</p>
 
 <p>  def add_unique_token</p>
@@ -60,7 +60,7 @@ end
 <p>His model and test:</p>
 
 <p>``` ruby invitation.rb
-class User &lt; ActiveRecord::Base
+class Invitation &lt; ActiveRecord::Base
   before_create :add_token</p>
 
 <p>  def add_unique_token</p>
@@ -92,7 +92,27 @@ end
 
 <p>Additionally, <strong>if you&rsquo;re testing a callback that affects the internal state of an object, we must test for a state-change.</strong> Using <code>after_initialize</code>, we can tell that a new invite has a token. However, we cannot say that we&rsquo;ve tested the non-presence and the presence of the token. The pivotal point again is around <code>#save</code>. <code>#save</code> triggers the change and we can say with certainty that we&rsquo;ve not only seen a &ldquo;zero to one&rdquo; change happen, but that the change has persisted in our database.</p>
 
-<p>Finally, if you use <code>after_initialize</code> with the underscore in a block of code in <code>Octopress</code>, your blog will refuse to generate. Coincidence? I think not.</p>
+<p>UPDATE: <a href="https://twitter.com/scottadhoc/status/453917228648640512">Twitter comment</a> from <a href="https://twitter.com/scottadhoc">@scottadhoc</a>: &ldquo;what happens if you load that record from the db into a new object and then assert on that field?&rdquo;</p>
+
+<p>Good point! If I understand your suggestion correctly, here&rsquo;s how I might refactor the after_initialize version of the spec:</p>
+
+<p>``` ruby invitation_spec.rb
+describe Invitation do
+  it &ldquo;generates a random token #after_initialize&rdquo; do</p>
+
+<pre><code>invite = Invitation.new
+expect(invite.token).not_to be_nil
+invite.save!
+expect(invite.token).not_to be_nil
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p>This way, we can make sure that the data persisted. While this works, my feeling is that the implication of testing after_initialize allows one to omit the persistence part. I certainly fell into that trap and wouldn&rsquo;t be surprised if I forget again while testing an after_initialize callback.</p>
+
+<p>Lastly, if you use <code>after_initialize</code> with the underscore in a block of code in <code>Octopress</code>, your blog will refuse to generate. Coincidence? I think not.</p>
 ]]></content>
   </entry>
   
