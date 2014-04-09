@@ -87,7 +87,7 @@
 
 <p>The callback I chose to use first was <code>after_initialize</code> because an <code>invite</code> object must always have a <code>token</code>.</p>
 
-<figure class='code'><figcaption><span>invitation.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>user.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -104,7 +104,7 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p><em>NOTE</em> <code>after initialize</code> above should be <code>after_initialize</code>. For some reason my syntax highlighting plugin doesn&rsquo;t like the underscore in the correct version.</p>
+<p><strong>NOTE</strong> <code>after initialize</code> above should be <code>after_initialize</code>. For some reason my syntax highlighting plugin doesn&rsquo;t like the underscore in the correct version.</p>
 
 <p>The associated test:</p>
 
@@ -167,9 +167,9 @@
 
 <h3>Why does this subtle change matter?</h3>
 
-<p>First, <em>using <code>after_initialize</code> could produce a false positive.</em> While the <code>after_initialize</code> test does exactly what the <code>it</code> statement says, there&rsquo;s a chance that we may miss, say, a validation error that happens before <code>save</code>. This test would pass, and so would the validations, but for some reason you might find that your invitations aren&rsquo;t working properly. <code>after_initialize</code> allows us to omit saving from the test, which one could generally assume is always desired given that callbacks should only &ldquo;refer to state internal to an object&rdquo;.</p>
+<p>First, <strong>using <code>after_initialize</code> could produce a false positive.</strong> While the <code>after_initialize</code> test does exactly what the <code>it</code> statement says, there&rsquo;s a chance that we may miss, say, a validation error that happens before <code>save</code>. This test would pass, and so would the validations, but for some reason you might find that your invitations aren&rsquo;t working properly. <code>after_initialize</code> allows us to omit saving from the test, which one could generally assume is always desired given that callbacks should only &ldquo;refer to state internal to an object&rdquo;.</p>
 
-<p>Additionally, <em>if you&rsquo;re testing a callback that affects the internal state of an object, we must test for a state-change.</em> Using <code>after_initialize</code>, we can tell that a new invite has a token. However, we cannot say that we&rsquo;ve tested the non-presence and the presence of the token. The pivotal point again is around <code>#save</code>. <code>#save</code> triggers the change and we can say with certainty that we&rsquo;ve not only seen a &ldquo;zero to one&rdquo; change happen, but that the change has persisted in our database.</p>
+<p>Additionally, <strong>if you&rsquo;re testing a callback that affects the internal state of an object, we must test for a state-change.</strong> Using <code>after_initialize</code>, we can tell that a new invite has a token. However, we cannot say that we&rsquo;ve tested the non-presence and the presence of the token. The pivotal point again is around <code>#save</code>. <code>#save</code> triggers the change and we can say with certainty that we&rsquo;ve not only seen a &ldquo;zero to one&rdquo; change happen, but that the change has persisted in our database.</p>
 
 <p>Finally, if you use <code>after_initialize</code> with the underscore in a block of code in <code>Octopress</code>, your blog will refuse to generate. Coincidence? I think not.</p>
 </div>
