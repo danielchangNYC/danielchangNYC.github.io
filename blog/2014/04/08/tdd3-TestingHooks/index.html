@@ -95,7 +95,7 @@
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span>
-</span><span class='line'>  <span class="n">after</span> <span class="kp">initialize</span> <span class="ss">:add_token</span>
+</span><span class='line'>  <span class="n">after</span> <span class="kp">initialize</span> <span class="ss">:add_token</span> <span class="c1">#NOTE my syntax highlighter dislikes the underscore. see below.</span>
 </span><span class='line'>
 </span><span class='line'>  <span class="k">def</span> <span class="nf">add_unique_token</span>
 </span><span class='line'>    <span class="nb">self</span><span class="o">.</span><span class="n">token</span> <span class="o">=</span> <span class="no">Tokenizer</span><span class="o">.</span><span class="n">Generate</span>
