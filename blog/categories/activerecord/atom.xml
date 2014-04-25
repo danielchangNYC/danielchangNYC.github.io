@@ -4,7 +4,7 @@
   <title><![CDATA[Category: activerecord | Daniel Chang]]></title>
   <link href="http://danielchangNYC.github.io/blog/categories/activerecord/atom.xml" rel="self"/>
   <link href="http://danielchangNYC.github.io/"/>
-  <updated>2014-04-25T00:56:24-04:00</updated>
+  <updated>2014-04-25T00:58:24-04:00</updated>
   <id>http://danielchangNYC.github.io/</id>
   <author>
     <name><![CDATA[Daniel Chang]]></name>
@@ -18,16 +18,16 @@
     <link href="http://danielchangNYC.github.io/blog/2014/01/13/tdd1-ActiveRecordEqualityRogue/"/>
     <updated>2014-01-13T23:00:00-05:00</updated>
     <id>http://danielchangNYC.github.io/blog/2014/01/13/tdd1-ActiveRecordEqualityRogue</id>
-    <content type="html"><![CDATA[<p><img class="right <a" src="href="http://static.comicvine.com/uploads/original/8/85629/1887574-rogue1.gif">http://static.comicvine.com/uploads/original/8/85629/1887574-rogue1.gif</a>" title="Rogue" >
-Almost done with my model specs! I ran into a couple of interesting problems that I posted on Stack Overflow, one of which I&rsquo;ll cover briefly below. Oh yeah, and Rogue! I&rsquo;ll explain that in the last section of this post.</p>
+    <content type="html"><![CDATA[<p><img class="right" src="http://static.comicvine.com/uploads/original/8/85629/1887574-rogue1.gif" title="Rogue" >
+Almost done with my model specs! I ran into a couple of interesting problems that I posted on Stack Overflow, one of which I’ll cover briefly below. Oh yeah, and Rogue! I’ll explain that in the last section of this post.</p>
 
-<h2>The problem I ran into (from my <a href="https://stackoverflow.com/questions/21102549/why-is-the-where-query-in-rails-returning-a-different-object">StackOverflow post</a>)</h2>
+<h2 id="the-problem-i-ran-into-from-my-stackoverflow-post1">The problem I ran into (from my <a href="https://stackoverflow.com/questions/21102549/why-is-the-where-query-in-rails-returning-a-different-object">StackOverflow post</a>)</h2>
 
 <p><em>If you just read the whole post, skip to the last section of this blog post.</em></p>
 
-<p>I&rsquo;m testing chats between users in my app. I&rsquo;m using RSpec and FactoryGirl</p>
+<p>I’m testing chats between users in my app. I’m using RSpec and FactoryGirl</p>
 
-<p>The test that&rsquo;s not passing:</p>
+<p>The test that’s not passing:</p>
 
 <p><code>ruby chat_spec.rb
 it "creates a chat if one does not exist" do
@@ -41,22 +41,20 @@ end
 <p>The failure message says:</p>
 
 <p>``` sh
-Failure/Error: expect(Chat.where(&ldquo;chatted_user_id = ?&rdquo;, bob.id).first).to equal(new_chat)</p>
+Failure/Error: expect(Chat.where(“chatted_user_id = ?”, bob.id).first).to equal(new_chat)</p>
 
-<p>   expected #&lt;Chat:70120833243920> => #<Chat id: 2, user_id: 2, chatted_user_id: 3></p>
+<p>expected #<chat:70120833243920> =&gt; #&lt;Chat id: 2, user_id: 2, chatted_user_id: 3&gt;
+        got #<chat:70120833276240> =&gt; #&lt;Chat id: 2, user_id: 2, chatted_user_id: 3&gt;</chat:70120833276240></chat:70120833243920></p>
 
-<pre><code>    got #&lt;Chat:70120833276240&gt; =&gt; #&lt;Chat id: 2, user_id: 2, chatted_user_id: 3&gt;
-</code></pre>
-
-<p>   Compared using equal?, which compares object identity,
+<p>Compared using equal?, which compares object identity,
    but expected and actual are not the same object. Use
-   <code>expect(actual).to eq(expected)</code> if you don&rsquo;t care about
+   <code>expect(actual).to eq(expected)</code> if you don’t care about
    object identity in this example.
 ```</p>
 
 <p>Why is my query returning a different object id?</p>
 
-<h3>Answer from Simone Carletti on StackOverflow</h3>
+<h3 id="answer-from-simone-carletti-on-stackoverflow">Answer from Simone Carletti on StackOverflow</h3>
 
 <p>equal checks object identity. The objects you are testing are two objects (instances) referencing the same record, but they are actually different objects from a Ruby virtual machine point of view.</p>
 
@@ -68,42 +66,45 @@ To better understand the problem, look at the following example</p>
 
 <p><code>
 2.0.0-p353 :001 &gt; "foo".object_id
- =&gt; 70117320944040
+ =&gt; 70117320944040 
 2.0.0-p353 :002 &gt; "foo".object_id
- =&gt; 70117320962820
+ =&gt; 70117320962820 
 </code>
-Here I&rsquo;m creating two identical strings. They are identical, but not equal because they are actually two different objects.</p>
+Here I’m creating two identical strings. They are identical, but not equal because they are actually two different objects.</p>
 
 <p><code>
 2.0.0-p353 :008 &gt; "foo" == "foo"
- =&gt; true
+ =&gt; true 
 2.0.0-p353 :009 &gt; "foo".equal? "foo"
- =&gt; false
+ =&gt; false 
 </code></p>
 
-<p>That&rsquo;s the same issue affecting your test. equal checks if two objects are actually the same at the object_id level. But what you really want to know is if they are the same record.</p>
+<p>That’s the same issue affecting your test. equal checks if two objects are actually the same at the object_id level. But what you really want to know is if they are the same record.</p>
 
-<h2>So what&rsquo;s happening under the hood?</h2>
+<h2 id="so-whats-happening-under-the-hood">So what’s happening under the hood?</h2>
 
-<p>The &ldquo;where&rdquo; query returns an array of objects matching the query, and those objects must be Active Record objects that just handle the data. If I make another query, Active Record must be creating another set of objects to handle each row of data.</p>
+<p>The “where” query returns an array of objects matching the query, and those objects must be Active Record objects that just handle the data. If I make another query, Active Record must be creating another set of objects to handle each row of data.</p>
 
-<p>I wanted to confirm this before throwing it out on the web as &ldquo;fact&rdquo;, so here&rsquo;s what an Active Record object is from <a href="http://www.martinfowler.com/eaaCatalog/activeRecord.html">Martin Fowler himself</a>:</p>
+<p>I wanted to confirm this before throwing it out on the web as “fact”, so here’s what an Active Record object is from <a href="http://www.martinfowler.com/eaaCatalog/activeRecord.html">Martin Fowler himself</a>:</p>
 
-<blockquote><p>An object that wraps a row in a database table or view, encapsulates the database access, and adds domain logic on that data.</p></blockquote>
+<blockquote>
+  <p>An object that wraps a row in a database table or view, encapsulates the database access, and adds domain logic on that data.</p>
+</blockquote>
 
-<p>Think of an Active Record object sort of like Rogue (see above). For those of you who don&rsquo;t remember, Rogue absorbs the memories and abilities of any person she touches.</p>
+<p>Think of an Active Record object sort of like Rogue (see above). For those of you who don’t remember, Rogue absorbs the memories and abilities of any person she touches.</p>
 
-<p><img class="<a" src="href="http://31.media.tumblr.com/25cd14bae1b207202d0ee9b56b475409/tumblr_mzd6fjLYmf1sqhdy2o1_1280.png">http://31.media.tumblr.com/25cd14bae1b207202d0ee9b56b475409/tumblr_mzd6fjLYmf1sqhdy2o1_1280.png</a>" width="480" title="Comic Picture Rogue&rsquo;s Powers" ></p>
+<p><img src="http://31.media.tumblr.com/25cd14bae1b207202d0ee9b56b475409/tumblr_mzd6fjLYmf1sqhdy2o1_1280.png" width="480" title="Comic Picture Rogue’s Powers" ></p>
 
 <p>Similarly (sorta), an Active Record objects takes the data (memories) of a certain row and then takes on the behavior (abilities) of the object type matching the table name.</p>
 
-<p>Ok, so that was really just an excuse to get Rogue somewhere on my blog. While I&rsquo;m at it, here&rsquo;s one of her destroying Ororo (Storm).</p>
+<p>Ok, so that was really just an excuse to get Rogue somewhere on my blog. While I’m at it, here’s one of her destroying Ororo (Storm).</p>
 
-<p><img class="<a" src="href="http://i22.photobucket.com/albums/b310/RogueX18/Rogue%20Absorptions/UncannyX-Men158Storm.jpg">http://i22.photobucket.com/albums/b310/RogueX18/Rogue%20Absorptions/UncannyX-Men158Storm.jpg</a>" title="Rogue and Storm Picture" ></p>
+<p><img src="http://i22.photobucket.com/albums/b310/RogueX18/Rogue%20Absorptions/UncannyX-Men158Storm.jpg" title="Rogue and Storm Picture" ></p>
 
 <p>So there you have it! Moral of the story: generally remember to use eq to test equivalence in RSpec with ActiveRecord.</p>
 
-<p>Oh, and here&rsquo;s a <a href="https://www.relishapp.com/rspec/rspec-expectations/v/2-0/docs/matchers/equality-matchers">bonus resource: equal, eql, eq, and ==</a> in RSpec.</p>
+<p>Oh, and here’s a <a href="https://www.relishapp.com/rspec/rspec-expectations/v/2-0/docs/matchers/equality-matchers">bonus resource: equal, eql, eq, and ==</a> in RSpec.</p>
+
 ]]></content>
   </entry>
   
@@ -112,21 +113,21 @@ Here I&rsquo;m creating two identical strings. They are identical, but not equal
     <link href="http://danielchangNYC.github.io/blog/2013/11/06/self-referential-associations/"/>
     <updated>2013-11-06T08:00:00-05:00</updated>
     <id>http://danielchangNYC.github.io/blog/2013/11/06/self-referential-associations</id>
-    <content type="html"><![CDATA[<p>Week 2 of learning Rails. After 6 weeks at Flatiron, I feel like a beginner again, but not quite like I&rsquo;m stranded on a deserted island &mdash; more like I&rsquo;m Link, and although I wield a wooden sword, new items abound and I&rsquo;m eager to learn how to use them.</p>
+    <content type="html"><![CDATA[<p>Week 2 of learning Rails. After 6 weeks at Flatiron, I feel like a beginner again, but not quite like I’m stranded on a deserted island – more like I’m Link, and although I wield a wooden sword, new items abound and I’m eager to learn how to use them.</p>
 
-<p><img class="<a" src="href="http://www.ohmz.net/wp-content/uploads/2011/08/its-dangerous-to-go-alone-take-this.jpg">http://www.ohmz.net/wp-content/uploads/2011/08/its-dangerous-to-go-alone-take-this.jpg</a>" width="400"></p>
+<p><img src="http://www.ohmz.net/wp-content/uploads/2011/08/its-dangerous-to-go-alone-take-this.jpg" width="400"></p>
 
 <p>Although the <a href="http://guides.rubyonrails.org/">Rails Guides</a> have been invaluable, trying new constructs myself is how I internalize a concept. This blog post will be about <a href="http://guides.rubyonrails.org/association_basics.html">associations</a>, particularly <a href="http://guides.rubyonrails.org/association_basics.html#self-joins">self joins</a>.</p>
 
-<h2>Mini-Project: Self-Joins</h2>
+<h2 id="mini-project-self-joins">Mini-Project: Self-Joins</h2>
 
-<p>I created a basic rails app and deployed it on Heroku <a href="https://customer-referrals-testsite.herokuapp.com/">here</a>. Try it out to see how the customer data behaves. Imagine what the schema (or &ldquo;table&rdquo;) might look like and then read on.</p>
+<p>I created a basic rails app and deployed it on Heroku <a href="https://customer-referrals-testsite.herokuapp.com/">here</a>. Try it out to see how the customer data behaves. Imagine what the schema (or “table”) might look like and then read on.</p>
 
-<h1>What is a Self Join?</h1>
+<h1 id="what-is-a-self-join">What is a Self Join?</h1>
 
 <p>Below is a self-join. While foreign keys are usually used to link data between two tables, you can use foreign keys to refer to data within the <em>same</em> table to create one that looks something like this:</p>
 
-<p><img class="<a" src="href="http://d2o0t5hpnwv4c1.cloudfront.net/538_sql3/ss_5.png">http://d2o0t5hpnwv4c1.cloudfront.net/538_sql3/ss_5.png</a>" width="600">
+<p><img src="http://d2o0t5hpnwv4c1.cloudfront.net/538<em>sql3/ss</em>5.png" width="600">
 <a href="http://net.tutsplus.com/tutorials/databases/sql-for-beginners-part-3-database-relationships/">(source site)</a></p>
 
 <p>I originally tried the following associations below.
@@ -136,44 +137,43 @@ class Customer &lt; ActiveRecord::Base
   belongs_to :referring_customer, class_name: "Customer", foreign_key: "referring_customer_id"
 end
 </code>
-This didn&rsquo;t work. After some serious research, stackoverflow, posting my own <a href="http://stackoverflow.com/questions/19803759/how-do-i-create-a-self-referential-association-self-join-in-a-single-class-usi">stackoverflow question</a> (thanks Peter!!!), trial-and-error, and pry sessions, I refactored my code to:
+This didn’t work. After some serious research, stackoverflow, posting my own <a href="http://stackoverflow.com/questions/19803759/how-do-i-create-a-self-referential-association-self-join-in-a-single-class-usi">stackoverflow question</a> (thanks Peter!!!), trial-and-error, and pry sessions, I refactored my code to:
 <code>ruby customer.rb WORKING VERSION
 class Customer &lt; ActiveRecord::Base
   has_many :referrals, class_name: "Customer", foreign_key: "referring_customer_id"
   belongs_to :referring_customer, class_name: "Customer"
 end
 </code>
-Let&rsquo;s think about this for a second. Why does this work and what does it do? <code>has_many</code> and <code>belongs_to</code> provide <code>Customer</code>s with a set of methods to access their associated data. The options passed often do not change the database since Rails tries to keep logic defined within the application. Why? I&rsquo;m not exactly sure but I suppose this is partially why Rails easily supports a wide range of databases.</p>
+Let’s think about this for a second. Why does this work and what does it do? <code>has_many</code> and <code>belongs_to</code> provide <code>Customer</code>s with a set of methods to access their associated data. The options passed often do not change the database since Rails tries to keep logic defined within the application. Why? I’m not exactly sure but I suppose this is partially why Rails easily supports a wide range of databases.</p>
 
-<p>Here&rsquo;s what the arguments do:</p>
+<p>Here’s what the arguments do:</p>
 
 <ul>
-<li><code>class_name: "Customer"</code> tells Rails to look in the <code>Customer</code> class for the association. What do I mean by association? In <code>has_many :referrals</code>, the <code>:referrals</code> is called the assocation. When would I use this? When I need to override the Rails convention for identifying the class in which to find the association.</li>
-<li><code>foreign_key: "referring_customer_id"</code> tells Rails where to find the foreign key. When would I use this? When I need to override the Rails convention for identifying the class in which to find the association. Why didn&rsquo;t I use it for <code>belongs_to</code>? It is implicitly defined with that method.</li>
-<li><code>conditions: "referring_customer_id = id"</code> actually fires a <code>WHERE</code> SQL statement with the given value. I originally used this thinking it would match referring customers by their id. It turned out to be an extra constraint though &mdash; <code>AND (referring_customer_id = id)</code> &mdash; which filtered for any customer who referred <em>him/herself</em>.</li>
+  <li><code>class_name: "Customer"</code> tells Rails to look in the <code>Customer</code> class for the association. What do I mean by association? In <code>has_many :referrals</code>, the <code>:referrals</code> is called the assocation. When would I use this? When I need to override the Rails convention for identifying the class in which to find the association.</li>
+  <li><code>foreign_key: "referring_customer_id"</code> tells Rails where to find the foreign key. When would I use this? When I need to override the Rails convention for identifying the class in which to find the association. Why didn’t I use it for <code>belongs_to</code>? It is implicitly defined with that method.</li>
+  <li><code>conditions: "referring_customer_id = id"</code> actually fires a <code>WHERE</code> SQL statement with the given value. I originally used this thinking it would match referring customers by their id. It turned out to be an extra constraint though – <code>AND (referring_customer_id = id)</code> – which filtered for any customer who referred <em>him/herself</em>.</li>
 </ul>
 
+<h1 id="when-else-can-i-use-self-joins">When else can I use self-joins?</h1>
 
-<h1>When else can I use self-joins?</h1>
-
-<p>Generally you can use self-joins anytime you need to create a hierarchy-like, &ldquo;nested&rdquo; structure.
-<img class="right <a" src="href="http://d2o0t5hpnwv4c1.cloudfront.net/538_sql3/graph_5.png">http://d2o0t5hpnwv4c1.cloudfront.net/538_sql3/graph_5.png</a>" width="400"></p>
+<p>Generally you can use self-joins anytime you need to create a hierarchy-like, “nested” structure.
+<img class="right" src="http://d2o0t5hpnwv4c1.cloudfront.net/538<em>sql3/graph</em>5.png" width="400"></p>
 
 <p>Some other applications could be:</p>
 
 <ul>
-<li>Creating parent and child directories for Folder objects.</li>
-<li>Creating managers and subordinates for Employee objects.</li>
-<li>Creating callers and receivers for PhoneTreeMember objects.</li>
-<li>Anything else with a parent-child data relationship.</li>
+  <li>Creating parent and child directories for Folder objects.</li>
+  <li>Creating managers and subordinates for Employee objects.</li>
+  <li>Creating callers and receivers for PhoneTreeMember objects.</li>
+  <li>Anything else with a parent-child data relationship.</li>
 </ul>
 
-
-<h1>The Master Sword!</h1>
+<h1 id="the-master-sword">The Master Sword!</h1>
 
 <p>Just when you thought THAT was exciting, there are also plenty of <em>GEMS</em> that allow you to create these nested structures! Two from the Ruby Toolbox are <a href="https://www.ruby-toolbox.com/projects/awesome_nested_set">Awesome Nested Set</a> and <a href="https://www.ruby-toolbox.com/projects/ancestry">Ancestry</a>.</p>
 
-<p><img class="<a" src="href="https://lh3.ggpht.com/-XQj1y02FMH4/TcnEMrdHk_I/AAAAAAAAAZE/7ssw-Kwlv7s/s1600/Link_taking_Master_Sword.jpg">https://lh3.ggpht.com/-XQj1y02FMH4/TcnEMrdHk_I/AAAAAAAAAZE/7ssw-Kwlv7s/s1600/Link_taking_Master_Sword.jpg</a>" width="400"></p>
+<p><img src="https://lh3.ggpht.com/-XQj1y02FMH4/TcnEMrdHk_I/AAAAAAAAAZE/7ssw-Kwlv7s/s1600/Link_taking_Master_Sword.jpg" width="400"></p>
+
 ]]></content>
   </entry>
   
@@ -182,18 +182,23 @@ Let&rsquo;s think about this for a second. Why does this work and what does it d
     <link href="http://danielchangNYC.github.io/blog/2013/10/08/rails-presentation-post/"/>
     <updated>2013-10-08T07:00:00-04:00</updated>
     <id>http://danielchangNYC.github.io/blog/2013/10/08/rails-presentation-post</id>
-    <content type="html"><![CDATA[<p>I took a bit of a dive today and looked a Ruby on Rails <a href="http://www.slideshare.net/aizatto/ruby-on-rails-48391">presentation</a>. Here&rsquo;s what I gleaned from looking through all the slides.</p>
+    <content type="html"><![CDATA[<p>I took a bit of a dive today and looked a Ruby on Rails <a href="http://www.slideshare.net/aizatto/ruby-on-rails-48391">presentation</a>. Here’s what I gleaned from looking through all the slides.</p>
 
 <ul>
-<li><p>Rails is a web application framework that allows your Ruby to interact with the web seamlessly. By &ldquo;interact with the web&rdquo;, I assume the presentation means &ldquo;interact with databases.&rdquo;</p></li>
-<li><p>Rails implements a principle called &ldquo;MVC&rdquo; &mdash; Model View Controller. Rails seems to handle each task separately. I&rsquo;m going to focus on the Model, which uses ActiveRecord.</p></li>
-<li><p>ActiveRecord is a Module that Rails uses to model and interact with databases. It makes database queries both simple and intuitive.</p></li>
+  <li>
+    <p>Rails is a web application framework that allows your Ruby to interact with the web seamlessly. By “interact with the web”, I assume the presentation means “interact with databases.”</p>
+  </li>
+  <li>
+    <p>Rails implements a principle called “MVC” – Model View Controller. Rails seems to handle each task separately. I’m going to focus on the Model, which uses ActiveRecord.</p>
+  </li>
+  <li>
+    <p>ActiveRecord is a Module that Rails uses to model and interact with databases. It makes database queries both simple and intuitive.</p>
+  </li>
 </ul>
 
+<p>Here are some concrete query comparisons between using SQLite3 versus Rails’ ActiveRecord.</p>
 
-<p>Here are some concrete query comparisons between using SQLite3 versus Rails' ActiveRecord.</p>
-
-<p>Assume we have a table called &ldquo;dogs,&rdquo; each with a name, age, weight, and type. Each attribute would be a column, and each row would represent a different dog.</p>
+<p>Assume we have a table called “dogs,” each with a name, age, weight, and type. Each attribute would be a column, and each row would represent a different dog. </p>
 
 <p><code>sql Table using SQLite3
 CREATE TABLE dogs (
@@ -204,7 +209,7 @@ CREATE TABLE dogs (
   type TEXT
 );
 </code>
-We can also imagine this as a class of Dog objects in Ruby. Here&rsquo;s how one might create the barebones structure in Ruby.
+We can also imagine this as a class of Dog objects in Ruby. Here’s how one might create the barebones structure in Ruby.
 <code>ruby Dogs as objects of class Dog in Ruby
 class Dog
   attr_accessor :id, :name, :age, :weight, :type
@@ -224,7 +229,7 @@ SELECT * FROM dogs WHERE id=1;
 Dog.find(1)
 </code></p>
 
-<p>That&rsquo;s just the beginning! Check this out.</p>
+<p>That’s just the beginning! Check this out.</p>
 
 <p><code>sql SQLite3 query appending conditions
 SELECT * FROM dogs WHERE age=8 AND type="corgi";
@@ -233,11 +238,12 @@ SELECT * FROM dogs WHERE age=8 AND type="corgi";
 Dog.find_by_age_and_type 25, "corgi"
 </code></p>
 
-<p>It seems like ActiveRecord must use certain keywords like &lsquo;by&rsquo; and &lsquo;and&rsquo; in order to dynamically use the attribute names that the user inputs.</p>
+<p>It seems like ActiveRecord must use certain keywords like ‘by’ and ‘and’ in order to dynamically use the attribute names that the user inputs.</p>
 
-<p>What is really beautiful though is the idea of &ldquo;configuration of convention&rdquo; that Rails implements in order to shorten the amount of code you need to write. Slides 42-44 of the <a href="http://www.slideshare.net/aizatto/ruby-on-rails-48391">presentation</a>  gave a particularly good example of the idea. No wonder people love Rails!</p>
+<p>What is really beautiful though is the idea of “configuration of convention” that Rails implements in order to shorten the amount of code you need to write. Slides 42-44 of the <a href="http://www.slideshare.net/aizatto/ruby-on-rails-48391">presentation</a>  gave a particularly good example of the idea. No wonder people love Rails!</p>
 
 <p>The slides continue talking about the MVC</p>
+
 ]]></content>
   </entry>
   

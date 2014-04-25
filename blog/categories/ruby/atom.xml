@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ruby | Daniel Chang]]></title>
   <link href="http://danielchangNYC.github.io/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://danielchangNYC.github.io/"/>
-  <updated>2014-04-25T00:56:24-04:00</updated>
+  <updated>2014-04-25T00:58:24-04:00</updated>
   <id>http://danielchangNYC.github.io/</id>
   <author>
     <name><![CDATA[Daniel Chang]]></name>
@@ -20,59 +20,52 @@
     <id>http://danielchangNYC.github.io/blog/2014/04/24/set-intersection</id>
     <content type="html"><![CDATA[<p>While working on the <a href="http://prework.flatironschool.com/">Flatiron School pre-work</a> progress-tracker, I kept finding myself feeling uncomfortable with the <code>topic_complete?</code> and <code>add_lesson</code> methods below.</p>
 
-<h1>Code Smell: <code>topic_complete?</code> and <code>add_lesson</code></h1>
+<h1 id="code-smell-topiccomplete-and-addlesson">Code Smell: <code>topic_complete?</code> and <code>add_lesson</code></h1>
 
 <p>``` ruby
 class Progress &lt; ActiveRecord::Base
   belongs_to :topic
   serialize :completed_lessons, Array</p>
 
-<p>  def topic_complete?</p>
-
-<pre><code>topic.total_lessons == completed_lessons.length
-</code></pre>
-
-<p>  end
+<p>def topic_complete?
+    topic.total_lessons == completed_lessons.length
+  end
 end</p>
 
 <p>class Topic &lt; ActiveRecord::Base
   has_many :progresses
   serialize :lesson_order, Array</p>
 
-<p>  def add_lesson(lesson)</p>
-
-<pre><code>lesson_order &lt;&lt; lesson.id
-total_lessons += 1
-</code></pre>
-
-<p>  end
+<p>def add_lesson(lesson)
+    lesson_order « lesson.id
+    total_lessons += 1
+  end
 end
 ```</p>
 
-<h1>Why The Code Is Smelly</h1>
+<h1 id="why-the-code-is-smelly">Why The Code Is Smelly</h1>
 
 <p><code>add_lesson</code> felt brittle. A new coder on this project has to know to add lessons using this method; the design is therefore NOT transparent. There is also a duplication of data: the <code>total_lessons</code> attribute and the length of the <code>lesson_order</code> array should always be the same, so why do we need <code>total_lessons</code>? The code therefore violates the DRY principle.</p>
 
 <p><code>topic_complete?</code> has another host of what-if situations. Consider the possibilities:</p>
 
 <ul>
-<li>An admin removes lessons from the topic. <code>topic_complete?</code> returns <code>false</code>.</li>
-<li>An admin replaces a lesson in the topic. <code>topic_complete?</code> returns <code>true</code>.</li>
-<li><code>total_lessons</code> doesn&rsquo;t get updated using <code>add_lesson</code>. See above.</li>
+  <li>An admin removes lessons from the topic. <code>topic_complete?</code> returns <code>false</code>.</li>
+  <li>An admin replaces a lesson in the topic. <code>topic_complete?</code> returns <code>true</code>.</li>
+  <li><code>total_lessons</code> doesn’t get updated using <code>add_lesson</code>. See above.</li>
 </ul>
-
 
 <p>I needed a way to actually compare what was in the two arrays, <code>completed_lessons</code> and <code>lesson_order</code>.</p>
 
-<h1>An Unlikely But Elegant Solution</h1>
+<h1 id="an-unlikely-but-elegant-solution">An Unlikely But Elegant Solution</h1>
 
-<p>I considered iterating through <code>lesson_order</code> and comparing with <code>completed_lessons</code>, but this seemed cumbersome; &ldquo;There must be an easier way,&rdquo; thought Daniel.</p>
+<p>I considered iterating through <code>lesson_order</code> and comparing with <code>completed_lessons</code>, but this seemed cumbersome; “There must be an easier way,” thought Daniel.</p>
 
-<p>Then it hit me: this is a <strong>set intersection</strong> problem. (Duh, it&rsquo;s in the title!)</p>
+<p>Then it hit me: this is a <strong>set intersection</strong> problem. (Duh, it’s in the title!)</p>
 
 <p>Set theory review: The intersection of two sets is the set of all common elements. Luckily, Ruby class Array has such a method which can be used like an operator: <code>&amp;</code>.</p>
 
-<h1>Solution 1 => #fail</h1>
+<h1 id="solution-1--fail">Solution 1 =&gt; #fail</h1>
 
 <p>The <a href="http://www.ruby-doc.org/core-2.1.1/Array.html#method-i-26">&amp; operator</a> is called the set intersection operator.</p>
 
@@ -88,22 +81,22 @@ def topic_complete?
 end
 </code></p>
 
-<p>&hellip;which failed.</p>
+<p>…which failed.</p>
 
-<h1>Why Solution 1 Failed</h1>
+<h1 id="why-solution-1-failed">Why Solution 1 Failed</h1>
 
 <p>``` ruby irb-fiddling
 lesson_order = [3, 2, 5]
 completed_lessons = [5, 2, 3]</p>
 
 <p>lesson_order &amp; completed_lessons
-   # => [3, 2, 5]</p>
+   # =&gt; [3, 2, 5]</p>
 
 <p>completed_lessons &amp; lesson_order
-   # => [5, 2, 3]</p>
+   # =&gt; [5, 2, 3]</p>
 
 <p>completed_lessons &amp; lesson_order == lesson_order
-   # => false
+   # =&gt; false
 ```</p>
 
 <p>Note: <code>&amp;</code> ignores doubles.</p>
@@ -113,38 +106,37 @@ a = [1, 2, 2, 3]
 b = [2, 2, 2]</p>
 
 <p>a &amp; b
-  # => [2]</p>
+  # =&gt; [2]</p>
 
 <p>b &amp; a
-  # => [2]
+  # =&gt; [2]
 ```</p>
 
-<h1>Solution 2: o(^_^)b</h1>
+<h1 id="solution-2-ob">Solution 2: o(^_^)b</h1>
 
 <p><code>ruby
 def topic_complete?
   topic.lesson_order &amp; completed_lessons == topic.lesson_order
 end
 </code>
-&ldquo;Huzzah!&rdquo; thought Daniel.</p>
+“Huzzah!” thought Daniel.</p>
 
-<h1>BONUS: How Does <code>#&amp;</code> Work?</h1>
+<h1 id="bonus-how-does--work">BONUS: How Does <code>#&amp;</code> Work?</h1>
 
 <p>I took a a deep dive into Ruby source code to figure this one out.</p>
 
-<p>Here&rsquo;s the code in C.</p>
+<p>Here’s the code in C.</p>
 
 <p>``` c
  static VALUE
 rb_ary_and(VALUE ary1, VALUE ary2)
-{</p>
+{
+    VALUE hash, ary3, v;
+    st_table *table;
+    st_data_t vv;
+    long i;</p>
 
-<pre><code>VALUE hash, ary3, v;
-st_table *table;
-st_data_t vv;
-long i;
-
-ary2 = to_ary(ary2);
+<pre><code>ary2 = to_ary(ary2);
 ary3 = rb_ary_new();
 if (RARRAY_LEN(ary2) == 0) return ary3;
 hash = ary_make_hash(ary2);
@@ -159,24 +151,21 @@ for (i=0; i&lt;RARRAY_LEN(ary1); i++) {
 }
 ary_recycle_hash(hash);
 
-return ary3;
+return ary3; } ```
 </code></pre>
 
-<p>}
-```</p>
-
-<p>Full disclosure: I&rsquo;ve never read or written C in my life, but with the help of the <a href="http://rxr.whitequark.org/mri/ident">MRI Identifier Search</a>, I was able to piece together what this does.</p>
+<p>Full disclosure: I’ve never read or written C in my life, but with the help of the <a href="http://rxr.whitequark.org/mri/ident">MRI Identifier Search</a>, I was able to piece together what this does.</p>
 
 <p>The key to understanding this is in the <code>for</code> loop.</p>
 
-<p><code>ary1</code> and <code>ary2</code> represent the arrays for which we&rsquo;re finding the intersection. <code>ary3</code> is what the function <code>rb_ary_and</code> returns.</p>
+<p><code>ary1</code> and <code>ary2</code> represent the arrays for which we’re finding the intersection. <code>ary3</code> is what the function <code>rb_ary_and</code> returns.</p>
 
 <p>v represents <code>ary1[i]</code>, in Ruby-speak.
 vv is somehow tied to that value.</p>
 
-<p><code>st_delete</code> returns 1 if <code>vv</code> was successfully deleted from <code>table</code>, which really refers to <code>ary2</code>, and 0 if it wasn&rsquo;t found. If it gets deleted, then that means <code>ary2</code> must have had an element in common; push that element into <code>ary3</code>.</p>
+<p><code>st_delete</code> returns 1 if <code>vv</code> was successfully deleted from <code>table</code>, which really refers to <code>ary2</code>, and 0 if it wasn’t found. If it gets deleted, then that means <code>ary2</code> must have had an element in common; push that element into <code>ary3</code>.</p>
 
-<h1>So how efficient is this method?</h1>
+<h1 id="so-how-efficient-is-this-method">So how efficient is this method?</h1>
 
 <p>In the worst-case scenario, <code>ary1</code> and <code>ary2</code> are giant arrays with completely disparate elements, requiring the algorithm to compare all elements of <code>ary2</code> with all elements of <code>ary1</code>. Given there are <em>x</em> elements in <code>ary1</code> and <em>y</em> elements in <code>ary2</code>, this would produce a O(x*y).</p>
 ]]></content>
@@ -187,7 +176,7 @@ vv is somehow tied to that value.</p>
     <link href="http://danielchangNYC.github.io/blog/2014/04/08/tdd3-TestingHooks/"/>
     <updated>2014-04-08T09:00:00-04:00</updated>
     <id>http://danielchangNYC.github.io/blog/2014/04/08/tdd3-TestingHooks</id>
-    <content type="html"><![CDATA[<p>Anyone who&rsquo;s worked with tightly-coupled models in rails will likely know the pain of tracing the stack for an error triggered from a callback method. Such painful experiences have led developers to come to a consensus on general rules like <a href="http://blog.bignerdranch.com/1658-the-only-acceptable-use-for-callbacks-in-rails-ever/">&ldquo;Use a callback only when the logic refers to state internal to the object&rdquo;</a>, according to Jonathan Wallace. More on this topic by Samuel Mullen in a great blogpost, <a href="http://www.samuelmullen.com/2013/05/the-problem-with-rails-callbacks/">The Problem with Rails Callbacks</a>.</p>
+    <content type="html"><![CDATA[<p>Anyone who’s worked with tightly-coupled models in rails will likely know the pain of tracing the stack for an error triggered from a callback method. Such painful experiences have led developers to come to a consensus on general rules like <a href="http://blog.bignerdranch.com/1658-the-only-acceptable-use-for-callbacks-in-rails-ever/">“Use a callback only when the logic refers to state internal to the object”</a>, according to Jonathan Wallace. More on this topic by Samuel Mullen in a great blogpost, <a href="http://www.samuelmullen.com/2013/05/the-problem-with-rails-callbacks/">The Problem with Rails Callbacks</a>.</p>
 
 <p>The following post revolves around an <code>Invitation</code> model I wrote with my team mates and then later debated the callback to use.</p>
 
@@ -199,30 +188,24 @@ vv is somehow tied to that value.</p>
 class Invitation &lt; ActiveRecord::Base
   after initialize :add_token #NOTE my syntax highlighter dislikes the underscore. see below.</p>
 
-<p>  def add_unique_token</p>
-
-<pre><code>self.token = Tokenizer.Generate
-</code></pre>
-
-<p>  end
+<p>def add_unique_token
+    self.token = Tokenizer.Generate
+  end
 end
 ```</p>
 
-<p><strong>NOTE</strong> <code>after initialize</code> above should be <code>after_initialize</code>. For some reason my syntax highlighting plugin doesn&rsquo;t like the underscore in the correct version.</p>
+<p><strong>NOTE</strong> <code>after initialize</code> above should be <code>after_initialize</code>. For some reason my syntax highlighting plugin doesn’t like the underscore in the correct version.</p>
 
 <p>The associated test:</p>
 
-<p>``` ruby invitation_spec.rb
+<p><code>ruby invitation_spec.rb
 describe Invitation do
-  it &ldquo;generates a random token on initialize&rdquo; do</p>
-
-<pre><code>invite = Invitation.new
-expect(invite.token).not_to be_nil
-</code></pre>
-
-<p>  end
+  it "generates a random token on initialize" do
+    invite = Invitation.new
+    expect(invite.token).not_to be_nil
+  end
 end
-```</p>
+</code></p>
 
 <p>However, another team mate suggested using <code>before_create</code> instead.</p>
 
@@ -232,56 +215,48 @@ end
 class Invitation &lt; ActiveRecord::Base
   before_create :add_token</p>
 
-<p>  def add_unique_token</p>
-
-<pre><code>self.token = Tokenizer.generate
-</code></pre>
-
-<p>  end
+<p>def add_unique_token
+    self.token = Tokenizer.generate
+  end
 end
 ```</p>
 
-<p>``` ruby invitation_spec.rb
+<p><code>ruby invitation_spec.rb
 describe Invitation do
-  it &ldquo;generates a random token before create&rdquo; do</p>
-
-<pre><code>invite = Invitation.new
-expect(invite.token).to be_nil
-invite.save
-expect(invite.token).not_to be_nil
-</code></pre>
-
-<p>  end
+  it "generates a random token before create" do
+    invite = Invitation.new
+    expect(invite.token).to be_nil
+    invite.save
+    expect(invite.token).not_to be_nil
+  end
 end
-```</p>
+</code></p>
 
-<h3>Why does this subtle change matter?</h3>
+<h3 id="why-does-this-subtle-change-matter">Why does this subtle change matter?</h3>
 
-<p>First, <strong>using <code>after_initialize</code> could produce a false positive.</strong> While the <code>after_initialize</code> test does exactly what the <code>it</code> statement says, there&rsquo;s a chance that we may miss, say, a validation error that happens before <code>save</code>. This test would pass, and so would the validations, but for some reason you might find that your invitations aren&rsquo;t working properly. <code>after_initialize</code> allows us to omit saving from the test, which one could generally assume is always desired given that callbacks should only &ldquo;refer to state internal to an object&rdquo;.</p>
+<p>First, <strong>using <code>after_initialize</code> could produce a false positive.</strong> While the <code>after_initialize</code> test does exactly what the <code>it</code> statement says, there’s a chance that we may miss, say, a validation error that happens before <code>save</code>. This test would pass, and so would the validations, but for some reason you might find that your invitations aren’t working properly. <code>after_initialize</code> allows us to omit saving from the test, which one could generally assume is always desired given that callbacks should only “refer to state internal to an object”.</p>
 
-<p>Additionally, <strong>if you&rsquo;re testing a callback that affects the internal state of an object, we must test for a state-change.</strong> Using <code>after_initialize</code>, we can tell that a new invite has a token. However, we cannot say that we&rsquo;ve tested the non-presence and the presence of the token. The pivotal point again is around <code>#save</code>. <code>#save</code> triggers the change and we can say with certainty that we&rsquo;ve not only seen a &ldquo;zero to one&rdquo; change happen, but that the change has persisted in our database.</p>
+<p>Additionally, <strong>if you’re testing a callback that affects the internal state of an object, we must test for a state-change.</strong> Using <code>after_initialize</code>, we can tell that a new invite has a token. However, we cannot say that we’ve tested the non-presence and the presence of the token. The pivotal point again is around <code>#save</code>. <code>#save</code> triggers the change and we can say with certainty that we’ve not only seen a “zero to one” change happen, but that the change has persisted in our database.</p>
 
-<p>UPDATE: <a href="https://twitter.com/scottadhoc/status/453917228648640512">Twitter comment</a> from <a href="https://twitter.com/scottadhoc">@scottadhoc</a>: &ldquo;what happens if you load that record from the db into a new object and then assert on that field?&rdquo;</p>
+<p>UPDATE: <a href="https://twitter.com/scottadhoc/status/453917228648640512">Twitter comment</a> from <a href="https://twitter.com/scottadhoc">@scottadhoc</a>: “what happens if you load that record from the db into a new object and then assert on that field?”</p>
 
-<p>Good point! If I understand your suggestion correctly, here&rsquo;s how I might refactor the after_initialize version of the spec:</p>
+<p>Good point! If I understand your suggestion correctly, here’s how I might refactor the after_initialize version of the spec:</p>
 
-<p>``` ruby invitation_spec.rb
+<p><code>ruby invitation_spec.rb
 describe Invitation do
-  it &ldquo;generates a random token #after_initialize&rdquo; do</p>
-
-<pre><code>invite = Invitation.new
-expect(invite.token).not_to be_nil
-invite.save!
-expect(invite.token).not_to be_nil
-</code></pre>
-
-<p>  end
+  it "generates a random token #after_initialize" do
+    invite = Invitation.new
+    expect(invite.token).not_to be_nil
+    invite.save!
+    expect(invite.token).not_to be_nil
+  end
 end
-```</p>
+</code></p>
 
-<p>This way, we can make sure that the data persisted. While this works, my feeling is that the implication of testing after_initialize allows one to omit the persistence part. I certainly fell into that trap and wouldn&rsquo;t be surprised if I forget again while testing an after_initialize callback.</p>
+<p>This way, we can make sure that the data persisted. While this works, my feeling is that the implication of testing after_initialize allows one to omit the persistence part. I certainly fell into that trap and wouldn’t be surprised if I forget again while testing an after_initialize callback.</p>
 
 <p>Lastly, if you use <code>after_initialize</code> with the underscore in a block of code in <code>Octopress</code>, your blog will refuse to generate. Coincidence? I think not.</p>
+
 ]]></content>
   </entry>
   
@@ -290,44 +265,39 @@ end
     <link href="http://danielchangNYC.github.io/blog/2014/01/15/tdd2-RSpecMatchers/"/>
     <updated>2014-01-15T06:40:00-05:00</updated>
     <id>http://danielchangNYC.github.io/blog/2014/01/15/tdd2-RSpecMatchers</id>
-    <content type="html"><![CDATA[<h1>What&rsquo;s a Matcher?</h1>
+    <content type="html"><![CDATA[<h1 id="whats-a-matcher">What’s a Matcher?</h1>
 
 <p><code>expect(dan.current_zipcode).to eq(10002)</code></p>
 
 <p>In the line above, the <code>matcher</code> is the method <code>eq</code> because RSpec will check to see if the value of <code>dan.current_zipcode</code> matches <code>10002</code>.</p>
 
-<p>Let&rsquo;s say that this was a line you wrote for as part of a test for a location tracking app. You want your code to be as clear as possible for collaborators or even for your future self.</p>
+<p>Let’s say that this was a line you wrote for as part of a test for a location tracking app. You want your code to be as clear as possible for collaborators or even for your future self.</p>
 
-<p>Wouldn&rsquo;t it sound even better if you could write this?</p>
+<p>Wouldn’t it sound even better if you could write this?</p>
 
 <p><code>expect(dan).to be_in_zipcode(10002)</code></p>
 
-<p>This requires <code>be_in_zipcode</code> to be a method in <code>RSpec</code>&rsquo;s matcher library. I&rsquo;m going to briefly explain how to create this new matcher, but for alternate explanations, check out the <a href="https://github.com/dchelimsky/rspec/wiki/Custom-Matchers">Rspec Github Wiki</a> and Chapter 7 of Aaron Sumner&rsquo;s <a href="https://leanpub.com/everydayrailsrspec">Everyday Rails Testing with RSpec</a>.</p>
+<p>This requires <code>be_in_zipcode</code> to be a method in <code>RSpec</code>’s matcher library. I’m going to briefly explain how to create this new matcher, but for alternate explanations, check out the <a href="https://github.com/dchelimsky/rspec/wiki/Custom-Matchers">Rspec Github Wiki</a> and Chapter 7 of Aaron Sumner’s <a href="https://leanpub.com/everydayrailsrspec">Everyday Rails Testing with RSpec</a>.</p>
 
-<p>My intention is not to write another Matcher tutorial (though this might inevitably happen). After reading Sumner&rsquo;s chapter, I could imagine how matchers were created but ultimately, I felt a bit uncertain. With a little bit of <code>Pry</code> magic and doc-digging, I think I&rsquo;ve finally put most of the puzzle together which I&rsquo;m looking forward to sharing below! Constructive feedback and deeper insights are always welcome. :)</p>
+<p>My intention is not to write another Matcher tutorial (though this might inevitably happen). After reading Sumner’s chapter, I could imagine how matchers were created but ultimately, I felt a bit uncertain. With a little bit of <code>Pry</code> magic and doc-digging, I think I’ve finally put most of the puzzle together which I’m looking forward to sharing below! Constructive feedback and deeper insights are always welcome. :)</p>
 
-<h1>Match-Maker, Match-Maker, Make Me a Match!</h1>
+<h1 id="match-maker-match-maker-make-me-a-match">Match-Maker, Match-Maker, Make Me a Match!</h1>
 
-<p>Let&rsquo;s write some code so that we can use the method <code>be_in_zipcode(10002)</code> from above.</p>
+<p>Let’s write some code so that we can use the method <code>be_in_zipcode(10002)</code> from above.</p>
 
 <p>General syntax at bare minimum first:
 ``` ruby syntax.rb
 RSpec::Matchers.define :new_matcher_name do |expected|
-  match do |actual|</p>
+  match do |actual|
+    # Lines of code you want this matcher to run
+  end</p>
 
-<pre><code># Lines of code you want this matcher to run
-</code></pre>
-
-<p>  end</p>
-
-<p>  #optional description and failure message definition blocks
+<p>#optional description and failure message definition blocks
 end</p>
 
-<h1>From the describe block:</h1>
-
-<h1>expect(actual).to matcher_method(expected)</h1>
-
-<p>```</p>
+<h1 id="from-the-describe-block">From the describe block:</h1>
+<p># expect(actual).to matcher_method(expected)
+```</p>
 
 <p>NOTE: Store your matcher files in <code>spec/support/matchers/</code> and require them in <code>spec/spec_helper.rb</code> with the following line:</p>
 
@@ -336,41 +306,29 @@ end</p>
 <p>Now onto our example:
 ``` ruby be_in_zipcode.rb
 RSpec::Matchers.define :be_in_zipcode do |zipcode|
-  match do |friend|</p>
+  match do |friend|
+    friend.in_zipcode?(zipcode)
+  end</p>
 
-<pre><code>friend.in_zipcode?(zipcode)
-</code></pre>
+<p># Optional failure messages
+  failure_message_for_should do |actual|
+    “expected friend to be in zipcode”
+  end</p>
 
-<p>  end</p>
+<p>failure_message_for_should_not do |actual|
+    “expected friend not to be in zipcode”
+  end</p>
 
-<p>  # Optional failure messages
-  failure_message_for_should do |actual|</p>
-
-<pre><code>"expected friend to be in zipcode"
-</code></pre>
-
-<p>  end</p>
-
-<p>  failure_message_for_should_not do |actual|</p>
-
-<pre><code>"expected friend not to be in zipcode"
-</code></pre>
-
-<p>  end</p>
-
-<p>  # Optional method description
-  description do</p>
-
-<pre><code>"checks user's current zipcode"
-</code></pre>
-
-<p>  end
+<p># Optional method description
+  description do
+    “checks user’s current zipcode”
+  end
 end
 ```</p>
 
-<p>Again, the failure messages and description are optional blocks. The match block is obviously mandatory. So now that we have our new matcher, let&rsquo;s check out what&rsquo;s going on behind the scenes.</p>
+<p>Again, the failure messages and description are optional blocks. The match block is obviously mandatory. So now that we have our new matcher, let’s check out what’s going on behind the scenes.</p>
 
-<h1>Under the hood</h1>
+<h1 id="under-the-hood">Under the hood</h1>
 
 <p><code>RSpec::Matchers.define :be_in_zipcode do |zipcode|</code></p>
 
@@ -379,81 +337,68 @@ end
 <p>``` ruby define.rb RSpec::Matchers::DSL#define
 def define(name, &amp;declarations)
   matcher_template = RSpec::Matchers::DSL::Matcher.new(name, &amp;declarations)
-  define_method name do |*expected|    # => expected for us is the var zipcode</p>
-
-<pre><code>matcher = matcher_template.for_expected(*expected)
-matcher.matcher_execution_context = @matcher_execution_context ||= self
-matcher
-</code></pre>
-
-<p>  end
+  define_method name do |<em>expected|    # =&gt; expected for us is the var zipcode
+    matcher = matcher_template.for_expected(</em>expected)
+    matcher.matcher_execution_context = @matcher_execution_context ||= self
+    matcher
+  end
 end</p>
 
-<h1>name = be_in_zipcode</h1>
-
+<h1 id="name--beinzipcode">name = be_in_zipcode</h1>
 <p>```</p>
 
 <p>The second line setting <code>matcher_template</code> initializes an <code>RSpec::Matchers::DSL::Matcher</code> object which stores the method name and the declarations block.</p>
 
-<p><code>define_method</code> then creates the <code>be_in_zipcode</code> method. The next line&rsquo;s <code>for_expected(*expected)</code> method sets the zipcode as the expected value and your failure messages/description from the matcher template in the second line. The messages and description are stored in the @messages attribute hash.</p>
+<p><code>define_method</code> then creates the <code>be_in_zipcode</code> method. The next line’s <code>for_expected(*expected)</code> method sets the zipcode as the expected value and your failure messages/description from the matcher template in the second line. The messages and description are stored in the @messages attribute hash.</p>
 
-<p>The next line I&rsquo;m not sure about since <code>matcher_execution_context</code> refers to an attribute accessor. I don&rsquo;t see it in the Matcher module either. Any insight here would be great!</p>
+<p>The next line I’m not sure about since <code>matcher_execution_context</code> refers to an attribute accessor. I don’t see it in the Matcher module either. Any insight here would be great!</p>
 
 <p>Moving onto the last piece: the match block.</p>
 
-<p>``` ruby
-  match do |friend|</p>
+<p><code>ruby
+  match do |friend|
+    friend.in_zipcode?(zipcode)
+  end
+</code></p>
 
-<pre><code>friend.in_zipcode?(zipcode)
-</code></pre>
-
-<p>  end
-```</p>
-
-<p><code>RSpec::Match#match</code> stores the given block in <code>@match_block</code>, so essentially, <code>@match_block = friend.in_zipcode?(zipcode)</code>.</p>
+<p><code>RSpec::Match#match</code> stores the given block in <code>@match_block</code>, so essentially, <code>@match_block = friend.in_zipcode?(zipcode)</code>. </p>
 
 <p>Later, when you run your specs with the new matcher, the <code>match_block</code> will get called from the method <code>RSpec::Match#matches?</code>.</p>
 
-<p>``` ruby matches?
+<p><code>ruby matches?
 def matches?(actual)
   @actual = actual
-  if @expected_exception</p>
-
-<pre><code>begin
-  instance_exec(actual, &amp;@match_block)
-  true
-rescue @expected_exception
-  false
+  if @expected_exception
+    begin
+      instance_exec(actual, &amp;@match_block)
+      true
+    rescue @expected_exception
+      false
+    end
+  else
+    begin
+      instance_exec(actual, &amp;@match_block)
+    rescue Spec::Expectations::ExpectationNotMetError
+      false
+    end
+  end
 end
-</code></pre>
+</code></p>
 
-<p>  else</p>
-
-<pre><code>begin
-  instance_exec(actual, &amp;@match_block)
-rescue Spec::Expectations::ExpectationNotMetError
-  false
-end
-</code></pre>
-
-<p>  end
-end
-```</p>
-
-<p>And that&rsquo;s it!</p>
+<p>And that’s it!</p>
 
 <p>So if I were to run the original line, <code>expect(dan).to be_in_zipcode(10002)</code>, the following would happen:</p>
 
 <ol>
-<li><code>expect(dan)</code> returns an <code>RSpec::Expectations::ExpectationTarget</code> object storing the object <code>dan</code>. Specifically: <code>=&gt; #&lt;RSpec::Expectations::ExpectationTarget:0x007fbf511e4c78 @target=#&lt;User id: 1, name: dan&gt;&gt;</code></li>
-<li>the <code>to</code> method passes in <code>be_in_zipcode(10002)</code> and calls a method called <code>handle_matcher</code>&hellip;</li>
-<li>&hellip; which checks if <code>be_in_zipcode</code> has been defined as a matcher.</li>
-<li>Since we&rsquo;ve defined <code>be_in_zipcode</code>, <code>matches?</code> gets called our block, which we saw above.</li>
-<li><code>handle_matcher</code> then figures out how to respond, given the messages you passed in when you defined the new matcher.</li>
+  <li><code>expect(dan)</code> returns an <code>RSpec::Expectations::ExpectationTarget</code> object storing the object <code>dan</code>. Specifically: <code>=&gt; #&lt;RSpec::Expectations::ExpectationTarget:0x007fbf511e4c78 @target=#&lt;User id: 1, name: dan&gt;&gt;</code></li>
+  <li>the <code>to</code> method passes in <code>be_in_zipcode(10002)</code> and calls a method called <code>handle_matcher</code>…</li>
+  <li>… which checks if <code>be_in_zipcode</code> has been defined as a matcher.</li>
+  <li>Since we’ve defined <code>be_in_zipcode</code>, <code>matches?</code> gets called our block, which we saw above.</li>
+  <li><code>handle_matcher</code> then figures out how to respond, given the messages you passed in when you defined the new matcher.</li>
 </ol>
 
+<p>That’s our deep dive into RSpec’s Custom Matchers. Again, feedback always welcome. Hope you enjoyed the complexity as much as I did! :)</p>
 
-<p>That&rsquo;s our deep dive into RSpec&rsquo;s Custom Matchers. Again, feedback always welcome. Hope you enjoyed the complexity as much as I did! :)</p>
 ]]></content>
   </entry>
   
@@ -462,16 +407,16 @@ end
     <link href="http://danielchangNYC.github.io/blog/2014/01/13/tdd1-ActiveRecordEqualityRogue/"/>
     <updated>2014-01-13T23:00:00-05:00</updated>
     <id>http://danielchangNYC.github.io/blog/2014/01/13/tdd1-ActiveRecordEqualityRogue</id>
-    <content type="html"><![CDATA[<p><img class="right <a" src="href="http://static.comicvine.com/uploads/original/8/85629/1887574-rogue1.gif">http://static.comicvine.com/uploads/original/8/85629/1887574-rogue1.gif</a>" title="Rogue" >
-Almost done with my model specs! I ran into a couple of interesting problems that I posted on Stack Overflow, one of which I&rsquo;ll cover briefly below. Oh yeah, and Rogue! I&rsquo;ll explain that in the last section of this post.</p>
+    <content type="html"><![CDATA[<p><img class="right" src="http://static.comicvine.com/uploads/original/8/85629/1887574-rogue1.gif" title="Rogue" >
+Almost done with my model specs! I ran into a couple of interesting problems that I posted on Stack Overflow, one of which I’ll cover briefly below. Oh yeah, and Rogue! I’ll explain that in the last section of this post.</p>
 
-<h2>The problem I ran into (from my <a href="https://stackoverflow.com/questions/21102549/why-is-the-where-query-in-rails-returning-a-different-object">StackOverflow post</a>)</h2>
+<h2 id="the-problem-i-ran-into-from-my-stackoverflow-post1">The problem I ran into (from my <a href="https://stackoverflow.com/questions/21102549/why-is-the-where-query-in-rails-returning-a-different-object">StackOverflow post</a>)</h2>
 
 <p><em>If you just read the whole post, skip to the last section of this blog post.</em></p>
 
-<p>I&rsquo;m testing chats between users in my app. I&rsquo;m using RSpec and FactoryGirl</p>
+<p>I’m testing chats between users in my app. I’m using RSpec and FactoryGirl</p>
 
-<p>The test that&rsquo;s not passing:</p>
+<p>The test that’s not passing:</p>
 
 <p><code>ruby chat_spec.rb
 it "creates a chat if one does not exist" do
@@ -485,22 +430,20 @@ end
 <p>The failure message says:</p>
 
 <p>``` sh
-Failure/Error: expect(Chat.where(&ldquo;chatted_user_id = ?&rdquo;, bob.id).first).to equal(new_chat)</p>
+Failure/Error: expect(Chat.where(“chatted_user_id = ?”, bob.id).first).to equal(new_chat)</p>
 
-<p>   expected #&lt;Chat:70120833243920> => #<Chat id: 2, user_id: 2, chatted_user_id: 3></p>
+<p>expected #<chat:70120833243920> =&gt; #&lt;Chat id: 2, user_id: 2, chatted_user_id: 3&gt;
+        got #<chat:70120833276240> =&gt; #&lt;Chat id: 2, user_id: 2, chatted_user_id: 3&gt;</chat:70120833276240></chat:70120833243920></p>
 
-<pre><code>    got #&lt;Chat:70120833276240&gt; =&gt; #&lt;Chat id: 2, user_id: 2, chatted_user_id: 3&gt;
-</code></pre>
-
-<p>   Compared using equal?, which compares object identity,
+<p>Compared using equal?, which compares object identity,
    but expected and actual are not the same object. Use
-   <code>expect(actual).to eq(expected)</code> if you don&rsquo;t care about
+   <code>expect(actual).to eq(expected)</code> if you don’t care about
    object identity in this example.
 ```</p>
 
 <p>Why is my query returning a different object id?</p>
 
-<h3>Answer from Simone Carletti on StackOverflow</h3>
+<h3 id="answer-from-simone-carletti-on-stackoverflow">Answer from Simone Carletti on StackOverflow</h3>
 
 <p>equal checks object identity. The objects you are testing are two objects (instances) referencing the same record, but they are actually different objects from a Ruby virtual machine point of view.</p>
 
@@ -512,42 +455,45 @@ To better understand the problem, look at the following example</p>
 
 <p><code>
 2.0.0-p353 :001 &gt; "foo".object_id
- =&gt; 70117320944040
+ =&gt; 70117320944040 
 2.0.0-p353 :002 &gt; "foo".object_id
- =&gt; 70117320962820
+ =&gt; 70117320962820 
 </code>
-Here I&rsquo;m creating two identical strings. They are identical, but not equal because they are actually two different objects.</p>
+Here I’m creating two identical strings. They are identical, but not equal because they are actually two different objects.</p>
 
 <p><code>
 2.0.0-p353 :008 &gt; "foo" == "foo"
- =&gt; true
+ =&gt; true 
 2.0.0-p353 :009 &gt; "foo".equal? "foo"
- =&gt; false
+ =&gt; false 
 </code></p>
 
-<p>That&rsquo;s the same issue affecting your test. equal checks if two objects are actually the same at the object_id level. But what you really want to know is if they are the same record.</p>
+<p>That’s the same issue affecting your test. equal checks if two objects are actually the same at the object_id level. But what you really want to know is if they are the same record.</p>
 
-<h2>So what&rsquo;s happening under the hood?</h2>
+<h2 id="so-whats-happening-under-the-hood">So what’s happening under the hood?</h2>
 
-<p>The &ldquo;where&rdquo; query returns an array of objects matching the query, and those objects must be Active Record objects that just handle the data. If I make another query, Active Record must be creating another set of objects to handle each row of data.</p>
+<p>The “where” query returns an array of objects matching the query, and those objects must be Active Record objects that just handle the data. If I make another query, Active Record must be creating another set of objects to handle each row of data.</p>
 
-<p>I wanted to confirm this before throwing it out on the web as &ldquo;fact&rdquo;, so here&rsquo;s what an Active Record object is from <a href="http://www.martinfowler.com/eaaCatalog/activeRecord.html">Martin Fowler himself</a>:</p>
+<p>I wanted to confirm this before throwing it out on the web as “fact”, so here’s what an Active Record object is from <a href="http://www.martinfowler.com/eaaCatalog/activeRecord.html">Martin Fowler himself</a>:</p>
 
-<blockquote><p>An object that wraps a row in a database table or view, encapsulates the database access, and adds domain logic on that data.</p></blockquote>
+<blockquote>
+  <p>An object that wraps a row in a database table or view, encapsulates the database access, and adds domain logic on that data.</p>
+</blockquote>
 
-<p>Think of an Active Record object sort of like Rogue (see above). For those of you who don&rsquo;t remember, Rogue absorbs the memories and abilities of any person she touches.</p>
+<p>Think of an Active Record object sort of like Rogue (see above). For those of you who don’t remember, Rogue absorbs the memories and abilities of any person she touches.</p>
 
-<p><img class="<a" src="href="http://31.media.tumblr.com/25cd14bae1b207202d0ee9b56b475409/tumblr_mzd6fjLYmf1sqhdy2o1_1280.png">http://31.media.tumblr.com/25cd14bae1b207202d0ee9b56b475409/tumblr_mzd6fjLYmf1sqhdy2o1_1280.png</a>" width="480" title="Comic Picture Rogue&rsquo;s Powers" ></p>
+<p><img src="http://31.media.tumblr.com/25cd14bae1b207202d0ee9b56b475409/tumblr_mzd6fjLYmf1sqhdy2o1_1280.png" width="480" title="Comic Picture Rogue’s Powers" ></p>
 
 <p>Similarly (sorta), an Active Record objects takes the data (memories) of a certain row and then takes on the behavior (abilities) of the object type matching the table name.</p>
 
-<p>Ok, so that was really just an excuse to get Rogue somewhere on my blog. While I&rsquo;m at it, here&rsquo;s one of her destroying Ororo (Storm).</p>
+<p>Ok, so that was really just an excuse to get Rogue somewhere on my blog. While I’m at it, here’s one of her destroying Ororo (Storm).</p>
 
-<p><img class="<a" src="href="http://i22.photobucket.com/albums/b310/RogueX18/Rogue%20Absorptions/UncannyX-Men158Storm.jpg">http://i22.photobucket.com/albums/b310/RogueX18/Rogue%20Absorptions/UncannyX-Men158Storm.jpg</a>" title="Rogue and Storm Picture" ></p>
+<p><img src="http://i22.photobucket.com/albums/b310/RogueX18/Rogue%20Absorptions/UncannyX-Men158Storm.jpg" title="Rogue and Storm Picture" ></p>
 
 <p>So there you have it! Moral of the story: generally remember to use eq to test equivalence in RSpec with ActiveRecord.</p>
 
-<p>Oh, and here&rsquo;s a <a href="https://www.relishapp.com/rspec/rspec-expectations/v/2-0/docs/matchers/equality-matchers">bonus resource: equal, eql, eq, and ==</a> in RSpec.</p>
+<p>Oh, and here’s a <a href="https://www.relishapp.com/rspec/rspec-expectations/v/2-0/docs/matchers/equality-matchers">bonus resource: equal, eql, eq, and ==</a> in RSpec.</p>
+
 ]]></content>
   </entry>
   
@@ -556,31 +502,32 @@ Here I&rsquo;m creating two identical strings. They are identical, but not equal
     <link href="http://danielchangNYC.github.io/blog/2014/01/12/tdd0-whyttd/"/>
     <updated>2014-01-12T23:00:00-05:00</updated>
     <id>http://danielchangNYC.github.io/blog/2014/01/12/tdd0-whyttd</id>
-    <content type="html"><![CDATA[<p>Testing is one of those things that feels a bit like eating well or going to the gym. Since it&rsquo;s already ten days into the New Year and I have yet to commit to any resolutions, let this be it: no more will I make excuses for skipping testing.</p>
+    <content type="html"><![CDATA[<p>Testing is one of those things that feels a bit like eating well or going to the gym. Since it’s already ten days into the New Year and I have yet to commit to any resolutions, let this be it: no more will I make excuses for skipping testing.</p>
 
-<p>What does this really mean to me though? Am I eating broccoli just because someone told me it&rsquo;s good for me? Here are three reasons that have driven me to make the change.</p>
+<p>What does this really mean to me though? Am I eating broccoli just because someone told me it’s good for me? Here are three reasons that have driven me to make the change.</p>
 
-<h2>TDD Reason 1: Manual Testing Sucks; TDD Saves Time</h2>
+<h2 id="tdd-reason-1-manual-testing-sucks-tdd-saves-time">TDD Reason 1: Manual Testing Sucks; TDD Saves Time</h2>
 
 <p>My friend told me about the job she left before coming to the Flatiron School and one of her responsibilities looked a bit like this:</p>
 
-<p><img class="<a" src="href="http://blog.polarion.com/wp-content/uploads/2012/12/Screen-Shot-2012-12-06-at-12.07.14-PM.png">http://blog.polarion.com/wp-content/uploads/2012/12/Screen-Shot-2012-12-06-at-12.07.14-PM.png</a>"></p>
+<p><img src="http://blog.polarion.com/wp-content/uploads/2012/12/Screen-Shot-2012-12-06-at-12.07.14-PM.png"></p>
 
 <p>What. A. Nightmare. There should be a -phobia for this.</p>
 
-<p>Don&rsquo;t get me wrong &mdash; I&rsquo;m sure this could be pretty efficient if the scope of the UX is very small, or you don&rsquo;t know-how to implement TDD yet. However, how can you be sure your site won&rsquo;t expand, or why not learn how to use a gem like Capybara to save you time in the future? Used in conjuction with Guard, you could really save some serious time while coding!</p>
+<p>Don’t get me wrong – I’m sure this could be pretty efficient if the scope of the UX is very small, or you don’t know-how to implement TDD yet. However, how can you be sure your site won’t expand, or why not learn how to use a gem like Capybara to save you time in the future? Used in conjuction with Guard, you could really save some serious time while coding!</p>
 
-<h2>TDD Reason 2: Code Confidence</h2>
+<h2 id="tdd-reason-2-code-confidence">TDD Reason 2: Code Confidence</h2>
 
-<p>Now that I&rsquo;ve had a bit more experience writing web apps (still without TDD), I&rsquo;ve had the pleasure of seeing them grow and change throughout development. On the other hand, everytime I implemented a new feature, I had less and less confidence that the rest of my code base would work fine. At some point, the prospect of a new feature started feeling like a laundry list or the guarantee of a new bug. Testing will certainly help me find bugs as I introduce them, and therefore boost my confidence in in my code.</p>
+<p>Now that I’ve had a bit more experience writing web apps (still without TDD), I’ve had the pleasure of seeing them grow and change throughout development. On the other hand, everytime I implemented a new feature, I had less and less confidence that the rest of my code base would work fine. At some point, the prospect of a new feature started feeling like a laundry list or the guarantee of a new bug. Testing will certainly help me find bugs as I introduce them, and therefore boost my confidence in in my code.</p>
 
-<h2>TDD Reason 3: Thinking Before Doing</h2>
+<h2 id="tdd-reason-3-thinking-before-doing">TDD Reason 3: Thinking Before Doing</h2>
 
-<p>Writing tests before writing production code forces you to clearly iterate what it is you want your application to do before you start coding. Ideally, you want your tests to last as long as possible as well, so it will force you to make important decisions about design as well. The prospect of having well thought-out code with lasting design excites me! I&rsquo;ve had several experiences already of trying to refactor poorly designed code and it&rsquo;s quite painful.</p>
+<p>Writing tests before writing production code forces you to clearly iterate what it is you want your application to do before you start coding. Ideally, you want your tests to last as long as possible as well, so it will force you to make important decisions about design as well. The prospect of having well thought-out code with lasting design excites me! I’ve had several experiences already of trying to refactor poorly designed code and it’s quite painful.</p>
 
-<h2>My Next Steps</h2>
+<h2 id="my-next-steps">My Next Steps</h2>
 
-<p>I&rsquo;ve decided to begin my TDD exploration by refactoring my first app, Little Red Wagon (LRW). My current reads are Aaron Sumner&rsquo;s book, <a href="https://leanpub.com/everydayrailsrspec">Everyday Rails Testing with RSpec</a>, and <a href="http://www.amazon.com/Practical-Object-Oriented-Design-Ruby-Addison-Wesley/dp/0321721330">Practical Object-Oriented Design in Ruby</a> by Sandi Metz. I&rsquo;m about 30% through each book right now and have written a few model specs already for LRW. I&rsquo;ve decided not to use Factory Girl since it will slow down testing and Rails' built-in fixtures are satisfactory for what I currently have. In any case, the grand plan is to get some hands-on practice writing tests using the TDD book first and then taking on the much larger challenge of redesigning my code base. Thanks for reading, and more updates to come on TDD!</p>
+<p>I’ve decided to begin my TDD exploration by refactoring my first app, Little Red Wagon (LRW). My current reads are Aaron Sumner’s book, <a href="https://leanpub.com/everydayrailsrspec">Everyday Rails Testing with RSpec</a>, and <a href="http://www.amazon.com/Practical-Object-Oriented-Design-Ruby-Addison-Wesley/dp/0321721330">Practical Object-Oriented Design in Ruby</a> by Sandi Metz. I’m about 30% through each book right now and have written a few model specs already for LRW. I’ve decided not to use Factory Girl since it will slow down testing and Rails’ built-in fixtures are satisfactory for what I currently have. In any case, the grand plan is to get some hands-on practice writing tests using the TDD book first and then taking on the much larger challenge of redesigning my code base. Thanks for reading, and more updates to come on TDD!</p>
+
 ]]></content>
   </entry>
   
