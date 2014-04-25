@@ -38,7 +38,11 @@
     </url>
     <url>
         <loc>http://danielchangNYC.github.io/blog/2014/04/08/tdd3-TestingHooks/</loc>
-        <lastmod>2014-04-09T12:17:23-04:00</lastmod>
+        <lastmod>2014-04-09T12:17:39-04:00</lastmod>
+    </url>
+    <url>
+        <loc>http://danielchangNYC.github.io/blog/2014/04/24/set-intersection/</loc>
+        <lastmod>2014-04-24T23:49:11-04:00</lastmod>
     </url>
     <url>
         <loc>http://danielchangNYC.github.io/404.html</loc>
@@ -50,11 +54,11 @@
     </url>
     <url>
         <loc>http://danielchangNYC.github.io/archives/</loc>
-        <lastmod>2014-04-09T12:17:23-04:00</lastmod>
+        <lastmod>2014-04-24T23:49:11-04:00</lastmod>
     </url>
     <url>
         <loc>http://danielchangNYC.github.io/blog/archives/</loc>
-        <lastmod>2014-04-09T12:17:23-04:00</lastmod>
+        <lastmod>2014-04-24T23:49:11-04:00</lastmod>
     </url>
     <url>
         <loc>http://danielchangNYC.github.io/blog/categories/</loc>
@@ -62,7 +66,7 @@
     </url>
     <url>
         <loc>http://danielchangNYC.github.io/blog/</loc>
-        <lastmod>2014-04-09T12:17:23-04:00</lastmod>
+        <lastmod>2014-04-24T23:49:11-04:00</lastmod>
     </url>
     <url>
         <loc>http://danielchangNYC.github.io/feed/index.xml</loc>
@@ -70,6 +74,6 @@
     </url>
     <url>
         <loc>http://danielchangNYC.github.io/</loc>
-        <lastmod>2014-04-09T12:17:23-04:00</lastmod>
+        <lastmod>2014-04-24T23:49:11-04:00</lastmod>
     </url>
 </urlset>
