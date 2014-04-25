@@ -1,200 +1,63 @@
 
-<!DOCTYPE HTML>
-<html>
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
-	<meta charset="utf-8">
-	<title>ActiveRecord, Equality, and Rogue - Daniel Chang</title>
-	<meta name="author" content="Daniel Chang (couchpanda / c0depanda)">
+  <meta charset="utf-8">
+  <title>ActiveRecord, Equality, and Rogue - Daniel Chang</title>
+  <meta name="author" content="Daniel Chang (couchpanda / c0depanda)">
 
-	
-	<meta name="description" content="Almost done with my model specs! I ran into a couple of interesting problems that I posted on Stack Overflow, one of which I&rsquo;ll cover briefly &hellip;">
-	
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="description" content="Almost done with my model specs! I ran into a couple of interesting problems that I posted on Stack Overflow, one of which I’ll cover briefly below &hellip;">
+  
 
-	<link href="" rel="alternate" title="Daniel Chang" type="application/atom+xml">
-	<link rel="canonical" href="">
-	<link href="/favicon.png" rel="shortcut icon">
-	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-	<script async="true" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-	
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://danielchangNYC.github.io/blog/2014/01/13/tdd1-ActiveRecordEqualityRogue">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="" rel="alternate" title="Daniel Chang" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=Open+Sans:400,700&subset=latin" rel="stylesheet" type="text/css" />
+<link href='http://fonts.googleapis.com/css?family=Noto+Serif:400,700' rel='stylesheet' type='text/css'>
+
+
+
+  
+
 </head>
 
-
-<body>
-	<header id="header" class="inner"><h1><a href="/">Daniel Chang</a></h1>
-<nav id="main-nav"><ul class="main">
-	<li><a href="/">Blog</a></li>
-	<li><a href="/blog/archives">Archives</a></li>
+<body    class="collapse-sidebar sidebar-footer" >
+  <nav id="main-nav" role="navigation">
+<ul class="main-navigation">
+  <li><a href="/" class="nav-link">Blog</a></li>
+  <li><a href="/blog/archives" class="nav-link">Archives</a></li>
+  <li><a href="" class="nav-link">RSS</a></li>
 </ul>
+
 </nav>
-<nav id="mobile-nav">
-	<div class="alignleft menu">
-		<a class="button">Menu</a>
-		<div class="container"><ul class="main">
-	<li><a href="/">Blog</a></li>
-	<li><a href="/blog/archives">Archives</a></li>
-</ul>
-</div>
-	</div>
-	<div class="alignright search">
-		<a class="button"></a>
-		<div class="container">
-			<form action="http://google.com/search" method="get">
-				<input type="text" name="q" results="0">
-				<input type="hidden" name="q" value="site:danielchangNYC.github.io">
-			</form>
-		</div>
-	</div>
-</nav>
-<nav id="sub-nav" class="alignright">
-	<div class="social">
-		
-		
-		<a class="google" href="https://plus.google.com/117389635991723583799?rel=author" title="Google+">Google+</a>
-		
-		
-		<a class="twitter" href="http://twitter.com/danielchangNYC" title="Twitter">Twitter</a>
-		
-		
-		<a class="github" href="https://github.com/danielchangNYC" title="GitHub">GitHub</a>
-		
+  
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
     
-		
-		
-		
-		
-		
+      <h1 class="entry-title">ActiveRecord, Equality, and Rogue</h1>
     
-	</div>
-	<form class="search" action="http://google.com/search" method="get">
-		<input class="alignright" type="text" name="q" results="0">
-		<input type="hidden" name="q" value="site:danielchangNYC.github.io">
-	</form>
-</nav>
-
-</header>
-	
-		
-	
-	<div id="content" class="inner"><article class="post">
-	<h2 class="title">ActiveRecord, Equality, and Rogue</h2>
-	<div class="entry-content"><p><img class="right" src="http://static.comicvine.com/uploads/original/8/85629/1887574-rogue1.gif" title="Rogue" >
-Almost done with my model specs! I ran into a couple of interesting problems that I posted on Stack Overflow, one of which I&rsquo;ll cover briefly below. Oh yeah, and Rogue! I&rsquo;ll explain that in the last section of this post.</p>
-
-<h2>The problem I ran into (from my <a href="https://stackoverflow.com/questions/21102549/why-is-the-where-query-in-rails-returning-a-different-object">StackOverflow post</a>)</h2>
-
-<p><em>If you just read the whole post, skip to the last section of this blog post.</em></p>
-
-<p>I&rsquo;m testing chats between users in my app. I&rsquo;m using RSpec and FactoryGirl</p>
-
-<p>The test that&rsquo;s not passing:</p>
-
-<figure class='code'><figcaption><span>chat_spec.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">it</span> <span class="s2">&quot;creates a chat if one does not exist&quot;</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">bob</span> <span class="o">=</span> <span class="n">create</span><span class="p">(</span><span class="ss">:user</span><span class="p">,</span> <span class="ss">username</span><span class="p">:</span> <span class="s2">&quot;bob&quot;</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">dan</span> <span class="o">=</span> <span class="n">create</span><span class="p">(</span><span class="ss">:user</span><span class="p">,</span> <span class="ss">username</span><span class="p">:</span> <span class="s2">&quot;dan&quot;</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">new_chat</span> <span class="o">=</span> <span class="no">Chat</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">user_id</span><span class="p">:</span> <span class="n">dan</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">chatted_user_id</span><span class="p">:</span> <span class="n">bob</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="no">Chat</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="s2">&quot;chatted_user_id = ?&quot;</span><span class="p">,</span> <span class="n">bob</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">equal</span><span class="p">(</span><span class="n">new_chat</span><span class="p">)</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The failure message says:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>Failure/Error: expect<span class="o">(</span>Chat.where<span class="o">(</span><span class="s2">&quot;chatted_user_id = ?&quot;</span>, bob.id<span class="o">)</span>.first<span class="o">)</span>.to equal<span class="o">(</span>new_chat<span class="o">)</span>
-</span><span class='line'>
-</span><span class='line'>   expected <span class="c">#&lt;Chat:70120833243920&gt; =&gt; #&lt;Chat id: 2, user_id: 2, chatted_user_id: 3&gt;</span>
-</span><span class='line'>        got <span class="c">#&lt;Chat:70120833276240&gt; =&gt; #&lt;Chat id: 2, user_id: 2, chatted_user_id: 3&gt;</span>
-</span><span class='line'>
-</span><span class='line'>   Compared using equal?, which compares object identity,
-</span><span class='line'>   but expected and actual are not the same object. Use
-</span><span class='line'>   <span class="sb">`</span>expect<span class="o">(</span>actual<span class="o">)</span>.to eq<span class="o">(</span>expected<span class="o">)</span><span class="sb">`</span> <span class="k">if </span>you don<span class="err">&#39;</span>t care about
-</span><span class='line'>   object identity in this example.
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Why is my query returning a different object id?</p>
-
-<h3>Answer from Simone Carletti on StackOverflow</h3>
-
-<p>equal checks object identity. The objects you are testing are two objects (instances) referencing the same record, but they are actually different objects from a Ruby virtual machine point of view.</p>
-
-<p>You should use</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">expect</span><span class="p">(</span><span class="no">Chat</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="s2">&quot;chatted_user_id = ?&quot;</span><span class="p">,</span> <span class="n">bob</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="n">new_chat</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>To better understand the problem, look at the following example</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="mi">2</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="o">-</span><span class="n">p353</span> <span class="p">:</span><span class="mo">001</span> <span class="o">&gt;</span> <span class="s2">&quot;foo&quot;</span><span class="o">.</span><span class="n">object_id</span>
-</span><span class='line'> <span class="o">=&gt;</span> <span class="mi">70117320944040</span>
-</span><span class='line'><span class="mi">2</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="o">-</span><span class="n">p353</span> <span class="p">:</span><span class="mo">002</span> <span class="o">&gt;</span> <span class="s2">&quot;foo&quot;</span><span class="o">.</span><span class="n">object_id</span>
-</span><span class='line'> <span class="o">=&gt;</span> <span class="mi">70117320962820</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Here I&rsquo;m creating two identical strings. They are identical, but not equal because they are actually two different objects.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="mi">2</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="o">-</span><span class="n">p353</span> <span class="p">:</span><span class="mo">00</span><span class="mi">8</span> <span class="o">&gt;</span> <span class="s2">&quot;foo&quot;</span> <span class="o">==</span> <span class="s2">&quot;foo&quot;</span>
-</span><span class='line'> <span class="o">=&gt;</span> <span class="kp">true</span>
-</span><span class='line'><span class="mi">2</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="o">-</span><span class="n">p353</span> <span class="p">:</span><span class="mo">00</span><span class="mi">9</span> <span class="o">&gt;</span> <span class="s2">&quot;foo&quot;</span><span class="o">.</span><span class="n">equal?</span> <span class="s2">&quot;foo&quot;</span>
-</span><span class='line'> <span class="o">=&gt;</span> <span class="kp">false</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>That&rsquo;s the same issue affecting your test. equal checks if two objects are actually the same at the object_id level. But what you really want to know is if they are the same record.</p>
-
-<h2>So what&rsquo;s happening under the hood?</h2>
-
-<p>The &ldquo;where&rdquo; query returns an array of objects matching the query, and those objects must be Active Record objects that just handle the data. If I make another query, Active Record must be creating another set of objects to handle each row of data.</p>
-
-<p>I wanted to confirm this before throwing it out on the web as &ldquo;fact&rdquo;, so here&rsquo;s what an Active Record object is from <a href="http://www.martinfowler.com/eaaCatalog/activeRecord.html">Martin Fowler himself</a>:</p>
-
-<blockquote><p>An object that wraps a row in a database table or view, encapsulates the database access, and adds domain logic on that data.</p></blockquote>
-
-<p>Think of an Active Record object sort of like Rogue (see above). For those of you who don&rsquo;t remember, Rogue absorbs the memories and abilities of any person she touches.</p>
-
-<p><img src="http://31.media.tumblr.com/25cd14bae1b207202d0ee9b56b475409/tumblr_mzd6fjLYmf1sqhdy2o1_1280.png" width="480" title="Comic Picture Rogue's Powers" ></p>
-
-<p>Similarly (sorta), an Active Record objects takes the data (memories) of a certain row and then takes on the behavior (abilities) of the object type matching the table name.</p>
-
-<p>Ok, so that was really just an excuse to get Rogue somewhere on my blog. While I&rsquo;m at it, here&rsquo;s one of her destroying Ororo (Storm).</p>
-
-<p><img src="http://i22.photobucket.com/albums/b310/RogueX18/Rogue%20Absorptions/UncannyX-Men158Storm.jpg" title="Rogue and Storm Picture" ></p>
-
-<p>So there you have it! Moral of the story: generally remember to use eq to test equivalence in RSpec with ActiveRecord.</p>
-
-<p>Oh, and here&rsquo;s a <a href="https://www.relishapp.com/rspec/rspec-expectations/v/2-0/docs/matchers/equality-matchers">bonus resource: equal, eql, eq, and ==</a> in RSpec.</p>
-</div>
-
-
-<div class="meta">
-	<div class="date">
+    
+      <p class="meta">
+        
 
 
 
@@ -206,57 +69,204 @@ Almost done with my model specs! I ran into a couple of interesting problems tha
   
 
 
-<time datetime="2014-01-13T23:00:00-05:00" pubdate data-updated="true">Jan 13<span>th</span>, 2014</time></div>
-	<div class="tags">
+<time datetime="2014-01-13T23:00:00-05:00" pubdate data-updated="true">Jan 13<span>th</span>, 2014</time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://danielchangNYC.github.io">Comments</a>
+        
+      </p>
+    
+  </header>
 
 
-	<a class='category' href='/blog/categories/activerecord/'>activerecord</a>, <a class='category' href='/blog/categories/rails/'>rails</a>, <a class='category' href='/blog/categories/rspec/'>rspec</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>, <a class='category' href='/blog/categories/tdd/'>tdd</a>
+<div class="entry-content"><p><img class="right" src="http://static.comicvine.com/uploads/original/8/85629/1887574-rogue1.gif" title="Rogue" />
+Almost done with my model specs! I ran into a couple of interesting problems that I posted on Stack Overflow, one of which I’ll cover briefly below. Oh yeah, and Rogue! I’ll explain that in the last section of this post.</p>
 
+<h2 id="the-problem-i-ran-into-from-my-stackoverflow-post1">The problem I ran into (from my <a href="https://stackoverflow.com/questions/21102549/why-is-the-where-query-in-rails-returning-a-different-object">StackOverflow post</a>)</h2>
+
+<p><em>If you just read the whole post, skip to the last section of this blog post.</em></p>
+
+<p>I’m testing chats between users in my app. I’m using RSpec and FactoryGirl</p>
+
+<p>The test that’s not passing:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>chat_spec.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">it</span> <span class="s2">&quot;creates a chat if one does not exist&quot;</span> <span class="k">do</span>
+</span><span class="line">  <span class="n">bob</span> <span class="o">=</span> <span class="n">create</span><span class="p">(</span><span class="ss">:user</span><span class="p">,</span> <span class="ss">username</span><span class="p">:</span> <span class="s2">&quot;bob&quot;</span><span class="p">)</span>
+</span><span class="line">  <span class="n">dan</span> <span class="o">=</span> <span class="n">create</span><span class="p">(</span><span class="ss">:user</span><span class="p">,</span> <span class="ss">username</span><span class="p">:</span> <span class="s2">&quot;dan&quot;</span><span class="p">)</span>
+</span><span class="line">  <span class="n">new_chat</span> <span class="o">=</span> <span class="no">Chat</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">user_id</span><span class="p">:</span> <span class="n">dan</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">chatted_user_id</span><span class="p">:</span> <span class="n">bob</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</span><span class="line">  <span class="n">expect</span><span class="p">(</span><span class="no">Chat</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="s2">&quot;chatted_user_id = ?&quot;</span><span class="p">,</span> <span class="n">bob</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">equal</span><span class="p">(</span><span class="n">new_chat</span><span class="p">)</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>The failure message says:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">Failure/Error: expect<span class="o">(</span>Chat.where<span class="o">(</span><span class="s2">&quot;chatted_user_id = ?&quot;</span>, bob.id<span class="o">)</span>.first<span class="o">)</span>.to equal<span class="o">(</span>new_chat<span class="o">)</span>
+</span><span class="line">
+</span><span class="line">   expected <span class="c">#&lt;Chat:70120833243920&gt; =&gt; #&lt;Chat id: 2, user_id: 2, chatted_user_id: 3&gt;</span>
+</span><span class="line">        got <span class="c">#&lt;Chat:70120833276240&gt; =&gt; #&lt;Chat id: 2, user_id: 2, chatted_user_id: 3&gt;</span>
+</span><span class="line">
+</span><span class="line">   Compared using equal?, which compares object identity,
+</span><span class="line">   but expected and actual are not the same object. Use
+</span><span class="line">   <span class="sb">`</span>expect<span class="o">(</span>actual<span class="o">)</span>.to eq<span class="o">(</span>expected<span class="o">)</span><span class="sb">`</span> <span class="k">if </span>you don<span class="err">&#39;</span>t care about
+</span><span class="line">   object identity in this example.
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Why is my query returning a different object id?</p>
+
+<h3 id="answer-from-simone-carletti-on-stackoverflow">Answer from Simone Carletti on StackOverflow</h3>
+
+<p>equal checks object identity. The objects you are testing are two objects (instances) referencing the same record, but they are actually different objects from a Ruby virtual machine point of view.</p>
+
+<p>You should use
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;figcaption&gt;<span></span>&lt;/figcaption&gt;&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class="ruby"><span class="line"><span class="n">expect</span><span class="p">(</span><span class="no">Chat</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="s2">&quot;chatted_user_id = ?&quot;</span><span class="p">,</span> <span class="n">bob</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="n">new_chat</span><span class="p">)</span>
+</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;
+To better understand the problem, look at the following example</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="mi">2</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="o">-</span><span class="n">p353</span> <span class="p">:</span><span class="mo">001</span> <span class="o">&gt;</span> <span class="s2">&quot;foo&quot;</span><span class="o">.</span><span class="n">object_id</span>
+</span><span class="line"> <span class="o">=&gt;</span> <span class="mi">70117320944040</span>
+</span><span class="line"><span class="mi">2</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="o">-</span><span class="n">p353</span> <span class="p">:</span><span class="mo">002</span> <span class="o">&gt;</span> <span class="s2">&quot;foo&quot;</span><span class="o">.</span><span class="n">object_id</span>
+</span><span class="line"> <span class="o">=&gt;</span> <span class="mi">70117320962820</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>Here I’m creating two identical strings. They are identical, but not equal because they are actually two different objects.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="mi">2</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="o">-</span><span class="n">p353</span> <span class="p">:</span><span class="mo">00</span><span class="mi">8</span> <span class="o">&gt;</span> <span class="s2">&quot;foo&quot;</span> <span class="o">==</span> <span class="s2">&quot;foo&quot;</span>
+</span><span class="line"> <span class="o">=&gt;</span> <span class="kp">true</span>
+</span><span class="line"><span class="mi">2</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="o">-</span><span class="n">p353</span> <span class="p">:</span><span class="mo">00</span><span class="mi">9</span> <span class="o">&gt;</span> <span class="s2">&quot;foo&quot;</span><span class="o">.</span><span class="n">equal?</span> <span class="s2">&quot;foo&quot;</span>
+</span><span class="line"> <span class="o">=&gt;</span> <span class="kp">false</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>That’s the same issue affecting your test. equal checks if two objects are actually the same at the object_id level. But what you really want to know is if they are the same record.</p>
+
+<h2 id="so-whats-happening-under-the-hood">So what’s happening under the hood?</h2>
+
+<p>The “where” query returns an array of objects matching the query, and those objects must be Active Record objects that just handle the data. If I make another query, Active Record must be creating another set of objects to handle each row of data.</p>
+
+<p>I wanted to confirm this before throwing it out on the web as “fact”, so here’s what an Active Record object is from <a href="http://www.martinfowler.com/eaaCatalog/activeRecord.html">Martin Fowler himself</a>:</p>
+
+<blockquote>
+  <p>An object that wraps a row in a database table or view, encapsulates the database access, and adds domain logic on that data.</p>
+</blockquote>
+
+<p>Think of an Active Record object sort of like Rogue (see above). For those of you who don’t remember, Rogue absorbs the memories and abilities of any person she touches.</p>
+
+<p><img src="http://31.media.tumblr.com/25cd14bae1b207202d0ee9b56b475409/tumblr_mzd6fjLYmf1sqhdy2o1_1280.png" width="480" title="Comic Picture Rogue's Powers" /></p>
+
+<p>Similarly (sorta), an Active Record objects takes the data (memories) of a certain row and then takes on the behavior (abilities) of the object type matching the table name.</p>
+
+<p>Ok, so that was really just an excuse to get Rogue somewhere on my blog. While I’m at it, here’s one of her destroying Ororo (Storm).</p>
+
+<p><img src="http://i22.photobucket.com/albums/b310/RogueX18/Rogue%20Absorptions/UncannyX-Men158Storm.jpg" title="Rogue and Storm Picture" /></p>
+
+<p>So there you have it! Moral of the story: generally remember to use eq to test equivalence in RSpec with ActiveRecord.</p>
+
+<p>Oh, and here’s a <a href="https://www.relishapp.com/rspec/rspec-expectations/v/2-0/docs/matchers/equality-matchers">bonus resource: equal, eql, eq, and ==</a> in RSpec.</p>
 
 </div>
-	
-	<div class="comments"><a href="#disqus_thread">Comments</a></div>
-	
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Daniel Chang (couchpanda / c0depanda)</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-13T23:00:00-05:00" pubdate data-updated="true">Jan 13<span>th</span>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/activerecord/'>activerecord</a>, <a class='category' href='/blog/categories/rails/'>rails</a>, <a class='category' href='/blog/categories/rspec/'>rspec</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>, <a class='category' href='/blog/categories/tdd/'>tdd</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://danielchangNYC.github.io/blog/2014/01/13/tdd1-ActiveRecordEqualityRogue/" data-via="danielchangNYC" data-counturl="http://danielchangNYC.github.io/blog/2014/01/13/tdd1-ActiveRecordEqualityRogue/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
 </div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/01/12/tdd0-whyttd/" title="Previous Post: How and Why I Began Testing in Ruby on Rails">&laquo; How and Why I Began Testing in Ruby on Rails</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/01/15/tdd2-RSpecMatchers/" title="Next Post: RSpec Custom Matchers: A Deep Dive">RSpec Custom Matchers: A Deep Dive &raquo;</a>
+      
+    </p>
+  </footer>
 </article>
 
-	<div class="share">
-	<div class="addthis_toolbox addthis_default_style ">
-		
-		<a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
-		
-		
-		<a class="addthis_button_tweet"></a>
-		
-		
-		<a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
-		
-		
-	</div>
-	
-</div>
-
-
-
-<section id="comment">
-    <h2 class="title">Comments</h2>
+  <section>
+    <h1>Comments</h1>
     <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
-</section>
-</div>
-	<footer id="footer" class="inner">Copyright &copy; 2014
+  </section>
 
-    Daniel Chang (couchpanda / c0depanda)
+</div>
+
+<aside class="sidebar">
+  
+    
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Daniel Chang (couchpanda / c0depanda) -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
 
 </footer>
-	<script src="/javascripts/slash.js"></script>
-<script src="/javascripts/jquery.fancybox.pack.js"></script>
-<script type="text/javascript">
-(function($){
-	$('.fancybox').fancybox();
-})(jQuery);
-</script> <!-- Delete or comment this line to disable Fancybox -->
-
+  
 
 <script type="text/javascript">
       var disqus_shortname = 'danielchangnyc';
@@ -269,10 +279,43 @@ Almost done with my model specs! I ran into a couple of interesting problems tha
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = '//go.disqus.com/' + disqus_script;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     }());
 </script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
 
 
 

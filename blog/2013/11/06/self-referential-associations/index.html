@@ -1,163 +1,63 @@
 
-<!DOCTYPE HTML>
-<html>
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
-	<meta charset="utf-8">
-	<title>Self-Referential Associations, AKA Self Joins - Daniel Chang</title>
-	<meta name="author" content="Daniel Chang (couchpanda / c0depanda)">
+  <meta charset="utf-8">
+  <title>Self-Referential Associations, AKA Self Joins - Daniel Chang</title>
+  <meta name="author" content="Daniel Chang (couchpanda / c0depanda)">
 
-	
-	<meta name="description" content="Week 2 of learning Rails. After 6 weeks at Flatiron, I feel like a beginner again, but not quite like I&rsquo;m stranded on a deserted island &mdash &hellip;">
-	
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="description" content="Week 2 of learning Rails. After 6 weeks at Flatiron, I feel like a beginner again, but not quite like I’m stranded on a deserted island – more like I &hellip;">
+  
 
-	<link href="" rel="alternate" title="Daniel Chang" type="application/atom+xml">
-	<link rel="canonical" href="">
-	<link href="/favicon.png" rel="shortcut icon">
-	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-	<script async="true" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-	
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://danielchangNYC.github.io/blog/2013/11/06/self-referential-associations">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="" rel="alternate" title="Daniel Chang" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=Open+Sans:400,700&subset=latin" rel="stylesheet" type="text/css" />
+<link href='http://fonts.googleapis.com/css?family=Noto+Serif:400,700' rel='stylesheet' type='text/css'>
+
+
+
+  
+
 </head>
 
+<body    class="collapse-sidebar sidebar-footer" >
+  <nav id="main-nav" role="navigation">
+<ul class="main-navigation">
+  <li><a href="/" class="nav-link">Blog</a></li>
+  <li><a href="/blog/archives" class="nav-link">Archives</a></li>
+  <li><a href="" class="nav-link">RSS</a></li>
+</ul>
 
-<body>
-	<header id="header" class="inner"><h1><a href="/">Daniel Chang</a></h1>
-<nav id="main-nav"><ul class="main">
-	<li><a href="/">Blog</a></li>
-	<li><a href="/blog/archives">Archives</a></li>
-</ul>
 </nav>
-<nav id="mobile-nav">
-	<div class="alignleft menu">
-		<a class="button">Menu</a>
-		<div class="container"><ul class="main">
-	<li><a href="/">Blog</a></li>
-	<li><a href="/blog/archives">Archives</a></li>
-</ul>
-</div>
-	</div>
-	<div class="alignright search">
-		<a class="button"></a>
-		<div class="container">
-			<form action="http://google.com/search" method="get">
-				<input type="text" name="q" results="0">
-				<input type="hidden" name="q" value="site:danielchangNYC.github.io">
-			</form>
-		</div>
-	</div>
-</nav>
-<nav id="sub-nav" class="alignright">
-	<div class="social">
-		
-		
-		<a class="google" href="https://plus.google.com/117389635991723583799?rel=author" title="Google+">Google+</a>
-		
-		
-		<a class="twitter" href="http://twitter.com/danielchangNYC" title="Twitter">Twitter</a>
-		
-		
-		<a class="github" href="https://github.com/danielchangNYC" title="GitHub">GitHub</a>
-		
+  
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
     
-		
-		
-		
-		
-		
+      <h1 class="entry-title">Self-Referential Associations, AKA Self Joins</h1>
     
-	</div>
-	<form class="search" action="http://google.com/search" method="get">
-		<input class="alignright" type="text" name="q" results="0">
-		<input type="hidden" name="q" value="site:danielchangNYC.github.io">
-	</form>
-</nav>
-
-</header>
-	
-		
-	
-	<div id="content" class="inner"><article class="post">
-	<h2 class="title">Self-Referential Associations, AKA Self Joins</h2>
-	<div class="entry-content"><p>Week 2 of learning Rails. After 6 weeks at Flatiron, I feel like a beginner again, but not quite like I&rsquo;m stranded on a deserted island &mdash; more like I&rsquo;m Link, and although I wield a wooden sword, new items abound and I&rsquo;m eager to learn how to use them.</p>
-
-<p><img src="http://www.ohmz.net/wp-content/uploads/2011/08/its-dangerous-to-go-alone-take-this.jpg" width="400"></p>
-
-<p>Although the <a href="http://guides.rubyonrails.org/">Rails Guides</a> have been invaluable, trying new constructs myself is how I internalize a concept. This blog post will be about <a href="http://guides.rubyonrails.org/association_basics.html">associations</a>, particularly <a href="http://guides.rubyonrails.org/association_basics.html#self-joins">self joins</a>.</p>
-
-<h2>Mini-Project: Self-Joins</h2>
-
-<p>I created a basic rails app and deployed it on Heroku <a href="https://customer-referrals-testsite.herokuapp.com/">here</a>. Try it out to see how the customer data behaves. Imagine what the schema (or &ldquo;table&rdquo;) might look like and then read on.</p>
-
-<h1>What is a Self Join?</h1>
-
-<p>Below is a self-join. While foreign keys are usually used to link data between two tables, you can use foreign keys to refer to data within the <em>same</em> table to create one that looks something like this:</p>
-
-<p><img src="http://d2o0t5hpnwv4c1.cloudfront.net/538_sql3/ss_5.png" width="600">
-<a href="http://net.tutsplus.com/tutorials/databases/sql-for-beginners-part-3-database-relationships/">(source site)</a></p>
-
-<p>I originally tried the following associations below.</p>
-
-<figure class='code'><figcaption><span>customer.rb BROKEN VERSION</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Customer</span> <span class="o">&lt;</span> <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span>
-</span><span class='line'>  <span class="n">has_many</span> <span class="ss">:referrals</span><span class="p">,</span> <span class="n">class_name</span><span class="p">:</span> <span class="s2">&quot;Customer&quot;</span><span class="p">,</span> <span class="n">foreign_key</span><span class="p">:</span> <span class="s2">&quot;referring_customer_id&quot;</span><span class="p">,</span> <span class="ss">conditions</span><span class="p">:</span> <span class="p">{</span><span class="ss">:referring_customer_id</span> <span class="o">=&gt;</span> <span class="ss">:id</span><span class="p">}</span>
-</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:referring_customer</span><span class="p">,</span> <span class="n">class_name</span><span class="p">:</span> <span class="s2">&quot;Customer&quot;</span><span class="p">,</span> <span class="n">foreign_key</span><span class="p">:</span> <span class="s2">&quot;referring_customer_id&quot;</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This didn&rsquo;t work. After some serious research, stackoverflow, posting my own <a href="http://stackoverflow.com/questions/19803759/how-do-i-create-a-self-referential-association-self-join-in-a-single-class-usi">stackoverflow question</a> (thanks Peter!!!), trial-and-error, and pry sessions, I refactored my code to:</p>
-
-<figure class='code'><figcaption><span>customer.rb WORKING VERSION</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Customer</span> <span class="o">&lt;</span> <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span>
-</span><span class='line'>  <span class="n">has_many</span> <span class="ss">:referrals</span><span class="p">,</span> <span class="n">class_name</span><span class="p">:</span> <span class="s2">&quot;Customer&quot;</span><span class="p">,</span> <span class="n">foreign_key</span><span class="p">:</span> <span class="s2">&quot;referring_customer_id&quot;</span>
-</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:referring_customer</span><span class="p">,</span> <span class="n">class_name</span><span class="p">:</span> <span class="s2">&quot;Customer&quot;</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Let&rsquo;s think about this for a second. Why does this work and what does it do? <code>has_many</code> and <code>belongs_to</code> provide <code>Customer</code>s with a set of methods to access their associated data. The options passed often do not change the database since Rails tries to keep logic defined within the application. Why? I&rsquo;m not exactly sure but I suppose this is partially why Rails easily supports a wide range of databases.</p>
-
-<p>Here&rsquo;s what the arguments do:</p>
-
-<ul>
-<li><code>class_name: "Customer"</code> tells Rails to look in the <code>Customer</code> class for the association. What do I mean by association? In <code>has_many :referrals</code>, the <code>:referrals</code> is called the assocation. When would I use this? When I need to override the Rails convention for identifying the class in which to find the association.</li>
-<li><code>foreign_key: "referring_customer_id"</code> tells Rails where to find the foreign key. When would I use this? When I need to override the Rails convention for identifying the class in which to find the association. Why didn&rsquo;t I use it for <code>belongs_to</code>? It is implicitly defined with that method.</li>
-<li><code>conditions: "referring_customer_id = id"</code> actually fires a <code>WHERE</code> SQL statement with the given value. I originally used this thinking it would match referring customers by their id. It turned out to be an extra constraint though &mdash; <code>AND (referring_customer_id = id)</code> &mdash; which filtered for any customer who referred <em>him/herself</em>.</li>
-</ul>
-
-
-<h1>When else can I use self-joins?</h1>
-
-<p>Generally you can use self-joins anytime you need to create a hierarchy-like, &ldquo;nested&rdquo; structure.
-<img class="right" src="http://d2o0t5hpnwv4c1.cloudfront.net/538_sql3/graph_5.png" width="400"></p>
-
-<p>Some other applications could be:</p>
-
-<ul>
-<li>Creating parent and child directories for Folder objects.</li>
-<li>Creating managers and subordinates for Employee objects.</li>
-<li>Creating callers and receivers for PhoneTreeMember objects.</li>
-<li>Anything else with a parent-child data relationship.</li>
-</ul>
-
-
-<h1>The Master Sword!</h1>
-
-<p>Just when you thought THAT was exciting, there are also plenty of <em>GEMS</em> that allow you to create these nested structures! Two from the Ruby Toolbox are <a href="https://www.ruby-toolbox.com/projects/awesome_nested_set">Awesome Nested Set</a> and <a href="https://www.ruby-toolbox.com/projects/ancestry">Ancestry</a>.</p>
-
-<p><img src="https://lh3.ggpht.com/-XQj1y02FMH4/TcnEMrdHk_I/AAAAAAAAAZE/7ssw-Kwlv7s/s1600/Link_taking_Master_Sword.jpg" width="400"></p>
-</div>
-
-
-<div class="meta">
-	<div class="date">
+    
+      <p class="meta">
+        
 
 
 
@@ -169,57 +69,165 @@
   
 
 
-<time datetime="2013-11-06T08:00:00-05:00" pubdate data-updated="true">Nov 6<span>th</span>, 2013</time></div>
-	<div class="tags">
+<time datetime="2013-11-06T08:00:00-05:00" pubdate data-updated="true">Nov 6<span>th</span>, 2013</time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://danielchangNYC.github.io">Comments</a>
+        
+      </p>
+    
+  </header>
 
 
-	<a class='category' href='/blog/categories/activerecord/'>activerecord</a>, <a class='category' href='/blog/categories/associations/'>associations</a>, <a class='category' href='/blog/categories/rails/'>rails</a>, <a class='category' href='/blog/categories/ruby-on-rails/'>ruby-on-rails</a>, <a class='category' href='/blog/categories/self-joins/'>self-joins</a>, <a class='category' href='/blog/categories/self-referential/'>self-referential</a>
+<div class="entry-content"><p>Week 2 of learning Rails. After 6 weeks at Flatiron, I feel like a beginner again, but not quite like I’m stranded on a deserted island – more like I’m Link, and although I wield a wooden sword, new items abound and I’m eager to learn how to use them.</p>
 
+<p><img src="http://www.ohmz.net/wp-content/uploads/2011/08/its-dangerous-to-go-alone-take-this.jpg" width="400" /></p>
+
+<p>Although the <a href="http://guides.rubyonrails.org/">Rails Guides</a> have been invaluable, trying new constructs myself is how I internalize a concept. This blog post will be about <a href="http://guides.rubyonrails.org/association_basics.html">associations</a>, particularly <a href="http://guides.rubyonrails.org/association_basics.html#self-joins">self joins</a>.</p>
+
+<h2 id="mini-project-self-joins">Mini-Project: Self-Joins</h2>
+
+<p>I created a basic rails app and deployed it on Heroku <a href="https://customer-referrals-testsite.herokuapp.com/">here</a>. Try it out to see how the customer data behaves. Imagine what the schema (or “table”) might look like and then read on.</p>
+
+<h1 id="what-is-a-self-join">What is a Self Join?</h1>
+
+<p>Below is a self-join. While foreign keys are usually used to link data between two tables, you can use foreign keys to refer to data within the <em>same</em> table to create one that looks something like this:</p>
+
+<p><img src="http://d2o0t5hpnwv4c1.cloudfront.net/538_sql3/ss_5.png" width="600" />
+<a href="http://net.tutsplus.com/tutorials/databases/sql-for-beginners-part-3-database-relationships/">(source site)</a></p>
+
+<p>I originally tried the following associations below.
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;figcaption&gt;<span>customer.rb BROKEN VERSION</span>&lt;/figcaption&gt;&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class="ruby"><span class="line"><span class="k">class</span> <span class="nc">Customer</span> <span class="o">&lt;</span> <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span>
+</span><span class="line">  <span class="n">has_many</span> <span class="ss">:referrals</span><span class="p">,</span> <span class="n">class_name</span><span class="p">:</span> <span class="s2">&quot;Customer&quot;</span><span class="p">,</span> <span class="n">foreign_key</span><span class="p">:</span> <span class="s2">&quot;referring_customer_id&quot;</span><span class="p">,</span> <span class="ss">conditions</span><span class="p">:</span> <span class="p">{</span><span class="ss">:referring_customer_id</span> <span class="o">=&gt;</span> <span class="ss">:id</span><span class="p">}</span>
+</span><span class="line">  <span class="n">belongs_to</span> <span class="ss">:referring_customer</span><span class="p">,</span> <span class="n">class_name</span><span class="p">:</span> <span class="s2">&quot;Customer&quot;</span><span class="p">,</span> <span class="n">foreign_key</span><span class="p">:</span> <span class="s2">&quot;referring_customer_id&quot;</span>
+</span><span class="line"><span class="k">end</span>
+</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;
+This didn’t work. After some serious research, stackoverflow, posting my own <a href="http://stackoverflow.com/questions/19803759/how-do-i-create-a-self-referential-association-self-join-in-a-single-class-usi">stackoverflow question</a> (thanks Peter!!!), trial-and-error, and pry sessions, I refactored my code to:
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;figcaption&gt;<span>customer.rb WORKING VERSION</span>&lt;/figcaption&gt;&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class="ruby"><span class="line"><span class="k">class</span> <span class="nc">Customer</span> <span class="o">&lt;</span> <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span>
+</span><span class="line">  <span class="n">has_many</span> <span class="ss">:referrals</span><span class="p">,</span> <span class="n">class_name</span><span class="p">:</span> <span class="s2">&quot;Customer&quot;</span><span class="p">,</span> <span class="n">foreign_key</span><span class="p">:</span> <span class="s2">&quot;referring_customer_id&quot;</span>
+</span><span class="line">  <span class="n">belongs_to</span> <span class="ss">:referring_customer</span><span class="p">,</span> <span class="n">class_name</span><span class="p">:</span> <span class="s2">&quot;Customer&quot;</span>
+</span><span class="line"><span class="k">end</span>
+</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;
+Let’s think about this for a second. Why does this work and what does it do? <code>has_many</code> and <code>belongs_to</code> provide <code>Customer</code>s with a set of methods to access their associated data. The options passed often do not change the database since Rails tries to keep logic defined within the application. Why? I’m not exactly sure but I suppose this is partially why Rails easily supports a wide range of databases.</p>
+
+<p>Here’s what the arguments do:</p>
+
+<ul>
+  <li><code>class_name: "Customer"</code> tells Rails to look in the <code>Customer</code> class for the association. What do I mean by association? In <code>has_many :referrals</code>, the <code>:referrals</code> is called the assocation. When would I use this? When I need to override the Rails convention for identifying the class in which to find the association.</li>
+  <li><code>foreign_key: "referring_customer_id"</code> tells Rails where to find the foreign key. When would I use this? When I need to override the Rails convention for identifying the class in which to find the association. Why didn’t I use it for <code>belongs_to</code>? It is implicitly defined with that method.</li>
+  <li><code>conditions: "referring_customer_id = id"</code> actually fires a <code>WHERE</code> SQL statement with the given value. I originally used this thinking it would match referring customers by their id. It turned out to be an extra constraint though – <code>AND (referring_customer_id = id)</code> – which filtered for any customer who referred <em>him/herself</em>.</li>
+</ul>
+
+<h1 id="when-else-can-i-use-self-joins">When else can I use self-joins?</h1>
+
+<p>Generally you can use self-joins anytime you need to create a hierarchy-like, “nested” structure.
+<img class="right" src="http://d2o0t5hpnwv4c1.cloudfront.net/538_sql3/graph_5.png" width="400" /></p>
+
+<p>Some other applications could be:</p>
+
+<ul>
+  <li>Creating parent and child directories for Folder objects.</li>
+  <li>Creating managers and subordinates for Employee objects.</li>
+  <li>Creating callers and receivers for PhoneTreeMember objects.</li>
+  <li>Anything else with a parent-child data relationship.</li>
+</ul>
+
+<h1 id="the-master-sword">The Master Sword!</h1>
+
+<p>Just when you thought THAT was exciting, there are also plenty of <em>GEMS</em> that allow you to create these nested structures! Two from the Ruby Toolbox are <a href="https://www.ruby-toolbox.com/projects/awesome_nested_set">Awesome Nested Set</a> and <a href="https://www.ruby-toolbox.com/projects/ancestry">Ancestry</a>.</p>
+
+<p><img src="https://lh3.ggpht.com/-XQj1y02FMH4/TcnEMrdHk_I/AAAAAAAAAZE/7ssw-Kwlv7s/s1600/Link_taking_Master_Sword.jpg" width="400" /></p>
 
 </div>
-	
-	<div class="comments"><a href="#disqus_thread">Comments</a></div>
-	
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Daniel Chang (couchpanda / c0depanda)</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-06T08:00:00-05:00" pubdate data-updated="true">Nov 6<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/activerecord/'>activerecord</a>, <a class='category' href='/blog/categories/associations/'>associations</a>, <a class='category' href='/blog/categories/rails/'>rails</a>, <a class='category' href='/blog/categories/ruby-on-rails/'>ruby-on-rails</a>, <a class='category' href='/blog/categories/self-joins/'>self-joins</a>, <a class='category' href='/blog/categories/self-referential/'>self-referential</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://danielchangNYC.github.io/blog/2013/11/06/self-referential-associations/" data-via="danielchangNYC" data-counturl="http://danielchangNYC.github.io/blog/2013/11/06/self-referential-associations/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
 </div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/10/23/throw-raise/" title="Previous Post: Ruby 'Exceptional' Knowledge">&laquo; Ruby 'Exceptional' Knowledge</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/01/05/big-o/" title="Next Post: Big O Notation">Big O Notation &raquo;</a>
+      
+    </p>
+  </footer>
 </article>
 
-	<div class="share">
-	<div class="addthis_toolbox addthis_default_style ">
-		
-		<a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
-		
-		
-		<a class="addthis_button_tweet"></a>
-		
-		
-		<a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
-		
-		
-	</div>
-	
-</div>
-
-
-
-<section id="comment">
-    <h2 class="title">Comments</h2>
+  <section>
+    <h1>Comments</h1>
     <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
-</section>
-</div>
-	<footer id="footer" class="inner">Copyright &copy; 2014
+  </section>
 
-    Daniel Chang (couchpanda / c0depanda)
+</div>
+
+<aside class="sidebar">
+  
+    
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Daniel Chang (couchpanda / c0depanda) -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
 
 </footer>
-	<script src="/javascripts/slash.js"></script>
-<script src="/javascripts/jquery.fancybox.pack.js"></script>
-<script type="text/javascript">
-(function($){
-	$('.fancybox').fancybox();
-})(jQuery);
-</script> <!-- Delete or comment this line to disable Fancybox -->
-
+  
 
 <script type="text/javascript">
       var disqus_shortname = 'danielchangnyc';
@@ -232,10 +240,43 @@
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = '//go.disqus.com/' + disqus_script;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     }());
 </script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
 
 
 

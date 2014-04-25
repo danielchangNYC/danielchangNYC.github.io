@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: algorithms | Daniel Chang]]></title>
+  <title><![CDATA[Category: Algorithms | Daniel Chang]]></title>
   <link href="http://danielchangNYC.github.io/blog/categories/algorithms/atom.xml" rel="self"/>
   <link href="http://danielchangNYC.github.io/"/>
-  <updated>2014-04-25T00:26:06-04:00</updated>
+  <updated>2014-04-25T00:43:54-04:00</updated>
   <id>http://danielchangNYC.github.io/</id>
   <author>
     <name><![CDATA[Daniel Chang (couchpanda / c0depanda)]]></name>
@@ -14,65 +14,58 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Set Intersection: An Unlikely but Elegant Solution, plus BONUS!]]></title>
+    <title type="html"><![CDATA[Set Intersection: An Unlikely but Elegant Solution, Plus BONUS!]]></title>
     <link href="http://danielchangNYC.github.io/blog/2014/04/24/set-intersection/"/>
     <updated>2014-04-24T09:51:00-04:00</updated>
     <id>http://danielchangNYC.github.io/blog/2014/04/24/set-intersection</id>
     <content type="html"><![CDATA[<p>While working on the <a href="http://prework.flatironschool.com/">Flatiron School pre-work</a> progress-tracker, I kept finding myself feeling uncomfortable with the <code>topic_complete?</code> and <code>add_lesson</code> methods below.</p>
 
-<h1>Code Smell: <code>topic_complete?</code> and <code>add_lesson</code></h1>
+<h1 id="code-smell-topiccomplete-and-addlesson">Code Smell: <code>topic_complete?</code> and <code>add_lesson</code></h1>
 
 <p>``` ruby
 class Progress &lt; ActiveRecord::Base
   belongs_to :topic
   serialize :completed_lessons, Array</p>
 
-<p>  def topic_complete?</p>
-
-<pre><code>topic.total_lessons == completed_lessons.length
-</code></pre>
-
-<p>  end
+<p>def topic_complete?
+    topic.total_lessons == completed_lessons.length
+  end
 end</p>
 
 <p>class Topic &lt; ActiveRecord::Base
   has_many :progresses
   serialize :lesson_order, Array</p>
 
-<p>  def add_lesson(lesson)</p>
-
-<pre><code>lesson_order &lt;&lt; lesson.id
-total_lessons += 1
-</code></pre>
-
-<p>  end
+<p>def add_lesson(lesson)
+    lesson_order « lesson.id
+    total_lessons += 1
+  end
 end
 ```</p>
 
-<h1>Why The Code Is Smelly</h1>
+<h1 id="why-the-code-is-smelly">Why The Code Is Smelly</h1>
 
 <p><code>add_lesson</code> felt brittle. A new coder on this project has to know to add lessons using this method; the design is therefore NOT transparent. There is also a duplication of data: the <code>total_lessons</code> attribute and the length of the <code>lesson_order</code> array should always be the same, so why do we need <code>total_lessons</code>? The code therefore violates the DRY principle.</p>
 
 <p><code>topic_complete?</code> has another host of what-if situations. Consider the possibilities:</p>
 
 <ul>
-<li>An admin removes lessons from the topic. <code>topic_complete?</code> returns <code>false</code>.</li>
-<li>An admin replaces a lesson in the topic. <code>topic_complete?</code> returns <code>true</code>.</li>
-<li><code>total_lessons</code> doesn&rsquo;t get updated using <code>add_lesson</code>. See above.</li>
+  <li>An admin removes lessons from the topic. <code>topic_complete?</code> returns <code>false</code>.</li>
+  <li>An admin replaces a lesson in the topic. <code>topic_complete?</code> returns <code>true</code>.</li>
+  <li><code>total_lessons</code> doesn’t get updated using <code>add_lesson</code>. See above.</li>
 </ul>
-
 
 <p>I needed a way to actually compare what was in the two arrays, <code>completed_lessons</code> and <code>lesson_order</code>.</p>
 
-<h1>An Unlikely But Elegant Solution</h1>
+<h1 id="an-unlikely-but-elegant-solution">An Unlikely But Elegant Solution</h1>
 
-<p>I considered iterating through <code>lesson_order</code> and comparing with <code>completed_lessons</code>, but this seemed cumbersome; &ldquo;There must be an easier way,&rdquo; thought Daniel.</p>
+<p>I considered iterating through <code>lesson_order</code> and comparing with <code>completed_lessons</code>, but this seemed cumbersome; “There must be an easier way,” thought Daniel.</p>
 
-<p>Then it hit me: this is a <strong>set intersection</strong> problem. (Duh, it&rsquo;s in the title!)</p>
+<p>Then it hit me: this is a <strong>set intersection</strong> problem. (Duh, it’s in the title!)</p>
 
 <p>Set theory review: The intersection of two sets is the set of all common elements. Luckily, Ruby class Array has such a method which can be used like an operator: <code>&amp;</code>.</p>
 
-<h1>Solution 1 => #fail</h1>
+<h1 id="solution-1--fail">Solution 1 =&gt; #fail</h1>
 
 <p>The <a href="http://www.ruby-doc.org/core-2.1.1/Array.html#method-i-26">&amp; operator</a> is called the set intersection operator.</p>
 
@@ -88,22 +81,22 @@ def topic_complete?
 end
 </code></p>
 
-<p>&hellip;which failed.</p>
+<p>…which failed.</p>
 
-<h1>Why Solution 1 Failed</h1>
+<h1 id="why-solution-1-failed">Why Solution 1 Failed</h1>
 
 <p>``` ruby irb-fiddling
 lesson_order = [3, 2, 5]
 completed_lessons = [5, 2, 3]</p>
 
 <p>lesson_order &amp; completed_lessons
-   # => [3, 2, 5]</p>
+   # =&gt; [3, 2, 5]</p>
 
 <p>completed_lessons &amp; lesson_order
-   # => [5, 2, 3]</p>
+   # =&gt; [5, 2, 3]</p>
 
 <p>completed_lessons &amp; lesson_order == lesson_order
-   # => false
+   # =&gt; false
 ```</p>
 
 <p>Note: <code>&amp;</code> ignores doubles.</p>
@@ -113,38 +106,37 @@ a = [1, 2, 2, 3]
 b = [2, 2, 2]</p>
 
 <p>a &amp; b
-  # => [2]</p>
+  # =&gt; [2]</p>
 
 <p>b &amp; a
-  # => [2]
+  # =&gt; [2]
 ```</p>
 
-<h1>Solution 2: o(^_^)b</h1>
+<h1 id="solution-2-ob">Solution 2: o(^_^)b</h1>
 
 <p><code>ruby
 def topic_complete?
   topic.lesson_order &amp; completed_lessons == topic.lesson_order
 end
 </code>
-&ldquo;Huzzah!&rdquo; thought Daniel.</p>
+“Huzzah!” thought Daniel.</p>
 
-<h1>BONUS: How Does <code>#&amp;</code> Work?</h1>
+<h1 id="bonus-how-does--work">BONUS: How Does <code>#&amp;</code> Work?</h1>
 
 <p>I took a a deep dive into Ruby source code to figure this one out.</p>
 
-<p>Here&rsquo;s the code in C.</p>
+<p>Here’s the code in C.</p>
 
 <p>``` c
  static VALUE
 rb_ary_and(VALUE ary1, VALUE ary2)
-{</p>
+{
+    VALUE hash, ary3, v;
+    st_table *table;
+    st_data_t vv;
+    long i;</p>
 
-<pre><code>VALUE hash, ary3, v;
-st_table *table;
-st_data_t vv;
-long i;
-
-ary2 = to_ary(ary2);
+<pre><code>ary2 = to_ary(ary2);
 ary3 = rb_ary_new();
 if (RARRAY_LEN(ary2) == 0) return ary3;
 hash = ary_make_hash(ary2);
@@ -159,24 +151,21 @@ for (i=0; i&lt;RARRAY_LEN(ary1); i++) {
 }
 ary_recycle_hash(hash);
 
-return ary3;
+return ary3; } ```
 </code></pre>
 
-<p>}
-```</p>
-
-<p>Full disclosure: I&rsquo;ve never read or written C in my life, but with the help of the <a href="http://rxr.whitequark.org/mri/ident">MRI Identifier Search</a>, I was able to piece together what this does.</p>
+<p>Full disclosure: I’ve never read or written C in my life, but with the help of the <a href="http://rxr.whitequark.org/mri/ident">MRI Identifier Search</a>, I was able to piece together what this does.</p>
 
 <p>The key to understanding this is in the <code>for</code> loop.</p>
 
-<p><code>ary1</code> and <code>ary2</code> represent the arrays for which we&rsquo;re finding the intersection. <code>ary3</code> is what the function <code>rb_ary_and</code> returns.</p>
+<p><code>ary1</code> and <code>ary2</code> represent the arrays for which we’re finding the intersection. <code>ary3</code> is what the function <code>rb_ary_and</code> returns.</p>
 
 <p>v represents <code>ary1[i]</code>, in Ruby-speak.
 vv is somehow tied to that value.</p>
 
-<p><code>st_delete</code> returns 1 if <code>vv</code> was successfully deleted from <code>table</code>, which really refers to <code>ary2</code>, and 0 if it wasn&rsquo;t found. If it gets deleted, then that means <code>ary2</code> must have had an element in common; push that element into <code>ary3</code>.</p>
+<p><code>st_delete</code> returns 1 if <code>vv</code> was successfully deleted from <code>table</code>, which really refers to <code>ary2</code>, and 0 if it wasn’t found. If it gets deleted, then that means <code>ary2</code> must have had an element in common; push that element into <code>ary3</code>.</p>
 
-<h1>So how efficient is this method?</h1>
+<h1 id="so-how-efficient-is-this-method">So how efficient is this method?</h1>
 
 <p>In the worst-case scenario, <code>ary1</code> and <code>ary2</code> are giant arrays with completely disparate elements, requiring the algorithm to compare all elements of <code>ary2</code> with all elements of <code>ary1</code>. Given there are <em>x</em> elements in <code>ary1</code> and <em>y</em> elements in <code>ary2</code>, this would produce a O(x*y).</p>
 ]]></content>
