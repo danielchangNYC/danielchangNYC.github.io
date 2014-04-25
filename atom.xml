@@ -4,7 +4,7 @@
   <title><![CDATA[Daniel Chang]]></title>
   <link href="http://danielchangNYC.github.io/atom.xml" rel="self"/>
   <link href="http://danielchangNYC.github.io/"/>
-  <updated>2014-04-25T01:10:24-04:00</updated>
+  <updated>2014-04-25T01:17:57-04:00</updated>
   <id>http://danielchangNYC.github.io/</id>
   <author>
     <name><![CDATA[Daniel Chang]]></name>
@@ -63,28 +63,17 @@
 
 <h1>The Source of Stink</h1>
 
-<p><code>add_lesson</code> felt brittle. A new coder on this project has to know to add lessons using this method; the design is therefore NOT transparent. There is also a duplication of data: the <code>total_lessons</code> attribute and the length of the <code>lesson_order</code> array should always be the same, so why do we need <code>total_lessons</code>? The code therefore violates the DRY principle.</p>
+<p><code>add_lesson</code> felt brittle. A new coder on this project has to know to add lessons using this method; the design is therefore NOT transparent. There is also a duplication of data: calling <code>lesson_order.length</code> gives you the total number of lessons, making a <code>total_lessons</code> attribute a violation of the DRY principle. It should be a method instead.</p>
 
-<p><code>topic_complete?</code> has another host of what-if situations. Consider the possibilities:</p>
+<p><code>topic_complete?</code> also felt prone to false positives and negatives. If an admin replaces a lesson, is a completed progress still complete? What about if a lesson is removed? Our method would return false.</p>
 
-<ul>
-<li>An admin removes lessons from the topic. <code>topic_complete? # =&gt; false</code>.</li>
-<li>An admin replaces a lesson in the topic. <code>topic_complete? # =&gt; true</code>.</li>
-<li><code>total_lessons</code> doesn&rsquo;t get updated using <code>add_lesson</code>. See above.</li>
-</ul>
-
-
-<p>I needed a way to actually compare what was in the two arrays, <code>completed_lessons</code> and <code>lesson_order</code>.</p>
+<p><strong>I needed a way to actually compare what was in <code>completed_lessons</code> and <code>lesson_order</code>.</strong></p>
 
 <h1>An Unlikely But Elegant Solution</h1>
 
-<p>I considered iterating through <code>lesson_order</code> and comparing with <code>completed_lessons</code>, but this seemed cumbersome; &ldquo;There must be an easier way,&rdquo; thought Daniel.</p>
+<p>Set theory review: The intersection of two sets is the set of all common elements. Ruby&rsquo;s Array class has such a method which can be used like an operator: <code>&amp;</code>.</p>
 
-<p>Then it hit me: this is a <strong>set intersection</strong> problem. (Duh, it&rsquo;s in the title!)</p>
-
-<p>Set theory review: The intersection of two sets is the set of all common elements. Luckily, Ruby class Array has such a method which can be used like an operator: <code>&amp;</code>.</p>
-
-<h1>Solution 1 => #fail</h1>
+<h2>Solution 1 => #fail</h2>
 
 <p>The <a href="http://www.ruby-doc.org/core-2.1.1/Array.html#method-i-26">&amp; operator</a> is called the set intersection operator.</p>
 
@@ -106,7 +95,7 @@
 
 <p>&hellip;which failed.</p>
 
-<h1>Why Solution 1 Failed</h1>
+<h2>Why Solution 1 Failed</h2>
 
 <figure class='code'><figcaption><span>irb-fiddling</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -154,7 +143,7 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h1>Solution 2: o(^_^)b</h1>
+<h2>Solution 2: o(^_^)b</h2>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -167,7 +156,7 @@
 
 <p>&ldquo;Huzzah!&rdquo; thought Daniel.</p>
 
-<h1>BONUS: How Does <code>#&amp;</code> Work?</h1>
+<h2>BONUS: How Does <code>#&amp;</code> Work?</h2>
 
 <p>I took a a deep dive into Ruby source code to figure this one out.</p>
 
