@@ -4,7 +4,7 @@
   <title><![CDATA[Category: callbacks | Daniel Chang]]></title>
   <link href="http://danielchangNYC.github.io/blog/categories/callbacks/atom.xml" rel="self"/>
   <link href="http://danielchangNYC.github.io/"/>
-  <updated>2014-04-25T01:01:32-04:00</updated>
+  <updated>2014-04-25T01:02:36-04:00</updated>
   <id>http://danielchangNYC.github.io/</id>
   <author>
     <name><![CDATA[Daniel Chang]]></name>
@@ -18,7 +18,7 @@
     <link href="http://danielchangNYC.github.io/blog/2014/04/08/tdd3-TestingHooks/"/>
     <updated>2014-04-08T09:00:00-04:00</updated>
     <id>http://danielchangNYC.github.io/blog/2014/04/08/tdd3-TestingHooks</id>
-    <content type="html"><![CDATA[<p>Anyone who’s worked with tightly-coupled models in rails will likely know the pain of tracing the stack for an error triggered from a callback method. Such painful experiences have led developers to come to a consensus on general rules like <a href="http://blog.bignerdranch.com/1658-the-only-acceptable-use-for-callbacks-in-rails-ever/">“Use a callback only when the logic refers to state internal to the object”</a>, according to Jonathan Wallace. More on this topic by Samuel Mullen in a great blogpost, <a href="http://www.samuelmullen.com/2013/05/the-problem-with-rails-callbacks/">The Problem with Rails Callbacks</a>.</p>
+    <content type="html"><![CDATA[<p>Anyone who&rsquo;s worked with tightly-coupled models in rails will likely know the pain of tracing the stack for an error triggered from a callback method. Such painful experiences have led developers to come to a consensus on general rules like <a href="http://blog.bignerdranch.com/1658-the-only-acceptable-use-for-callbacks-in-rails-ever/">&ldquo;Use a callback only when the logic refers to state internal to the object&rdquo;</a>, according to Jonathan Wallace. More on this topic by Samuel Mullen in a great blogpost, <a href="http://www.samuelmullen.com/2013/05/the-problem-with-rails-callbacks/">The Problem with Rails Callbacks</a>.</p>
 
 <p>The following post revolves around an <code>Invitation</code> model I wrote with my team mates and then later debated the callback to use.</p>
 
@@ -30,24 +30,30 @@
 class Invitation &lt; ActiveRecord::Base
   after initialize :add_token #NOTE my syntax highlighter dislikes the underscore. see below.</p>
 
-<p>def add_unique_token
-    self.token = Tokenizer.Generate
-  end
+<p>  def add_unique_token</p>
+
+<pre><code>self.token = Tokenizer.Generate
+</code></pre>
+
+<p>  end
 end
 ```</p>
 
-<p><strong>NOTE</strong> <code>after initialize</code> above should be <code>after_initialize</code>. For some reason my syntax highlighting plugin doesn’t like the underscore in the correct version.</p>
+<p><strong>NOTE</strong> <code>after initialize</code> above should be <code>after_initialize</code>. For some reason my syntax highlighting plugin doesn&rsquo;t like the underscore in the correct version.</p>
 
 <p>The associated test:</p>
 
-<p><code>ruby invitation_spec.rb
+<p>``` ruby invitation_spec.rb
 describe Invitation do
-  it "generates a random token on initialize" do
-    invite = Invitation.new
-    expect(invite.token).not_to be_nil
-  end
+  it &ldquo;generates a random token on initialize&rdquo; do</p>
+
+<pre><code>invite = Invitation.new
+expect(invite.token).not_to be_nil
+</code></pre>
+
+<p>  end
 end
-</code></p>
+```</p>
 
 <p>However, another team mate suggested using <code>before_create</code> instead.</p>
 
@@ -57,48 +63,56 @@ end
 class Invitation &lt; ActiveRecord::Base
   before_create :add_token</p>
 
-<p>def add_unique_token
-    self.token = Tokenizer.generate
-  end
+<p>  def add_unique_token</p>
+
+<pre><code>self.token = Tokenizer.generate
+</code></pre>
+
+<p>  end
 end
 ```</p>
 
-<p><code>ruby invitation_spec.rb
+<p>``` ruby invitation_spec.rb
 describe Invitation do
-  it "generates a random token before create" do
-    invite = Invitation.new
-    expect(invite.token).to be_nil
-    invite.save
-    expect(invite.token).not_to be_nil
-  end
+  it &ldquo;generates a random token before create&rdquo; do</p>
+
+<pre><code>invite = Invitation.new
+expect(invite.token).to be_nil
+invite.save
+expect(invite.token).not_to be_nil
+</code></pre>
+
+<p>  end
 end
-</code></p>
+```</p>
 
-<h3 id="why-does-this-subtle-change-matter">Why does this subtle change matter?</h3>
+<h3>Why does this subtle change matter?</h3>
 
-<p>First, <strong>using <code>after_initialize</code> could produce a false positive.</strong> While the <code>after_initialize</code> test does exactly what the <code>it</code> statement says, there’s a chance that we may miss, say, a validation error that happens before <code>save</code>. This test would pass, and so would the validations, but for some reason you might find that your invitations aren’t working properly. <code>after_initialize</code> allows us to omit saving from the test, which one could generally assume is always desired given that callbacks should only “refer to state internal to an object”.</p>
+<p>First, <strong>using <code>after_initialize</code> could produce a false positive.</strong> While the <code>after_initialize</code> test does exactly what the <code>it</code> statement says, there&rsquo;s a chance that we may miss, say, a validation error that happens before <code>save</code>. This test would pass, and so would the validations, but for some reason you might find that your invitations aren&rsquo;t working properly. <code>after_initialize</code> allows us to omit saving from the test, which one could generally assume is always desired given that callbacks should only &ldquo;refer to state internal to an object&rdquo;.</p>
 
-<p>Additionally, <strong>if you’re testing a callback that affects the internal state of an object, we must test for a state-change.</strong> Using <code>after_initialize</code>, we can tell that a new invite has a token. However, we cannot say that we’ve tested the non-presence and the presence of the token. The pivotal point again is around <code>#save</code>. <code>#save</code> triggers the change and we can say with certainty that we’ve not only seen a “zero to one” change happen, but that the change has persisted in our database.</p>
+<p>Additionally, <strong>if you&rsquo;re testing a callback that affects the internal state of an object, we must test for a state-change.</strong> Using <code>after_initialize</code>, we can tell that a new invite has a token. However, we cannot say that we&rsquo;ve tested the non-presence and the presence of the token. The pivotal point again is around <code>#save</code>. <code>#save</code> triggers the change and we can say with certainty that we&rsquo;ve not only seen a &ldquo;zero to one&rdquo; change happen, but that the change has persisted in our database.</p>
 
-<p>UPDATE: <a href="https://twitter.com/scottadhoc/status/453917228648640512">Twitter comment</a> from <a href="https://twitter.com/scottadhoc">@scottadhoc</a>: “what happens if you load that record from the db into a new object and then assert on that field?”</p>
+<p>UPDATE: <a href="https://twitter.com/scottadhoc/status/453917228648640512">Twitter comment</a> from <a href="https://twitter.com/scottadhoc">@scottadhoc</a>: &ldquo;what happens if you load that record from the db into a new object and then assert on that field?&rdquo;</p>
 
-<p>Good point! If I understand your suggestion correctly, here’s how I might refactor the after_initialize version of the spec:</p>
+<p>Good point! If I understand your suggestion correctly, here&rsquo;s how I might refactor the after_initialize version of the spec:</p>
 
-<p><code>ruby invitation_spec.rb
+<p>``` ruby invitation_spec.rb
 describe Invitation do
-  it "generates a random token #after_initialize" do
-    invite = Invitation.new
-    expect(invite.token).not_to be_nil
-    invite.save!
-    expect(invite.token).not_to be_nil
-  end
-end
-</code></p>
+  it &ldquo;generates a random token #after_initialize&rdquo; do</p>
 
-<p>This way, we can make sure that the data persisted. While this works, my feeling is that the implication of testing after_initialize allows one to omit the persistence part. I certainly fell into that trap and wouldn’t be surprised if I forget again while testing an after_initialize callback.</p>
+<pre><code>invite = Invitation.new
+expect(invite.token).not_to be_nil
+invite.save!
+expect(invite.token).not_to be_nil
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p>This way, we can make sure that the data persisted. While this works, my feeling is that the implication of testing after_initialize allows one to omit the persistence part. I certainly fell into that trap and wouldn&rsquo;t be surprised if I forget again while testing an after_initialize callback.</p>
 
 <p>Lastly, if you use <code>after_initialize</code> with the underscore in a block of code in <code>Octopress</code>, your blog will refuse to generate. Coincidence? I think not.</p>
-
 ]]></content>
   </entry>
   

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: arrays | Daniel Chang]]></title>
   <link href="http://danielchangNYC.github.io/blog/categories/arrays/atom.xml" rel="self"/>
   <link href="http://danielchangNYC.github.io/"/>
-  <updated>2014-04-25T01:01:32-04:00</updated>
+  <updated>2014-04-25T01:02:36-04:00</updated>
   <id>http://danielchangNYC.github.io/</id>
   <author>
     <name><![CDATA[Daniel Chang]]></name>
@@ -18,12 +18,13 @@
     <link href="http://danielchangNYC.github.io/blog/2013/10/07/flatten-arrays/"/>
     <updated>2013-10-07T13:00:00-04:00</updated>
     <id>http://danielchangNYC.github.io/blog/2013/10/07/flatten-arrays</id>
-    <content type="html"><![CDATA[<h2 id="foreword">Foreword</h2>
-<p>I feel a certain level of confidence declaring that every programmer has been in the situation where he/she has 10+ tabs open trying troubleshooting a problem and finally concludes, “There must be an easier way.” Or, if you’ve been ‘in the zone’ for long enough, you might start wondering what exactly got you in this troubleshooting hell to begin with.</p>
+    <content type="html"><![CDATA[<h2>Foreword</h2>
 
-<p>In this post, I will share what I learned from one such experience. </p>
+<p>I feel a certain level of confidence declaring that every programmer has been in the situation where he/she has 10+ tabs open trying troubleshooting a problem and finally concludes, &ldquo;There must be an easier way.&rdquo; Or, if you&rsquo;ve been &lsquo;in the zone&rsquo; for long enough, you might start wondering what exactly got you in this troubleshooting hell to begin with.</p>
 
-<h3 id="context-and-problem">Context and Problem</h3>
+<p>In this post, I will share what I learned from one such experience.</p>
+
+<h3>Context and Problem</h3>
 
 <p>I was writing an automatic schedule-maker in Ruby. create_groups is a method that, takes an array of student names and returns an array of the students in a specified group sizes. The create_groups method also takes a parameter that allows you to specify a number of groups. The student groups should be randomized.</p>
 
@@ -39,38 +40,44 @@ create_groups(students, 4, 20)
 students = [.......] #=&gt; This array contains 41 student names. Check my Github Gist linked below for the array I used in the completed program.
 </code></p>
 
-<p>After considering several strategies, I decided that it would make the most sense sort the 40 students using what I dubbed the “card dealing method” – The first student goes to group 1, the second to group 2, the third to group 3, and so forth.</p>
+<p>After considering several strategies, I decided that it would make the most sense sort the 40 students using what I dubbed the &ldquo;card dealing method&rdquo; &mdash; The first student goes to group 1, the second to group 2, the third to group 3, and so forth.</p>
 
-<p><code>ruby
+<p>``` ruby
 def create_groups(students, group_size, number_of_groups)
   groups = []
   normalized_list = normalize(students, group_size, number_of_groups)
-  normalized_list.each_with_index do |name, i|
-    # This part will sort students using the "card-dealing method"
-  end
+  normalized_list.each_with_index do |name, i|</p>
+
+<pre><code># This part will sort students using the "card-dealing method"
+</code></pre>
+
+<p>  end
   groups
 end
-</code></p>
+```</p>
 
-<p>Since there are 20 groups of 4, I needed 80 students. On an abstract level, the number of students I need in order to sort (the “desired length”) is “# of groups” x “# of students per group”.</p>
+<p>Since there are 20 groups of 4, I needed 80 students. On an abstract level, the number of students I need in order to sort (the &ldquo;desired length&rdquo;) is &ldquo;# of groups&rdquo; x &ldquo;# of students per group&rdquo;.</p>
 
 <p>I decided to create another method which would normalize my list to this set amount.</p>
 
 <p>The #normalize method will return an array of desired length by <em>replicating the students a number of times, and then slicing out the desired number of students from the replicated array.</em></p>
 
-<p>Here’s what I came up with at first:
+<p>Here&rsquo;s what I came up with at first:
 ``` ruby
 def create_groups(students, group_size, number_of_groups)
-  #…folded this code for now…
+  #&hellip;folded this code for now&hellip;
 end</p>
 
 <p>def normalize(list_to_norm, group_size, number_of_groups)
   desired_length = group_size*number_of_groups
   new_list = list_to_norm
-  while new_list.length &lt; desired_length
-    new_list « list_to_norm
-    new_list = new_list.flatten
-  end
+  while new_list.length &lt; desired_length</p>
+
+<pre><code>new_list &lt;&lt; list_to_norm
+new_list = new_list.flatten
+</code></pre>
+
+<p>  end
 end
 ```</p>
 
@@ -105,7 +112,7 @@ Name41
 
 <p>I then tried running <code>new_list.object_id</code> and <code>list_to_norm.object_id</code> and they turned out to be the same.</p>
 
-<h3 id="a-ha">A-ha!</h3>
+<h3>A-ha!</h3>
 
 <p>The <code>[...]</code> indicated that new_list is now a <em>recursive array</em>. More on recurive arrays <a href="http://stackoverflow.com/questions/10606734/what-are-recursive-arrays-good-for">here</a>.</p>
 
@@ -114,14 +121,13 @@ Name41
 <p><code>ruby
 new_list = list_to_norm
 </code>
-This line of code sets the <code>new_list</code> variable to point at the exact same object as the <code>list_to_norm</code> method. So later, when I called <code>new_list &lt;&lt; list_to_norm</code>, I ended up pushing an Array object into itself. The image below </p>
+This line of code sets the <code>new_list</code> variable to point at the exact same object as the <code>list_to_norm</code> method. So later, when I called <code>new_list &lt;&lt; list_to_norm</code>, I ended up pushing an Array object into itself. The image below</p>
 
-<p>However, Ruby clearly didn’t like this, and I suspect that it has to do with the way <code>Array.flatten</code> works. At the very least, we can conclude that <code>.flatten</code> can only flatten two different Array objects.</p>
+<p>However, Ruby clearly didn&rsquo;t like this, and I suspect that it has to do with the way <code>Array.flatten</code> works. At the very least, we can conclude that <code>.flatten</code> can only flatten two different Array objects.</p>
 
-<p>So that’s what I learned in 40 minutes of head-banging against a figurative brick wall. I hope you learned something as well from this post!</p>
+<p>So that&rsquo;s what I learned in 40 minutes of head-banging against a figurative brick wall. I hope you learned something as well from this post!</p>
 
 <p>Also, as promised, here is a link to <a href="https://gist.github.com/danielchangNYC/6787872">my full gist</a>.</p>
-
 ]]></content>
   </entry>
   
