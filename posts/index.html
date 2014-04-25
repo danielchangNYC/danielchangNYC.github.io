@@ -7,7 +7,7 @@
 	<meta name="author" content="Daniel Chang">
 
 	
-	<meta name="description" content="All Posts Set Intersection: An Unlikely but Elegant Solution, Plus BONUS! While working on the Flatiron School pre-work progress-tracker, I kept &hellip;">
+	<meta name="description" content="All Posts Checking for Set Completeness in Rails Using Array Intersection While working on the Flatiron School pre-work progress-tracker, I kept &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -93,7 +93,7 @@
       <div class="row">
         <div class="col-md-offset-3 col-md-6">
           <article>
-  <h2><a href="/blog/2014/04/24/set-intersection/">Set Intersection: An Unlikely but Elegant Solution, Plus BONUS!</a></h2>
+  <h2><a href="/blog/2014/04/24/set-intersection/">Checking for Set Completeness in Rails Using Array Intersection</a></h2>
   
   <p>
     <p>While working on the <a href="http://prework.flatironschool.com/">Flatiron School pre-work</a> progress-tracker, I kept finding myself feeling uncomfortable with the <code>topic_complete?</code> and <code>add_lesson</code> methods below.</p>
@@ -101,7 +101,7 @@
 
 
 
-<h1>Code Smell: <code>topic_complete?</code> and <code>add_lesson</code></h1>
+<h1>Smelly Methods</h1>
 
 
 <p><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -142,7 +142,7 @@
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure></p>
 
-<h1>Why The Code Is Smelly</h1>
+<h1>The Source of Stink</h1>
 
 
 
@@ -158,8 +158,8 @@
 
 
 <ul>
-<li>An admin removes lessons from the topic. <code>topic_complete?</code> returns <code>false</code>.</li>
-<li>An admin replaces a lesson in the topic. <code>topic_complete?</code> returns <code>true</code>.</li>
+<li>An admin removes lessons from the topic. <code>topic_complete? # =&gt; false</code>.</li>
+<li>An admin replaces a lesson in the topic. <code>topic_complete? # =&gt; true</code>.</li>
 <li><code>total_lessons</code> doesn&rsquo;t get updated using <code>add_lesson</code>. See above.</li>
 </ul>
 
@@ -358,18 +358,12 @@
 
 
 
-<p><code>ary1</code> and <code>ary2</code> represent the arrays for which we&rsquo;re finding the intersection. <code>ary3</code> is what the function <code>rb_ary_and</code> returns.</p>
-
-
-
-
-<p>v represents <code>ary1[i]</code>, in Ruby-speak.
-vv is somehow tied to that value.</p>
-
-
-
-
-<p><code>st_delete</code> returns 1 if <code>vv</code> was successfully deleted from <code>table</code>, which really refers to <code>ary2</code>, and 0 if it wasn&rsquo;t found. If it gets deleted, then that means <code>ary2</code> must have had an element in common; push that element into <code>ary3</code>.</p>
+<ul>
+<li>ary1 and ary2 represent the arrays for which we&rsquo;re finding the intersection. ary3 is what the function <code>rb_ary_and</code> returns.</li>
+<li>v represents ary1i]`, in Ruby-speak.</li>
+<li>vv is somehow tied to that value.</li>
+<li><code>st_delete</code> returns 1 if <code>vv</code> was successfully deleted from <code>table</code>, which really refers to ary2, and 0 if it wasn&rsquo;t found. If it gets deleted, then that means ary2 must have had an element in common; push that element into ary3.</li>
+</ul>
 
 
 
@@ -379,7 +373,7 @@ vv is somehow tied to that value.</p>
 
 
 
-<p>In the worst-case scenario, <code>ary1</code> and <code>ary2</code> are giant arrays with completely disparate elements, requiring the algorithm to compare all elements of <code>ary2</code> with all elements of <code>ary1</code>. Given there are <em>x</em> elements in <code>ary1</code> and <em>y</em> elements in <code>ary2</code>, this would produce a O(x*y).</p>
+<p>In the worst-case scenario, ary1 and ary2 are giant arrays with completely disparate elements, requiring the algorithm to compare all elements of ary2 with all elements of ary1. Given there are <em>x</em> elements in ary1 and <em>y</em> elements in ary2, this would produce a O(x*y).</p>
 
 
   </p>
@@ -400,7 +394,7 @@ vv is somehow tied to that value.</p>
     
 
 
-	<a class='category' href='/blog/categories/algorithms/'>algorithms</a>, <a class='category' href='/blog/categories/array-operators/'>array-operators</a>, <a class='category' href='/blog/categories/big-o/'>big-o</a>, <a class='category' href='/blog/categories/rails/'>rails</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>, <a class='category' href='/blog/categories/set-intersection/'>set-intersection</a>, <a class='category' href='/blog/categories/set-intersection-operator/'>set-intersection-operator</a>
+	<a class='category' href='/blog/categories/array-operators/'>array-operators</a>, <a class='category' href='/blog/categories/big-o/'>big-o</a>, <a class='category' href='/blog/categories/rails/'>rails</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>, <a class='category' href='/blog/categories/set-intersection-operator/'>set-intersection-operator</a>
 
 
 
