@@ -4,7 +4,7 @@
   <title><![CDATA[Category: array-operators | Daniel Chang]]></title>
   <link href="http://danielchangNYC.github.io/blog/categories/array-operators/atom.xml" rel="self"/>
   <link href="http://danielchangNYC.github.io/"/>
-  <updated>2014-04-25T01:32:55-04:00</updated>
+  <updated>2014-04-25T01:34:05-04:00</updated>
   <id>http://danielchangNYC.github.io/</id>
   <author>
     <name><![CDATA[Daniel Chang]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Ruby Array Set Intersection: A Rails Use-Case]]></title>
+    <title type="html"><![CDATA[Ruby Array Set Intersection: A Rails Use-Case and Algorithm Analysis in C]]></title>
     <link href="http://danielchangNYC.github.io/blog/2014/04/24/set-intersection/"/>
     <updated>2014-04-24T09:51:00-04:00</updated>
     <id>http://danielchangNYC.github.io/blog/2014/04/24/set-intersection</id>
