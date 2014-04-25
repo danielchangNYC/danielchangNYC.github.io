@@ -4,7 +4,7 @@
   <title><![CDATA[Category: set-intersection-operator | Daniel Chang]]></title>
   <link href="http://danielchangNYC.github.io/blog/categories/set-intersection-operator/atom.xml" rel="self"/>
   <link href="http://danielchangNYC.github.io/"/>
-  <updated>2014-04-25T01:17:57-04:00</updated>
+  <updated>2014-04-25T01:29:02-04:00</updated>
   <id>http://danielchangNYC.github.io/</id>
   <author>
     <name><![CDATA[Daniel Chang]]></name>
@@ -14,13 +14,13 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Checking for Set Completeness in Rails Using Array Intersection]]></title>
+    <title type="html"><![CDATA[Ruby Array Set Intersection: A Rails Use-Case]]></title>
     <link href="http://danielchangNYC.github.io/blog/2014/04/24/set-intersection/"/>
     <updated>2014-04-24T09:51:00-04:00</updated>
     <id>http://danielchangNYC.github.io/blog/2014/04/24/set-intersection</id>
-    <content type="html"><![CDATA[<p>While working on the <a href="http://prework.flatironschool.com/">Flatiron School pre-work</a> progress-tracker, I kept finding myself feeling uncomfortable with the <code>topic_complete?</code> and <code>add_lesson</code> methods below.</p>
+    <content type="html"><![CDATA[<p>Here&rsquo;s some smelly code I wrote for the <a href="http://prework.flatironschool.com/">Flatiron School pre-work</a> progress-tracker app.</p>
 
-<h1>Smelly Methods</h1>
+<h1>Brittle Methods</h1>
 
 <p>``` ruby
 class Progress &lt; ActiveRecord::Base
@@ -49,19 +49,15 @@ total_lessons += 1
 end
 ```</p>
 
-<h1>The Source of Stink</h1>
-
-<p><code>add_lesson</code> felt brittle. A new coder on this project has to know to add lessons using this method; the design is therefore NOT transparent. There is also a duplication of data: calling <code>lesson_order.length</code> gives you the total number of lessons, making a <code>total_lessons</code> attribute a violation of the DRY principle. It should be a method instead.</p>
+<p><code>add_lesson</code> is brittle. A new coder on this project has to know to add lessons using this method; the design is therefore NOT transparent. There is also a duplication of data: calling <code>lesson_order.length</code> gives you the total number of lessons, making a <code>total_lessons</code> attribute a violation of the DRY principle. It should be a method instead.</p>
 
 <p><code>topic_complete?</code> also felt prone to false positives and negatives. If an admin replaces a lesson, is a completed progress still complete? What about if a lesson is removed? Our method would return false.</p>
 
 <p><strong>I needed a way to actually compare what was in <code>completed_lessons</code> and <code>lesson_order</code>.</strong></p>
 
-<h1>An Unlikely But Elegant Solution</h1>
+<h1>Set Theory in Full Motion</h1>
 
 <p>Set theory review: The intersection of two sets is the set of all common elements. Ruby&rsquo;s Array class has such a method which can be used like an operator: <code>&amp;</code>.</p>
-
-<h2>Solution 1 => #fail</h2>
 
 <p>The <a href="http://www.ruby-doc.org/core-2.1.1/Array.html#method-i-26">&amp; operator</a> is called the set intersection operator.</p>
 
@@ -69,7 +65,7 @@ end
 [ 1, 1, 3, 5 ] &amp; [ 1, 2, 3 ]    #=&gt; [ 1, 3 ]
 </code></p>
 
-<p>I tried:</p>
+<h2>Failed Solution, Learned Lesson</h2>
 
 <p><code>ruby
 def topic_complete?
@@ -77,9 +73,7 @@ def topic_complete?
 end
 </code></p>
 
-<p>&hellip;which failed.</p>
-
-<h2>Why Solution 1 Failed</h2>
+<h3>Why it failed</h3>
 
 <p>``` ruby irb-fiddling
 lesson_order = [3, 2, 5]
@@ -95,33 +89,17 @@ completed_lessons = [5, 2, 3]</p>
    # => false
 ```</p>
 
-<p>Note: <code>&amp;</code> ignores doubles.</p>
-
-<p>``` ruby
-a = [1, 2, 2, 3]
-b = [2, 2, 2]</p>
-
-<p>a &amp; b
-  # => [2]</p>
-
-<p>b &amp; a
-  # => [2]
-```</p>
-
-<h2>Solution 2: o(^_^)b</h2>
+<h2>Win</h2>
 
 <p><code>ruby
 def topic_complete?
   topic.lesson_order &amp; completed_lessons == topic.lesson_order
 end
-</code>
-&ldquo;Huzzah!&rdquo; thought Daniel.</p>
+</code></p>
 
-<h2>BONUS: How Does <code>#&amp;</code> Work?</h2>
+<h2>BONUS: The Algorithm Behind the Set Intersection Operator</h2>
 
-<p>I took a a deep dive into Ruby source code to figure this one out.</p>
-
-<p>Here&rsquo;s the code in C.</p>
+<p>I took a a deep dive into Ruby source code to figure this one out. Full disclosure: I&rsquo;ve never read or written C in my life, but with the help of the <a href="http://rxr.whitequark.org/mri/ident">MRI Identifier Search</a>, I was able to piece together how the algorith works.</p>
 
 <p>``` c
  static VALUE
@@ -154,8 +132,6 @@ return ary3;
 <p>}
 ```</p>
 
-<p>Full disclosure: I&rsquo;ve never read or written C in my life, but with the help of the <a href="http://rxr.whitequark.org/mri/ident">MRI Identifier Search</a>, I was able to piece together what this does.</p>
-
 <p>The key to understanding this is in the <code>for</code> loop.</p>
 
 <ul>
@@ -166,7 +142,7 @@ return ary3;
 </ul>
 
 
-<h1>So how efficient is this method?</h1>
+<h2>O(x*y)</h2>
 
 <p>In the worst-case scenario, ary1 and ary2 are giant arrays with completely disparate elements, requiring the algorithm to compare all elements of ary2 with all elements of ary1. Given there are <em>x</em> elements in ary1 and <em>y</em> elements in ary2, this would produce a O(x*y).</p>
 ]]></content>
