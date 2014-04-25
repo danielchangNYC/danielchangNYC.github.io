@@ -7,7 +7,7 @@
 	<meta name="author" content="Daniel Chang">
 
 	
-	<meta name="description" content="Testing is one of those things that feels a bit like eating well or going to the gym. Since it’s already ten days into the New Year and I have yet to &hellip;">
+	<meta name="description" content="Testing is one of those things that feels a bit like eating well or going to the gym. Since it&rsquo;s already ten days into the New Year and I have &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -79,32 +79,31 @@
 	
 	<div id="content" class="inner"><article class="post">
 	<h2 class="title">How and Why I Began Testing in Ruby on Rails</h2>
-	<div class="entry-content"><p>Testing is one of those things that feels a bit like eating well or going to the gym. Since it’s already ten days into the New Year and I have yet to commit to any resolutions, let this be it: no more will I make excuses for skipping testing.</p>
+	<div class="entry-content"><p>Testing is one of those things that feels a bit like eating well or going to the gym. Since it&rsquo;s already ten days into the New Year and I have yet to commit to any resolutions, let this be it: no more will I make excuses for skipping testing.</p>
 
-<p>What does this really mean to me though? Am I eating broccoli just because someone told me it’s good for me? Here are three reasons that have driven me to make the change.</p>
+<p>What does this really mean to me though? Am I eating broccoli just because someone told me it&rsquo;s good for me? Here are three reasons that have driven me to make the change.</p>
 
-<h2 id="tdd-reason-1-manual-testing-sucks-tdd-saves-time">TDD Reason 1: Manual Testing Sucks; TDD Saves Time</h2>
+<h2>TDD Reason 1: Manual Testing Sucks; TDD Saves Time</h2>
 
 <p>My friend told me about the job she left before coming to the Flatiron School and one of her responsibilities looked a bit like this:</p>
 
-<p><img src="http://blog.polarion.com/wp-content/uploads/2012/12/Screen-Shot-2012-12-06-at-12.07.14-PM.png" /></p>
+<p><img src="http://blog.polarion.com/wp-content/uploads/2012/12/Screen-Shot-2012-12-06-at-12.07.14-PM.png"></p>
 
 <p>What. A. Nightmare. There should be a -phobia for this.</p>
 
-<p>Don’t get me wrong – I’m sure this could be pretty efficient if the scope of the UX is very small, or you don’t know-how to implement TDD yet. However, how can you be sure your site won’t expand, or why not learn how to use a gem like Capybara to save you time in the future? Used in conjuction with Guard, you could really save some serious time while coding!</p>
+<p>Don&rsquo;t get me wrong &mdash; I&rsquo;m sure this could be pretty efficient if the scope of the UX is very small, or you don&rsquo;t know-how to implement TDD yet. However, how can you be sure your site won&rsquo;t expand, or why not learn how to use a gem like Capybara to save you time in the future? Used in conjuction with Guard, you could really save some serious time while coding!</p>
 
-<h2 id="tdd-reason-2-code-confidence">TDD Reason 2: Code Confidence</h2>
+<h2>TDD Reason 2: Code Confidence</h2>
 
-<p>Now that I’ve had a bit more experience writing web apps (still without TDD), I’ve had the pleasure of seeing them grow and change throughout development. On the other hand, everytime I implemented a new feature, I had less and less confidence that the rest of my code base would work fine. At some point, the prospect of a new feature started feeling like a laundry list or the guarantee of a new bug. Testing will certainly help me find bugs as I introduce them, and therefore boost my confidence in in my code.</p>
+<p>Now that I&rsquo;ve had a bit more experience writing web apps (still without TDD), I&rsquo;ve had the pleasure of seeing them grow and change throughout development. On the other hand, everytime I implemented a new feature, I had less and less confidence that the rest of my code base would work fine. At some point, the prospect of a new feature started feeling like a laundry list or the guarantee of a new bug. Testing will certainly help me find bugs as I introduce them, and therefore boost my confidence in in my code.</p>
 
-<h2 id="tdd-reason-3-thinking-before-doing">TDD Reason 3: Thinking Before Doing</h2>
+<h2>TDD Reason 3: Thinking Before Doing</h2>
 
-<p>Writing tests before writing production code forces you to clearly iterate what it is you want your application to do before you start coding. Ideally, you want your tests to last as long as possible as well, so it will force you to make important decisions about design as well. The prospect of having well thought-out code with lasting design excites me! I’ve had several experiences already of trying to refactor poorly designed code and it’s quite painful.</p>
+<p>Writing tests before writing production code forces you to clearly iterate what it is you want your application to do before you start coding. Ideally, you want your tests to last as long as possible as well, so it will force you to make important decisions about design as well. The prospect of having well thought-out code with lasting design excites me! I&rsquo;ve had several experiences already of trying to refactor poorly designed code and it&rsquo;s quite painful.</p>
 
-<h2 id="my-next-steps">My Next Steps</h2>
+<h2>My Next Steps</h2>
 
-<p>I’ve decided to begin my TDD exploration by refactoring my first app, Little Red Wagon (LRW). My current reads are Aaron Sumner’s book, <a href="https://leanpub.com/everydayrailsrspec">Everyday Rails Testing with RSpec</a>, and <a href="http://www.amazon.com/Practical-Object-Oriented-Design-Ruby-Addison-Wesley/dp/0321721330">Practical Object-Oriented Design in Ruby</a> by Sandi Metz. I’m about 30% through each book right now and have written a few model specs already for LRW. I’ve decided not to use Factory Girl since it will slow down testing and Rails’ built-in fixtures are satisfactory for what I currently have. In any case, the grand plan is to get some hands-on practice writing tests using the TDD book first and then taking on the much larger challenge of redesigning my code base. Thanks for reading, and more updates to come on TDD!</p>
-
+<p>I&rsquo;ve decided to begin my TDD exploration by refactoring my first app, Little Red Wagon (LRW). My current reads are Aaron Sumner&rsquo;s book, <a href="https://leanpub.com/everydayrailsrspec">Everyday Rails Testing with RSpec</a>, and <a href="http://www.amazon.com/Practical-Object-Oriented-Design-Ruby-Addison-Wesley/dp/0321721330">Practical Object-Oriented Design in Ruby</a> by Sandi Metz. I&rsquo;m about 30% through each book right now and have written a few model specs already for LRW. I&rsquo;ve decided not to use Factory Girl since it will slow down testing and Rails&#8217; built-in fixtures are satisfactory for what I currently have. In any case, the grand plan is to get some hands-on practice writing tests using the TDD book first and then taking on the much larger challenge of redesigning my code base. Thanks for reading, and more updates to come on TDD!</p>
 </div>
 
 

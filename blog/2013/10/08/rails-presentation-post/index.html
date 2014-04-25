@@ -7,7 +7,7 @@
 	<meta name="author" content="Daniel Chang">
 
 	
-	<meta name="description" content="I took a bit of a dive today and looked a Ruby on Rails presentation. Here’s what I gleaned from looking through all the slides. Rails is a web &hellip;">
+	<meta name="description" content="I took a bit of a dive today and looked a Ruby on Rails presentation. Here&rsquo;s what I gleaned from looking through all the slides. Rails is a web &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -79,77 +79,83 @@
 	
 	<div id="content" class="inner"><article class="post">
 	<h2 class="title">ActiveRecord</h2>
-	<div class="entry-content"><p>I took a bit of a dive today and looked a Ruby on Rails <a href="http://www.slideshare.net/aizatto/ruby-on-rails-48391">presentation</a>. Here’s what I gleaned from looking through all the slides.</p>
+	<div class="entry-content"><p>I took a bit of a dive today and looked a Ruby on Rails <a href="http://www.slideshare.net/aizatto/ruby-on-rails-48391">presentation</a>. Here&rsquo;s what I gleaned from looking through all the slides.</p>
 
 <ul>
-  <li>
-    <p>Rails is a web application framework that allows your Ruby to interact with the web seamlessly. By “interact with the web”, I assume the presentation means “interact with databases.”</p>
-  </li>
-  <li>
-    <p>Rails implements a principle called “MVC” – Model View Controller. Rails seems to handle each task separately. I’m going to focus on the Model, which uses ActiveRecord.</p>
-  </li>
-  <li>
-    <p>ActiveRecord is a Module that Rails uses to model and interact with databases. It makes database queries both simple and intuitive.</p>
-  </li>
+<li><p>Rails is a web application framework that allows your Ruby to interact with the web seamlessly. By &ldquo;interact with the web&rdquo;, I assume the presentation means &ldquo;interact with databases.&rdquo;</p></li>
+<li><p>Rails implements a principle called &ldquo;MVC&rdquo; &mdash; Model View Controller. Rails seems to handle each task separately. I&rsquo;m going to focus on the Model, which uses ActiveRecord.</p></li>
+<li><p>ActiveRecord is a Module that Rails uses to model and interact with databases. It makes database queries both simple and intuitive.</p></li>
 </ul>
 
-<p>Here are some concrete query comparisons between using SQLite3 versus Rails’ ActiveRecord.</p>
 
-<p>Assume we have a table called “dogs,” each with a name, age, weight, and type. Each attribute would be a column, and each row would represent a different dog. </p>
+<p>Here are some concrete query comparisons between using SQLite3 versus Rails&#8217; ActiveRecord.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Table using SQLite3</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-</pre></td><td class="code"><pre><code class="sql"><span class="line"><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">dogs</span> <span class="p">(</span>
-</span><span class="line">  <span class="n">id</span> <span class="nb">INTEGER</span> <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="n">AUTOINCREMENT</span><span class="p">,</span>
-</span><span class="line">  <span class="n">name</span> <span class="nb">TEXT</span><span class="p">;</span>
-</span><span class="line">  <span class="n">age</span> <span class="nb">INTEGER</span><span class="p">;</span>
-</span><span class="line">  <span class="n">weight</span> <span class="nb">INTEGER</span><span class="p">;</span>
-</span><span class="line">  <span class="k">type</span> <span class="nb">TEXT</span>
-</span><span class="line"><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-<p>We can also imagine this as a class of Dog objects in Ruby. Here’s how one might create the barebones structure in Ruby.
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;figcaption&gt;<span>Dogs as objects of class Dog in Ruby</span>&lt;/figcaption&gt;&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class="ruby"><span class="line"><span class="k">class</span> <span class="nc">Dog</span>
-</span><span class="line">  <span class="kp">attr_accessor</span> <span class="ss">:id</span><span class="p">,</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">:age</span><span class="p">,</span> <span class="ss">:weight</span><span class="p">,</span> <span class="ss">:type</span>
-</span><span class="line"><span class="k">end</span>
-</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;figcaption&gt;<span>Table initialized using Rails&#8217; ActiveRecord</span>&lt;/figcaption&gt;&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
-<span class="line-number">2</span>
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class="ruby"><span class="line"><span class="k">class</span> <span class="nc">Dog</span> <span class="o">&lt;</span> <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span>
-</span><span class="line"><span class="k">end</span>
-</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
+<p>Assume we have a table called &ldquo;dogs,&rdquo; each with a name, age, weight, and type. Each attribute would be a column, and each row would represent a different dog.</p>
+
+<figure class='code'><figcaption><span>Table using SQLite3</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">dogs</span> <span class="p">(</span>
+</span><span class='line'>  <span class="n">id</span> <span class="nb">INTEGER</span> <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="n">AUTOINCREMENT</span><span class="p">,</span>
+</span><span class='line'>  <span class="n">name</span> <span class="nb">TEXT</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">age</span> <span class="nb">INTEGER</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">weight</span> <span class="nb">INTEGER</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">type</span> <span class="nb">TEXT</span>
+</span><span class='line'><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We can also imagine this as a class of Dog objects in Ruby. Here&rsquo;s how one might create the barebones structure in Ruby.</p>
+
+<figure class='code'><figcaption><span>Dogs as objects of class Dog in Ruby</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Dog</span>
+</span><span class='line'>  <span class="kp">attr_accessor</span> <span class="ss">:id</span><span class="p">,</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">:age</span><span class="p">,</span> <span class="ss">:weight</span><span class="p">,</span> <span class="ss">:type</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<figure class='code'><figcaption><span>Table initialized using Rails&#8217; ActiveRecord</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Dog</span> <span class="o">&lt;</span> <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>See how simple that was? Now we can make queries on the table.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>SQLite3 query for first dog in table</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class="sql"><span class="line"><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">dogs</span> <span class="k">WHERE</span> <span class="n">id</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Rails query for first dog in table</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="no">Dog</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
+<figure class='code'><figcaption><span>SQLite3 query for first dog in table</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">dogs</span> <span class="k">WHERE</span> <span class="n">id</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p>That’s just the beginning! Check this out.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>SQLite3 query appending conditions</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class="sql"><span class="line"><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">dogs</span> <span class="k">WHERE</span> <span class="n">age</span><span class="o">=</span><span class="mi">8</span> <span class="k">AND</span> <span class="k">type</span><span class="o">=</span><span class="ss">&quot;corgi&quot;</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Rails query appending same conditions</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="no">Dog</span><span class="o">.</span><span class="n">find_by_age_and_type</span> <span class="mi">25</span><span class="p">,</span> <span class="s2">&quot;corgi&quot;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
+<figure class='code'><figcaption><span>Rails query for first dog in table</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Dog</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p>It seems like ActiveRecord must use certain keywords like ‘by’ and ‘and’ in order to dynamically use the attribute names that the user inputs.</p>
 
-<p>What is really beautiful though is the idea of “configuration of convention” that Rails implements in order to shorten the amount of code you need to write. Slides 42-44 of the <a href="http://www.slideshare.net/aizatto/ruby-on-rails-48391">presentation</a>  gave a particularly good example of the idea. No wonder people love Rails!</p>
+<p>That&rsquo;s just the beginning! Check this out.</p>
+
+<figure class='code'><figcaption><span>SQLite3 query appending conditions</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">dogs</span> <span class="k">WHERE</span> <span class="n">age</span><span class="o">=</span><span class="mi">8</span> <span class="k">AND</span> <span class="k">type</span><span class="o">=</span><span class="ss">&quot;corgi&quot;</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<figure class='code'><figcaption><span>Rails query appending same conditions</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Dog</span><span class="o">.</span><span class="n">find_by_age_and_type</span> <span class="mi">25</span><span class="p">,</span> <span class="s2">&quot;corgi&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It seems like ActiveRecord must use certain keywords like &lsquo;by&rsquo; and &lsquo;and&rsquo; in order to dynamically use the attribute names that the user inputs.</p>
+
+<p>What is really beautiful though is the idea of &ldquo;configuration of convention&rdquo; that Rails implements in order to shorten the amount of code you need to write. Slides 42-44 of the <a href="http://www.slideshare.net/aizatto/ruby-on-rails-48391">presentation</a>  gave a particularly good example of the idea. No wonder people love Rails!</p>
 
 <p>The slides continue talking about the MVC</p>
-
 </div>
 
 
