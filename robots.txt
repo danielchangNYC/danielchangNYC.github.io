@@ -1,4 +1,4 @@
 User-agent: *
-Disallow:
+Disallow: 
 
-Sitemap: http://danielchangNYC.github.io/sitemap.xml
+Sitemap: http://danielchangNYC.github.io/sitemap.xml 
