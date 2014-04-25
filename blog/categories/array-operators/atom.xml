@@ -4,7 +4,7 @@
   <title><![CDATA[Category: array-operators | Daniel Chang]]></title>
   <link href="http://danielchangNYC.github.io/blog/categories/array-operators/atom.xml" rel="self"/>
   <link href="http://danielchangNYC.github.io/"/>
-  <updated>2014-04-25T01:29:02-04:00</updated>
+  <updated>2014-04-25T01:31:59-04:00</updated>
   <id>http://danielchangNYC.github.io/</id>
   <author>
     <name><![CDATA[Daniel Chang]]></name>
@@ -61,7 +61,7 @@ end
 
 <p>The <a href="http://www.ruby-doc.org/core-2.1.1/Array.html#method-i-26">&amp; operator</a> is called the set intersection operator.</p>
 
-<p><code>ruby example
+<p><code>ruby how-&amp;-works
 [ 1, 1, 3, 5 ] &amp; [ 1, 2, 3 ]    #=&gt; [ 1, 3 ]
 </code></p>
 
@@ -73,9 +73,9 @@ def topic_complete?
 end
 </code></p>
 
-<h3>Why it failed</h3>
+<p>This failed because the order in which the comparison happens matters.</p>
 
-<p>``` ruby irb-fiddling
+<p>``` ruby order-matters
 lesson_order = [3, 2, 5]
 completed_lessons = [5, 2, 3]</p>
 
