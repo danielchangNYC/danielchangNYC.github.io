@@ -273,15 +273,16 @@
 
 <ul>
 <li>ary1 and ary2 represent the arrays for which we&rsquo;re finding the intersection. ary3 is what the function <code>rb_ary_and</code> returns.</li>
-<li>v represents ary1i]`, in Ruby-speak.</li>
+<li>ary2 is turned into a hash table so that elements from ary1 can be easily matched up.</li>
+<li>v represents <code>ary1[i]</code>, in Ruby-speak.</li>
 <li>vv is somehow tied to that value.</li>
 <li><code>st_delete</code> returns 1 if <code>vv</code> was successfully deleted from <code>table</code>, which really refers to ary2, and 0 if it wasn&rsquo;t found. If it gets deleted, then that means ary2 must have had an element in common; push that element into ary3.</li>
 </ul>
 
 
-<h2>O(x*y)</h2>
+<h2>O(x+y)</h2>
 
-<p>In the worst-case scenario, ary1 and ary2 are giant arrays with completely disparate elements, requiring the algorithm to compare all elements of ary2 with all elements of ary1. Given there are <em>x</em> elements in ary1 and <em>y</em> elements in ary2, this would give us O(x*y).</p>
+<p>In the worst-case scenario, the algorithm iterates through ary2 to create a table, giving us O(x) for <em>x</em> elements in ary2. Then, given there are <em>y</em> elements in ary1, we iterate through ary1 <em>y</em> times and look for the value in the hash table, giving us O(y). Therefore, in total, the algorithm has a big-o of O(x+y).</p>
 
 		
 		
