@@ -4,7 +4,7 @@
   <title><![CDATA[Category: git | Daniel Chang]]></title>
   <link href="http://danielchangNYC.github.io/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://danielchangNYC.github.io/"/>
-  <updated>2014-05-15T22:52:45-04:00</updated>
+  <updated>2014-05-15T22:55:05-04:00</updated>
   <id>http://danielchangNYC.github.io/</id>
   <author>
     <name><![CDATA[Daniel Chang]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Two Nifty Bash Profile Aliases]]></title>
-    <link href="http://danielchangNYC.github.io/blog/2014/05/15/ruby-array-set-intersection/"/>
+    <link href="http://danielchangNYC.github.io/blog/2014/05/15/two-bash-profile-aliases/"/>
     <updated>2014-05-15T22:45:00-04:00</updated>
-    <id>http://danielchangNYC.github.io/blog/2014/05/15/ruby-array-set-intersection</id>
+    <id>http://danielchangNYC.github.io/blog/2014/05/15/two-bash-profile-aliases</id>
     <content type="html"><![CDATA[<p>Ever get tired of typing the same commands over and over? Try adding these aliases to your <code>.bash_profile</code> and then never look back.</p>
 
 <h2>1. dbreloadall</h2>
