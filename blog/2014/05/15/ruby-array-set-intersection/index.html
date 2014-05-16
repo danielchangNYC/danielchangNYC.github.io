@@ -3,11 +3,11 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Categories - Daniel Chang</title>
+	<title>Two Nifty Bash Profile Aliases - Daniel Chang</title>
 	<meta name="author" content="Daniel Chang">
 
 	
-	<meta name="description" content="Aha [ 1 ] Arrays [ 1 ] Object_oriented_programming [ 1 ] Ruby [ 10 ] Activerecord [ 3 ] Mvc [ 1 ] Rails [ 8 ] Break [ 1 ] Catch [ 1 ] Exceptions [ 1 &hellip;">
+	<meta name="description" content="Ever get tired of typing the same commands over and over? Try adding these aliases to your .bash_profile and then never look back. 1. dbreloadall 1 &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -77,88 +77,80 @@
 	
 		
 	
-	<div id="content" class="inner"><article class="page">
-    
-    <h1 class="title">Categories</h1>
-    
-    <div class="entry-content"><ul>
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">Two Nifty Bash Profile Aliases</h2>
+	<div class="entry-content"><p>Ever get tired of typing the same commands over and over? Try adding these aliases to your <code>.bash_profile</code> and then never look back.</p>
 
-    <li><a href="/blog/categories/aha/">Aha</a> [ 1 ]</li>
+<h2>1. dbreloadall</h2>
 
-    <li><a href="/blog/categories/arrays/">Arrays</a> [ 1 ]</li>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>alias dbreloadall="rake db:migrate:reset && rake db:migrate:reset RAILS_ENV=test && rake db:seed && rake db:seed RAILS_ENV=test"</span></code></pre></td></tr></table></div></figure>
 
-    <li><a href="/blog/categories/object_oriented_programming/">Object_oriented_programming</a> [ 1 ]</li>
 
-    <li><a href="/blog/categories/ruby/">Ruby</a> [ 10 ]</li>
+<p>Reset (drop, create, then migrate) then seed.</p>
 
-    <li><a href="/blog/categories/activerecord/">Activerecord</a> [ 3 ]</li>
+<p>Should&rsquo;ve called this dbnuke. Or dbregen. Or dbreincarnate. Or dbdeebee (personal fav). Name it whatever you&rsquo;d like.</p>
 
-    <li><a href="/blog/categories/mvc/">Mvc</a> [ 1 ]</li>
+<h2>2. schemareload</h2>
 
-    <li><a href="/blog/categories/rails/">Rails</a> [ 8 ]</li>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>alias schemareload="rm db/schema.rb && rake db:migrate"</span></code></pre></td></tr></table></div></figure>
 
-    <li><a href="/blog/categories/break/">Break</a> [ 1 ]</li>
 
-    <li><a href="/blog/categories/catch/">Catch</a> [ 1 ]</li>
+<p>Use this when you&rsquo;re doing a git rebase and there&rsquo;s a schema conflict.</p>
+</div>
 
-    <li><a href="/blog/categories/exceptions/">Exceptions</a> [ 1 ]</li>
 
-    <li><a href="/blog/categories/raise/">Raise</a> [ 1 ]</li>
+<div class="meta">
+	<div class="date">
 
-    <li><a href="/blog/categories/rescue/">Rescue</a> [ 1 ]</li>
 
-    <li><a href="/blog/categories/throw/">Throw</a> [ 1 ]</li>
 
-    <li><a href="/blog/categories/associations/">Associations</a> [ 1 ]</li>
 
-    <li><a href="/blog/categories/ruby-on-rails/">Ruby-on-rails</a> [ 1 ]</li>
 
-    <li><a href="/blog/categories/self-joins/">Self-joins</a> [ 1 ]</li>
 
-    <li><a href="/blog/categories/self-referential/">Self-referential</a> [ 1 ]</li>
 
-    <li><a href="/blog/categories/big-o/">Big-o</a> [ 2 ]</li>
 
-    <li><a href="/blog/categories/big-o-notation/">Big-o-notation</a> [ 1 ]</li>
+  
 
-    <li><a href="/blog/categories/bigo/">Bigo</a> [ 1 ]</li>
 
-    <li><a href="/blog/categories/rspec/">Rspec</a> [ 4 ]</li>
+<time datetime="2014-05-15T22:45:00-04:00" pubdate data-updated="true">May 15<span>th</span>, 2014</time></div>
+	<div class="tags">
 
-    <li><a href="/blog/categories/tdd/">Tdd</a> [ 4 ]</li>
 
-    <li><a href="/blog/categories/matcher/">Matcher</a> [ 1 ]</li>
+	<a class='category' href='/blog/categories/bash/'>bash</a>, <a class='category' href='/blog/categories/command-line/'>command-line</a>, <a class='category' href='/blog/categories/git/'>git</a>, <a class='category' href='/blog/categories/rails/'>rails</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>, <a class='category' href='/blog/categories/shell/'>shell</a>, <a class='category' href='/blog/categories/workflow/'>workflow</a>
 
-    <li><a href="/blog/categories/matchers/">Matchers</a> [ 1 ]</li>
 
-    <li><a href="/blog/categories/callbacks/">Callbacks</a> [ 1 ]</li>
-
-    <li><a href="/blog/categories/array-operators/">Array-operators</a> [ 1 ]</li>
-
-    <li><a href="/blog/categories/set-intersection-operator/">Set-intersection-operator</a> [ 1 ]</li>
-
-    <li><a href="/blog/categories/bash/">Bash</a> [ 1 ]</li>
-
-    <li><a href="/blog/categories/command-line/">Command-line</a> [ 1 ]</li>
-
-    <li><a href="/blog/categories/git/">Git</a> [ 1 ]</li>
-
-    <li><a href="/blog/categories/shell/">Shell</a> [ 1 ]</li>
-
-    <li><a href="/blog/categories/workflow/">Workflow</a> [ 1 ]</li>
-
-</ul>
-
+</div>
+	
+	<div class="comments"><a href="#disqus_thread">Comments</a></div>
+	
 </div>
 </article>
 
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+		
+		<a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+		
+		
+		<a class="addthis_button_tweet"></a>
+		
+		
+		<a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+		
+		
+	</div>
+	
+</div>
+
+
 
 <section id="comment">
-    <h1 class="title">Comments</h1>
+    <h2 class="title">Comments</h2>
     <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
 </section>
-
 </div>
 	<footer id="footer" class="inner">Copyright &copy; 2014
 
@@ -179,8 +171,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://danielchangNYC.github.io/blog/categories/index.html';
-        var disqus_url = 'http://danielchangNYC.github.io/blog/categories/index.html';
+        var disqus_identifier = 'http://danielchangNYC.github.io/blog/2014/05/15/ruby-array-set-intersection/';
+        var disqus_url = 'http://danielchangNYC.github.io/blog/2014/05/15/ruby-array-set-intersection/';
         var disqus_script = 'embed.js';
       
     (function () {

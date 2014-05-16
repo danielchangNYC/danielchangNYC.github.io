@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: bash | Daniel Chang]]></title>
+  <link href="http://danielchangNYC.github.io/blog/categories/bash/atom.xml" rel="self"/>
+  <link href="http://danielchangNYC.github.io/"/>
+  <updated>2014-05-15T22:52:45-04:00</updated>
+  <id>http://danielchangNYC.github.io/</id>
+  <author>
+    <name><![CDATA[Daniel Chang]]></name>
+    <email><![CDATA[daniel.chang85@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Two Nifty Bash Profile Aliases]]></title>
+    <link href="http://danielchangNYC.github.io/blog/2014/05/15/ruby-array-set-intersection/"/>
+    <updated>2014-05-15T22:45:00-04:00</updated>
+    <id>http://danielchangNYC.github.io/blog/2014/05/15/ruby-array-set-intersection</id>
+    <content type="html"><![CDATA[<p>Ever get tired of typing the same commands over and over? Try adding these aliases to your <code>.bash_profile</code> and then never look back.</p>
+
+<h2>1. dbreloadall</h2>
+
+<p><code>
+alias dbreloadall="rake db:migrate:reset &amp;&amp; rake db:migrate:reset RAILS_ENV=test &amp;&amp; rake db:seed &amp;&amp; rake db:seed RAILS_ENV=test"
+</code></p>
+
+<p>Reset (drop, create, then migrate) then seed.</p>
+
+<p>Should&rsquo;ve called this dbnuke. Or dbregen. Or dbreincarnate. Or dbdeebee (personal fav). Name it whatever you&rsquo;d like.</p>
+
+<h2>2. schemareload</h2>
+
+<p><code>
+alias schemareload="rm db/schema.rb &amp;&amp; rake db:migrate"
+</code></p>
+
+<p>Use this when you&rsquo;re doing a git rebase and there&rsquo;s a schema conflict.</p>
+]]></content>
+  </entry>
+  
+</feed>

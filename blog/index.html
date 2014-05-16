@@ -7,7 +7,7 @@
 	<meta name="author" content="Daniel Chang">
 
 	
-	<meta name="description" content="Ruby Array Set Intersection: A Rails Use-Case and Algorithm Analysis in C Apr 24th, 2014 array-operators big-o rails ruby set-intersection-operator &hellip;">
+	<meta name="description" content="Two Nifty Bash Profile Aliases May 15th, 2014 bash command-line git rails ruby shell workflow Comments Ever get tired of typing the same commands &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -85,7 +85,94 @@
     <header>
   
   <h1 class="beta">
-    <a href="/blog/2014/04/24/ruby-array-set-intersection/">Ruby Array Set Intersection: A Rails Use-Case and Algorithm Analysis in C</a>
+    <a href="/blog/2014/05/15/ruby-array-set-intersection/">Two Nifty Bash Profile Aliases</a>
+  </h1>
+  
+
+  
+  <div class="meta clearfix">
+    
+
+
+
+
+
+
+
+
+  
+
+
+<time class="pull-left" datetime="2014-05-15T22:45:00-04:00" pubdate data-updated="true"><i class="icon-calendar"></i> May 15<span>th</span>, 2014</time>
+    
+
+
+
+  
+  <div class="pull-left">
+    <i class="icon-tags"></i>
+    <ul class="tags unstyled">
+    
+      <li><a href="/blog/categories/bash/">bash</a></li>
+    
+      <li><a href="/blog/categories/command-line/">command-line</a></li>
+    
+      <li><a href="/blog/categories/git/">git</a></li>
+    
+      <li><a href="/blog/categories/rails/">rails</a></li>
+    
+      <li><a href="/blog/categories/ruby/">ruby</a></li>
+    
+      <li><a href="/blog/categories/shell/">shell</a></li>
+    
+      <li><a href="/blog/categories/workflow/">workflow</a></li>
+    
+    </ul>
+  </div>
+  
+
+    
+      <a class="pull-right" href="http://danielchangNYC.github.io/blog/2014/05/15/ruby-array-set-intersection/#disqus_thread">
+        Comments <i class="icon-comment"></i>
+      </a>
+    
+  </div>
+  
+</header>
+
+
+
+
+  <p>Ever get tired of typing the same commands over and over? Try adding these aliases to your <code>.bash_profile</code> and then never look back.</p>
+
+<h2>1. dbreloadall</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>alias dbreloadall="rake db:migrate:reset && rake db:migrate:reset RAILS_ENV=test && rake db:seed && rake db:seed RAILS_ENV=test"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reset (drop, create, then migrate) then seed.</p>
+
+<p>Should&rsquo;ve called this dbnuke. Or dbregen. Or dbreincarnate. Or dbdeebee (personal fav). Name it whatever you&rsquo;d like.</p>
+
+<h2>2. schemareload</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>alias schemareload="rm db/schema.rb && rake db:migrate"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Use this when you&rsquo;re doing a git rebase and there&rsquo;s a schema conflict.</p>
+
+
+  </article>
+  <hr>
+
+  
+  <article class="listing">
+    <header>
+  
+  <h1 class="beta">
+    <a href="/blog/2014/04/24/two-bash-profile-aliases/">Ruby Array Set Intersection: A Rails Use-Case and Algorithm Analysis in C</a>
   </h1>
   
 
@@ -128,7 +215,7 @@
   
 
     
-      <a class="pull-right" href="http://danielchangNYC.github.io/blog/2014/04/24/ruby-array-set-intersection/#disqus_thread">
+      <a class="pull-right" href="http://danielchangNYC.github.io/blog/2014/04/24/two-bash-profile-aliases/#disqus_thread">
         Comments <i class="icon-comment"></i>
       </a>
     

@@ -7,7 +7,7 @@
 	<meta name="author" content="Daniel Chang">
 
 	
-	<meta name="description" content="All Posts Ruby Array Set Intersection: A Rails Use-Case and Algorithm Analysis in C Here&rsquo;s some smelly code I wrote for the Flatiron School &hellip;">
+	<meta name="description" content="All Posts Two Nifty Bash Profile Aliases Ever get tired of typing the same commands over and over? Try adding these aliases to your .bash_profile &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -93,7 +93,74 @@
       <div class="row">
         <div class="col-md-offset-3 col-md-6">
           <article>
-  <h2><a href="/blog/2014/04/24/ruby-array-set-intersection/">Ruby Array Set Intersection: A Rails Use-Case and Algorithm Analysis in C</a></h2>
+  <h2><a href="/blog/2014/05/15/ruby-array-set-intersection/">Two Nifty Bash Profile Aliases</a></h2>
+  
+  <p>
+    <p>Ever get tired of typing the same commands over and over? Try adding these aliases to your <code>.bash_profile</code> and then never look back.</p>
+
+
+
+
+<h2>1. dbreloadall</h2>
+
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>alias dbreloadall=&ldquo;rake db:migrate:reset &amp;&amp; rake db:migrate:reset RAILS_ENV=test &amp;&amp; rake db:seed &amp;&amp; rake db:seed RAILS_ENV=test&rdquo;</span></code></pre></td></tr></table></div></figure></p>
+
+<p>Reset (drop, create, then migrate) then seed.</p>
+
+
+
+
+<p>Should&rsquo;ve called this dbnuke. Or dbregen. Or dbreincarnate. Or dbdeebee (personal fav). Name it whatever you&rsquo;d like.</p>
+
+
+
+
+<h2>2. schemareload</h2>
+
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>alias schemareload=&ldquo;rm db/schema.rb &amp;&amp; rake db:migrate&rdquo;</span></code></pre></td></tr></table></div></figure></p>
+
+<p>Use this when you&rsquo;re doing a git rebase and there&rsquo;s a schema conflict.</p>
+
+
+  </p>
+  <span class="meta">
+    written 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-15T22:45:00-04:00" pubdate data-updated="true">May 15<span>th</span>, 2014</time> in 
+    
+
+
+	<a class='category' href='/blog/categories/bash/'>bash</a>, <a class='category' href='/blog/categories/command-line/'>command-line</a>, <a class='category' href='/blog/categories/git/'>git</a>, <a class='category' href='/blog/categories/rails/'>rails</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>, <a class='category' href='/blog/categories/shell/'>shell</a>, <a class='category' href='/blog/categories/workflow/'>workflow</a>
+
+
+
+  </span>
+
+  
+</article>
+
+        </div>
+      </div>
+      
+      
+      <div class="row">
+        <div class="col-md-offset-3 col-md-6">
+          <article>
+  <h2><a href="/blog/2014/04/24/two-bash-profile-aliases/">Ruby Array Set Intersection: A Rails Use-Case and Algorithm Analysis in C</a></h2>
   
   <p>
     <p>Here&rsquo;s some smelly code I wrote for the <a href="http://prework.flatironschool.com/">Flatiron School pre-work</a> progress-tracker app.</p>
